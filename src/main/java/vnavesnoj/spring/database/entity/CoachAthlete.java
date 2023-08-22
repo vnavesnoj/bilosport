@@ -15,26 +15,28 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "users_sport")
-public class UserSport {
+@Table(name = "coach_athlete")
+public class CoachAthlete {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private User user;
+    @JoinColumn(name = "coach_id")
+    private Coach coach;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Sport sport;
+    @JoinColumn(name = "athlete_id")
+    private Athlete athlete;
 
-    public void setUser(User user) {
-        this.user = user;
-        this.user.getUserSports().add(this);
+    public void setCoach(Coach coach) {
+        this.coach = coach;
+        this.coach.getCoachAthletes().add(this);
     }
 
-    public void setChat(Sport sport) {
-        this.sport = sport;
-        this.sport.getUserSports().add(this);
+    public void setAthlete(Athlete athlete) {
+        this.athlete = athlete;
+        this.athlete.getCoachAthletes().add(this);
     }
 }

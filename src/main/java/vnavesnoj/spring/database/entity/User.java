@@ -41,9 +41,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    private Statistic statistic;
-
     private String image;
 
     @Builder.Default
