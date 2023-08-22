@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/belosport_postgres
+    username: postgres
+    password: pass
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        hbm2ddl:
+          auto: validate
+        jdbc:
+          batch_size: 50
+          fetch_size: 50
+    open-in-view: false
+
+logging:
+  level:
+    root: INFO
+    vnavesnoj.spring.database.pool: INFO
+    org.springframework.jdbc.core: INFO
