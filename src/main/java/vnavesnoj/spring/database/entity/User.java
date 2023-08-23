@@ -15,7 +15,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "username", callSuper = false)
+@EqualsAndHashCode(of = "id", callSuper = false)
+@ToString(exclude = {"userSports", "tournamentUsers"})
 @Builder
 @Entity
 @Table(name = "users")
