@@ -1,4 +1,4 @@
-package vnavesnoj.spring;
+package vnavesnoj.spring.integration;
 
 import org.springframework.boot.test.context.TestConfiguration;
 

@@ -3,6 +3,7 @@ package vnavesnoj.spring.database.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class Tournament {
 
     @Column(nullable = false)
     private String name;
+
+    private LocalDate tournamentDate;
 
     @Builder.Default
     @OneToMany(mappedBy = "tournament")

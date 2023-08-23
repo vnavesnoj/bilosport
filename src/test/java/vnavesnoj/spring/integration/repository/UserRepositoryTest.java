@@ -3,6 +3,7 @@ package vnavesnoj.spring.integration.repository;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import vnavesnoj.spring.database.repository.UserRepository;
+import vnavesnoj.spring.integration.IntegrationTestBase;
 import vnavesnoj.spring.integration.annotation.IT;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @IT
 @RequiredArgsConstructor
-public class UserRepositoryIT {
+public class UserRepositoryTest extends IntegrationTestBase {
 
     private final UserRepository userRepository;
 
