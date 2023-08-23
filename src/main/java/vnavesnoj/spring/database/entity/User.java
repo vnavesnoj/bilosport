@@ -46,4 +46,8 @@ public class User {
     @Builder.Default
     @OneToMany(mappedBy = "user")
     private List<UserSport> userSports = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "user")
+    private List<TournamentUser> tournamentUsers = new ArrayList<>();
 }
