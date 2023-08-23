@@ -28,6 +28,9 @@ public class Tournament {
     @Column(nullable = false)
     private String name;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Sport sport;
+
     private LocalDate tournamentDate;
 
     @Builder.Default
