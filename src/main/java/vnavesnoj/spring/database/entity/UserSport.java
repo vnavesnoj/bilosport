@@ -31,7 +31,7 @@ public class UserSport {
         this.user.getUserSports().add(this);
     }
 
-    public void setChat(Sport sport) {
+    public void setSport(Sport sport) {
         this.sport = sport;
         this.sport.getUserSports().add(this);
     }

@@ -35,7 +35,7 @@ public class TournamentUser {
         this.user.getTournamentUsers().add(this);
     }
 
-    public void setChat(Tournament tournament) {
+    public void setTournament(Tournament tournament) {
         this.tournament = tournament;
         this.tournament.getTournamentUsers().add(this);
     }

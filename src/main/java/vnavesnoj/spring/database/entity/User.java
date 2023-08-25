@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -29,6 +29,8 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
 
+    private String password;
+
     @Column(nullable = false)
     private String firstname;
 
@@ -46,9 +48,9 @@ public class User {
 
     @Builder.Default
     @OneToMany(mappedBy = "user")
-    private List<UserSport> userSports = new ArrayList<>();
+    private Set<UserSport> userSports = new HashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "user")
-    private List<TournamentUser> tournamentUsers = new ArrayList<>();
+    private Set<TournamentUser> tournamentUsers = new HashSet<>();
 }

@@ -10,15 +10,19 @@ VALUES ('ivan@gmail.com', 'Іван', 'Иванов', '1981-10-13', 'COACH'),
        ('chikchik@gmail.com', 'Данило', 'Чикатило', '1979-06-23', 'ATHLETE'),
        ('zelia@gmail.com', 'Володимир', 'Зеленський', '1999-09-19', 'ATHLETE'),
        ('timoha@gmail.com', 'Юлія', 'Тимошенко', '2013-04-01', 'ATHLETE'),
-       ('volk@gmail.com', 'Александр', 'Волков', '1997-12-07', 'ATHLETE');
+       ('volk@gmail.com', 'Олександр', 'Волков', '1997-12-07', 'ATHLETE');
 
 SELECT setval('users_id_seq', (SELECT max(id) FROM users));
 
 INSERT INTO coach
-VALUES ((SELECT id FROM users WHERE role = 'COACH'));
+SELECT id
+FROM users
+WHERE role = 'COACH';
 
 INSERT INTO athlete
-VALUES ((SELECT id FROM users WHERE role = 'ATHLETE'));
+SELECT id
+FROM users
+WHERE role = 'ATHLETE';
 
 INSERT INTO coach_athlete(coach_id, athlete_id)
 VALUES ((SELECT id FROM users WHERE username = 'ivan@gmail.com'),
