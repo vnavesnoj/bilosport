@@ -22,19 +22,9 @@ public class CoachAthlete {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "coach_id")
-    private Coach coach;
+    private User coach;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "athlete_id")
-    private Athlete athlete;
-
-    public void setCoach(Coach coach) {
-        this.coach = coach;
-        this.coach.getCoachAthletes().add(this);
-    }
-
-    public void setAthlete(Athlete athlete) {
-        this.athlete = athlete;
-        this.athlete.getCoachAthletes().add(this);
-    }
+    private User athlete;
 }

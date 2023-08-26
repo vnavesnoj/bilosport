@@ -33,21 +33,11 @@ CREATE TABLE achievement
     description TEXT
 );
 
-CREATE TABLE coach
-(
-    user_id BIGINT PRIMARY KEY REFERENCES users
-);
-
-CREATE TABLE athlete
-(
-    user_id BIGINT PRIMARY KEY REFERENCES users
-);
-
 CREATE TABLE coach_athlete
 (
     id         BIGSERIAL PRIMARY KEY,
-    coach_id   BIGINT NOT NULL REFERENCES coach,
-    athlete_id BIGINT NOT NULL REFERENCES athlete,
+    coach_id   BIGINT NOT NULL REFERENCES users,
+    athlete_id BIGINT NOT NULL REFERENCES users,
     UNIQUE (coach_id, athlete_id)
 );
 

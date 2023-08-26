@@ -14,16 +14,6 @@ VALUES ('ivan@gmail.com', 'Іван', 'Иванов', '1981-10-13', 'COACH'),
 
 SELECT setval('users_id_seq', (SELECT max(id) FROM users));
 
-INSERT INTO coach
-SELECT id
-FROM users
-WHERE role = 'COACH';
-
-INSERT INTO athlete
-SELECT id
-FROM users
-WHERE role = 'ATHLETE';
-
 INSERT INTO coach_athlete(coach_id, athlete_id)
 VALUES ((SELECT id FROM users WHERE username = 'ivan@gmail.com'),
         (SELECT id FROM users WHERE username = 'shevchenko@gmail.com')),
