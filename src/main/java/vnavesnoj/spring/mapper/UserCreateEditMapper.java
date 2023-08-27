@@ -51,16 +51,11 @@ public class UserCreateEditMapper implements Mapper<UserCreateEditDto, User> {
         Optional.ofNullable(userDto.getImage())
                 .filter(not(MultipartFile::isEmpty))
                 .ifPresent(image -> user.setImage(image.getOriginalFilename()));
+        setUserSports(userDto, user);
+        setTournamentUsers(userDto, user);
+    }
 
-        final var userSports = new HashSet<UserSport>();
-        userDto.getSports().forEach(sport -> {
-            final var userSport = new UserSport();
-            userSport.setUser(user);
-            userSport.setSport(sport);
-            userSports.add(userSport);
-        });
-        user.setUserSports(userSports);
-
+    private void setTournamentUsers(UserCreateEditDto userDto, User user) {
         final var tournamentUsers = new HashSet<TournamentUser>();
         userDto.getTournaments().forEach(tournament -> {
             final var tournamentUser = new TournamentUser();
@@ -69,5 +64,16 @@ public class UserCreateEditMapper implements Mapper<UserCreateEditDto, User> {
             tournamentUsers.add(tournamentUser);
         });
         user.setTournamentUsers(tournamentUsers);
+    }
+
+    private void setUserSports(UserCreateEditDto userDto, User user) {
+        final var userSports = new HashSet<UserSport>();
+        userDto.getSports().forEach(sport -> {
+            final var userSport = new UserSport();
+            userSport.setUser(user);
+            userSport.setSport(sport);
+            userSports.add(userSport);
+        });
+        user.setUserSports(userSports);
     }
 }
