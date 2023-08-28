@@ -1,4 +1,4 @@
-package vnavesnoj.spring.mapper;
+package vnavesnoj.spring.dto;
 
 import lombok.Value;
 
@@ -10,5 +10,6 @@ import lombok.Value;
 public class SportReadDto {
 
     Integer id;
+
     String name;
 }

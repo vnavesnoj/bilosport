@@ -3,11 +3,9 @@ package vnavesnoj.spring.dto;
 import lombok.Value;
 import org.springframework.web.multipart.MultipartFile;
 import vnavesnoj.spring.database.entity.Role;
-import vnavesnoj.spring.database.entity.Sport;
-import vnavesnoj.spring.database.entity.Tournament;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author vnavesnoj
@@ -30,9 +28,7 @@ public class UserCreateEditDto {
 
     Role role;
 
-    Set<Sport> sports;
-
-    Set<Tournament> tournaments;
+    List<Integer> sportIds;
 
     MultipartFile image;
 }

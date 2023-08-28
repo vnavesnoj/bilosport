@@ -3,7 +3,6 @@ package vnavesnoj.spring.dto;
 import lombok.Value;
 
 import java.time.LocalDate;
-import java.util.List;
 
 /**
  * @author vnavesnoj
@@ -17,6 +16,4 @@ public class TournamentCreateEditDto {
     Integer sportId;
 
     LocalDate tournamentDate;
-
-    List<Long> userIds;
 }
