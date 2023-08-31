@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Турніри</title>
+</head>
+<body>
+<div th:insert="~{fragment :: header}"></div>
+<p>
+<div th:each="tournament : ${tournaments}">
+    <div>
+        <span th:text="${tournament.tournamentDate}">Date </span>
+        <span>
+            <a th:href="@{'/tournaments/' + ${tournament.id}}" th:text="${tournament.name}">Tournament name</a>
+        </span>
+    </div>
+</div>
+</body>
+</html>

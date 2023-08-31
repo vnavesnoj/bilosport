@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${tournament.name}">Tournament</title>
+</head>
+<body>
+<div th:insert="~{fragment :: header}"></div>
+<p>
+<div th:text="'Назва турниру: ' + ${tournament.name}">Tournament name</div>
+<div th:text="'Дата проводження: ' + ${tournament.tournamentDate}">Date</div>
+<div th:text="'Вид спорту: ' + ${tournament.sport.name}">Sport</div>
+<br>
+<div>Судді:</div>
+<ul style="list-style-type: disc">
+    <li th:each="referee : ${referees}">
+        <a th:href="@{'/users/' + ${referee.id}}"
+           th:text="${referee.lastname} + ' ' + ${referee.firstname}">Referee</a>
+    </li>
+</ul>
+<div>Учасники</div>
+<ul style="list-style-type: disc">
+    <li th:each="participant : ${participants}">
+        <a th:href="@{'/users/' + ${participant.id}}"
+           th:text="${participant.lastname} + ' ' + ${participant.firstname}">Participant</a>
+    </li>
+</ul>
+</body>
+</html>

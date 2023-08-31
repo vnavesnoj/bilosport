@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/belosport_postgres
+    url: jdbc:postgresql://localhost:5432/belosport_postgres
     username: postgres
     password: pass
     driver-class-name: org.postgresql.Driver
@@ -17,6 +17,9 @@ spring:
         c3p0:
           timeout: 10000
     open-in-view: false
+  session:
+    jdbc:
+      initialize-schema: always
 
 logging:
   level:

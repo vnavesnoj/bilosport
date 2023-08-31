@@ -7,6 +7,14 @@
 <body>
 <div th:fragment="header">
     <span th:text="${#authentication.principal.username}">Username</span>
+    <span> | </span>
+    <span>
+        <a th:href="@{'/users'}">Користувачі</a>
+    </span>
+    <span> | </span>
+    <span>
+        <a th:href="@{'/tournaments'}">Турніри</a>
+    </span>
     <form th:action="@{/logout}" method="post">
         <button type="submit">Logout</button>
     </form>

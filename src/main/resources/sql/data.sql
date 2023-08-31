@@ -1,5 +1,5 @@
 INSERT INTO users(username, firstname, lastname, birth_date, role)
-VALUES ('ivan@gmail.com', 'Іван', 'Иванов', '1981-10-13', 'COACH'),
+VALUES ('ivan@gmail.com', 'Іван', 'Іванов', '1981-10-13', 'COACH'),
        ('petro@gmail.com', 'Петро', 'Петров', '1972-02-01', 'COACH'),
        ('sveta@gmail.com', 'Свєта', 'Свєтікова', '1993-08-19', 'COACH'),
        ('dmitro@gmail.com', 'Дмитро', 'Дмитров', '1979-06-23', 'ADMIN'),

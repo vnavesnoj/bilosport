@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${user.username}">User</title>
+</head>
+<body>
+<div th:insert="~{fragment :: header}"></div>
+<p>
+<div th:text="'Username: ' + ${user.username}">Username</div>
+<div th:text="'Ім\'я: ' + ${user.firstname}">Firstname</div>
+<div th:text="'Прізвище: ' + ${user.lastname}">Lastname</div>
+<div th:text="'По батькові: ' + ${user.surname}">Surname</div>
+<div th:text="'Дата народження: ' + ${user.birthDate}">birthDate</div>
+<div th:text="'Роль: ' + ${user.role.name()}">Role</div>
+<div th:if="${user.sports}">
+    <div>Види спорту:</div>
+    <ul style="list-style-type: disc">
+        <li th:each="sport : ${user.sports}" th:text="${sport.name}">Sport</li>
+    </ul>
+</div>
+</body>
+</html>

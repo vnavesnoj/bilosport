@@ -18,7 +18,7 @@ public class UserReadDto {
     String firstname;
     String lastname;
     String surname;
-    LocalDate birthdate;
+    LocalDate birthDate;
     Role role;
     List<SportReadDto> sports;
     String image;

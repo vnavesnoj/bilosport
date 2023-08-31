@@ -1,13 +1,19 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Users</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--<div th:insert="~{fragment :: header}"></div>-->
-<!--<div th:each="user : ${users.}">-->
-<!--    <a th:href="@{'/users/' + ${user.id}}" th:text="|${user.id}. ${user.username}|">User</a>-->
-<!--</div>-->
-<!--</body>-->
-<!--</html>-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Користувачі</title>
+</head>
+<body>
+<div th:insert="~{fragment :: header}"></div>
+<p>
+<div th:each="user : ${users}">
+    <a th:href="@{'/users/' + ${user.id}}" th:text="|${user.id}. ${user.username}|">User</a>
+    <ul style="list-style-type: disc">
+        <li th:text="${user.firstname}">Firstname</li>
+        <li th:text="${user.lastname}">Lastname</li>
+        <li th:text="${user.role.name()}">Role</li>
+    </ul>
+</div>
+</body>
+</html>
