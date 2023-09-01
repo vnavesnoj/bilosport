@@ -1,9 +1,11 @@
 package vnavesnoj.spring.integration.repository;
 
+import com.querydsl.core.types.Order;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import vnavesnoj.spring.database.entity.User;
 import vnavesnoj.spring.database.repository.UserRepository;
+import vnavesnoj.spring.dto.UserFilter;
 import vnavesnoj.spring.integration.IntegrationTestBase;
 import vnavesnoj.spring.integration.annotation.IT;
 
@@ -37,6 +39,15 @@ public class UserRepositoryTest extends IntegrationTestBase {
     void findAll() {
         final var users = userRepository.findAll();
         assertThat(users).hasSize(12);
+    }
+
+    @Test
+    void findAllByByFilterAndSort() {
+        final var list = userRepository.findAllByFilter(UserFilter.builder()
+                .sortBy("birthDate")
+                .order(Order.DESC)
+                .build());
+        assertThat(list).hasSize(12);
     }
 
     @Test

@@ -4,9 +4,49 @@
     <meta charset="UTF-8">
     <title>Користувачі</title>
 </head>
+<style>
+    body {
+        background-color: blanchedalmond;
+    }
+</style>
 <body>
 <div th:insert="~{fragment :: header}"></div>
 <p>
+<form action="/users">
+    <label for="name">Пошук:
+        <input id="name" type="text" name="name" th:value="${filter.name}">
+    </label>
+    <span>
+        <label for="afterBirthDate">Дата народження:
+            <input id="afterBirthDate" type="date" name="afterBirthDate" th:value="${filter.afterBirthDate}">
+        </label>
+        <span> - </span>
+        <label for="beforeBirthDate">
+            <input id="beforeBirthDate" type="date" name="beforeBirthDate" th:value="${filter.beforeBirthDate}">
+        </label>
+    </span>
+    <label for="role">
+        <select id="role" name="role">
+            <option></option>
+            <option th:each="role : ${roles}"
+                    th:value="${role.name()}"
+                    th:selected="${role == filter.role}"
+                    th:text="${role.name()}">Role
+            </option>
+        </select>
+    </label>
+    <label for="sport">
+        <select id="sport" name="sportId">
+            <option></option>
+            <option th:each="sport : ${sports}"
+                    th:value="${sport.id}"
+                    th:selected="${sport.id == filter.sportId}"
+                    th:text="${sport.name}">Sport
+            </option>
+        </select>
+    </label>
+    <button type="submit">Фільтр</button>
+</form>
 <div th:each="user : ${users}">
     <a th:href="@{'/users/' + ${user.id}}" th:text="|${user.id}. ${user.username}|">User</a>
     <ul style="list-style-type: disc">

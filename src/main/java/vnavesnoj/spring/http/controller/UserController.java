@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
+import vnavesnoj.spring.database.entity.Role;
+import vnavesnoj.spring.dto.UserFilter;
+import vnavesnoj.spring.service.SportService;
 import vnavesnoj.spring.service.UserService;
 
 /**
@@ -20,11 +23,14 @@ import vnavesnoj.spring.service.UserService;
 public class UserController {
 
     private final UserService userService;
+    private final SportService sportService;
 
     @GetMapping
-    public String findAll(Model model) {
-        final var users = userService.findAll();
-        model.addAttribute("users", users);
+    public String findAll(Model model, UserFilter filter) {
+        model.addAttribute("users", userService.findAll(filter));
+        model.addAttribute("roles", Role.values());
+        model.addAttribute("sports", sportService.findAll());
+        model.addAttribute("filter", filter);
         return "user/users";
     }
 

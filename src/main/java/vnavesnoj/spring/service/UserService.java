@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import vnavesnoj.spring.database.entity.User;
 import vnavesnoj.spring.database.repository.UserRepository;
 import vnavesnoj.spring.dto.UserCreateEditDto;
+import vnavesnoj.spring.dto.UserFilter;
 import vnavesnoj.spring.dto.UserReadDto;
 import vnavesnoj.spring.mapper.Mapper;
 
@@ -28,6 +29,13 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final Mapper<User, UserReadDto> userReadMapper;
     private final Mapper<UserCreateEditDto, User> userCreateEditMapper;
+
+    public List<UserReadDto> findAll(UserFilter filter) {
+        return userRepository.findAllByFilter(filter).stream()
+                .map(userReadMapper::map)
+                .toList();
+
+    }
 
     public List<UserReadDto> findAll() {
         return userRepository.findAll().stream()
