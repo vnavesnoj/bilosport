@@ -45,6 +45,28 @@
             </option>
         </select>
     </label>
+    <br>
+    <label for="sortBy">Сортувати за:
+        <select id="sortBy" name="sortBy">
+            <option></option>
+            <option th:each="sortBy : ${sortBys}"
+                    th:value="${sortBy}"
+                    th:selected="${filter.sortBy == sortBy}"
+                    th:text="${sortBy.name()}">SortBy
+            </option>
+        </select>
+    </label>
+    <span> - </span>
+    <label for="order">
+        <select id="order" name="order">
+            <option></option>
+            <option th:each="order : ${orders}"
+                    th:value="${order}"
+                    th:selected="${filter.order == order}"
+                    th:text="${order.name()}">Order
+            </option>
+        </select>
+    </label>
     <button type="submit">Фільтр</button>
 </form>
 <div th:each="user : ${users}">

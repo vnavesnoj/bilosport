@@ -20,7 +20,6 @@ public class UserFilter {
     private LocalDate beforeBirthDate;
     private Role role;
     private Integer sportId;
-    private String sortBy;
-    @Builder.Default
-    private Order order = Order.ASC;
+    private SortBy sortBy;
+    private Order order;
 }

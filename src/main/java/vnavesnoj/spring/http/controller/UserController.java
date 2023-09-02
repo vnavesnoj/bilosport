@@ -1,5 +1,6 @@
 package vnavesnoj.spring.http.controller;
 
+import com.querydsl.core.types.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 import vnavesnoj.spring.database.entity.Role;
+import vnavesnoj.spring.dto.SortBy;
 import vnavesnoj.spring.dto.UserFilter;
 import vnavesnoj.spring.service.SportService;
 import vnavesnoj.spring.service.UserService;
@@ -29,6 +31,8 @@ public class UserController {
     public String findAll(Model model, UserFilter filter) {
         model.addAttribute("users", userService.findAll(filter));
         model.addAttribute("roles", Role.values());
+        model.addAttribute("sortBys", SortBy.values());
+        model.addAttribute("orders", Order.values());
         model.addAttribute("sports", sportService.findAll());
         model.addAttribute("filter", filter);
         return "user/users";
