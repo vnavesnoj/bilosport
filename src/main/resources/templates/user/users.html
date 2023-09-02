@@ -45,31 +45,33 @@
             </option>
         </select>
     </label>
-    <br>
-    <label for="sortBy">Сортувати за:
-        <select id="sortBy" name="sortBy">
-            <option></option>
-            <option th:each="sortBy : ${sortBys}"
-                    th:value="${sortBy}"
-                    th:selected="${filter.sortBy == sortBy}"
-                    th:text="${sortBy.name()}">SortBy
-            </option>
-        </select>
-    </label>
-    <span> - </span>
-    <label for="order">
-        <select id="order" name="order">
-            <option></option>
-            <option th:each="order : ${orders}"
-                    th:value="${order}"
-                    th:selected="${filter.order == order}"
-                    th:text="${order.name()}">Order
-            </option>
-        </select>
-    </label>
+    <div>
+        <label for="sortBy">Сортувати за:
+            <select id="sortBy" name="sort">
+                <option></option>
+                <th:block th:each="sortBy : ${sortBys}">
+                    <option th:each="direction : ${directions}"
+                            th:value="${sortBy.getProperty() + ',' + direction.name()}"
+                            th:selected="${users.metadata.sortBy == sortBy.getProperty()
+                                            && users.metadata.direction == direction}"
+                            th:text="${sortBy.name() + ' ,' + direction.name()}">SortBy
+                    </option>
+                </th:block>
+            </select>
+        </label>
+    </div>
+    <div>
+        <label for="page">Page:
+            <input id="page" type="number" name="page" th:value="${users.metadata.page}">
+        </label>
+        <label for="size">Size:
+            <input id="size" type="number" name="size" th:value="${users.metadata.size}">
+        </label>
+    </div>
+
     <button type="submit">Фільтр</button>
 </form>
-<div th:each="user : ${users}">
+<div th:each="user : ${users.content}">
     <a th:href="@{'/users/' + ${user.id}}" th:text="|${user.id}. ${user.username}|">User</a>
     <ul style="list-style-type: disc">
         <li th:text="${user.firstname}">Firstname</li>

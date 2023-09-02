@@ -14,7 +14,6 @@ import java.util.Optional;
  */
 public interface UserRepository extends
         JpaRepository<User, Long>,
-        FilterUserRepository,
         QuerydslPredicateExecutor<User> {
 
     List<User> findAllByRole(Role role);
