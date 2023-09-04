@@ -88,3 +88,16 @@ VALUES ((SELECT id FROM tournament WHERE name = 'Великий футбол'),
         (SELECT id FROM users WHERE username = 'shevchenko@gmail.com'), 'PARTICIPANT');
 
 SELECT setval('tournament_users_id_seq', (SELECT max(id) FROM tournament_users));
+
+INSERT INTO blog_body(body)
+VALUES ('Перша статья'),
+       ('Друга статья'),
+       ('Третя статья'),
+       ('Четверта статья');
+
+INSERT INTO blog(title, announcement, publication_time, blog_body_id)
+VALUES ('Перший заголовок', 'Перший анонс', '2023-09-01', (SELECT id FROM blog_body WHERE body = 'Перша статья')),
+       ('Другий заголовок', 'Другий анонс', '2023-09-02', (SELECT id FROM blog_body WHERE body = 'Друга статья')),
+       ('Третій заголовок', 'Третій анонс', '2023-09-03', (SELECT id FROM blog_body WHERE body = 'Третя статья')),
+       ('Четвертий заголовок', 'Четвертий анонс', '2023-09-04',
+        (SELECT id FROM blog_body WHERE body = 'Четверта статья'));

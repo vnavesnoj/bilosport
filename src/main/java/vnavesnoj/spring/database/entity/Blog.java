@@ -29,7 +29,7 @@ public class Blog {
 
     private String announcement;
 
-    private LocalDateTime publication_time;
+    private LocalDateTime publicationTime;
 
     @OneToOne(fetch = FetchType.LAZY)
     private BlogBody blogBody;
