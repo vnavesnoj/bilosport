@@ -57,3 +57,18 @@ CREATE TABLE tournament_users
     member_role   VARCHAR(32) NOT NULL,
     UNIQUE (tournament_id, user_id)
 );
+
+CREATE TABLE blog_body
+(
+    id   SERIAL PRIMARY KEY,
+    body TEXT NOT NULL
+);
+
+CREATE TABLE blog
+(
+    id               SERIAL PRIMARY KEY,
+    title            VARCHAR(128) NOT NULL UNIQUE,
+    announcement     VARCHAR(256),
+    publication_time TIMESTAMP    NOT NULL UNIQUE,
+    blog_body_id     INT REFERENCES blog_body
+);
