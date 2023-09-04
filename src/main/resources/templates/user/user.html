@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${user.username}">User</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
 </head>
 <body>
-<div th:insert="~{fragment :: header}"></div>
+<div th:insert="~{fragment2 :: header}"></div>
 <p>
 <div th:text="'Username: ' + ${user.username}">Username</div>
 <div th:text="'Ім\'я: ' + ${user.firstname}">Firstname</div>
@@ -19,5 +20,6 @@
         <li th:each="sport : ${user.sports}" th:text="${sport.name}">Sport</li>
     </ul>
 </div>
+<div th:insert="~{fragment2 :: footer}"></div>
 </body>
 </html>

@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${tournament.name}">Tournament</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
 </head>
 <body>
-<div th:insert="~{fragment :: header}"></div>
+<div th:insert="~{fragment2 :: header}"></div>
 <p>
 <div th:text="'Назва турниру: ' + ${tournament.name}">Tournament name</div>
 <div th:text="'Дата проводження: ' + ${tournament.tournamentDate}">Date</div>
@@ -25,5 +26,6 @@
            th:text="${participant.lastname} + ' ' + ${participant.firstname}">Participant</a>
     </li>
 </ul>
+<div th:insert="~{fragment2 :: footer}"></div>
 </body>
 </html>
