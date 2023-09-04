@@ -29,7 +29,7 @@ public class BlogController {
     }
 
     @GetMapping("news/add")
-    public String save(Model model) {
+    public String add(Model model) {
         return "blog/blog-add";
     }
 }

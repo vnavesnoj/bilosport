@@ -2,6 +2,8 @@ package vnavesnoj.spring.integration.service;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.annotation.Rollback;
+import vnavesnoj.spring.dto.BlogCreateEditDto;
 import vnavesnoj.spring.dto.BlogInfoReadDto;
 import vnavesnoj.spring.dto.BlogReadDto;
 import vnavesnoj.spring.integration.IntegrationTestBase;
@@ -31,5 +33,16 @@ class BlogServiceTest extends IntegrationTestBase {
     void findById() {
         final Optional<BlogReadDto> maybeBlog = blogService.findById(4);
         assertThat(maybeBlog).isPresent();
+    }
+
+    @Test
+    @Rollback(value = false)
+    void create() {
+        final var blogCreateEditDto =
+                new BlogCreateEditDto("dummyTitle", "dummyAnno", "dummyBody");
+        final Optional<BlogReadDto> maybeBlog = blogService.create(blogCreateEditDto);
+        assertThat(maybeBlog).isPresent().map(blog ->
+                assertThat(blog).isEqualTo(blogService.findById(blog.getId()).orElse(null))
+        );
     }
 }
