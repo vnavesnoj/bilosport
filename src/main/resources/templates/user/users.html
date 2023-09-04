@@ -13,10 +13,11 @@
 <div th:insert="~{fragment :: header}"></div>
 <p>
 <form action="/users">
-    <label for="name">Пошук:
-        <input id="name" type="text" name="name" th:value="${filter.name}">
-    </label>
-    <span>
+    <div>
+        <label for="name">Пошук:
+            <input id="name" type="text" name="name" th:value="${filter.name}">
+        </label>
+        <span>
         <label for="afterBirthDate">Дата народження:
             <input id="afterBirthDate" type="date" name="afterBirthDate" th:value="${filter.afterBirthDate}">
         </label>
@@ -25,26 +26,27 @@
             <input id="beforeBirthDate" type="date" name="beforeBirthDate" th:value="${filter.beforeBirthDate}">
         </label>
     </span>
-    <label for="role">
-        <select id="role" name="role">
-            <option></option>
-            <option th:each="role : ${roles}"
-                    th:value="${role.name()}"
-                    th:selected="${role == filter.role}"
-                    th:text="${role.name()}">Role
-            </option>
-        </select>
-    </label>
-    <label for="sport">
-        <select id="sport" name="sportId">
-            <option></option>
-            <option th:each="sport : ${sports}"
-                    th:value="${sport.id}"
-                    th:selected="${sport.id == filter.sportId}"
-                    th:text="${sport.name}">Sport
-            </option>
-        </select>
-    </label>
+        <label for="role">
+            <select id="role" name="role">
+                <option></option>
+                <option th:each="role : ${roles}"
+                        th:value="${role.name()}"
+                        th:selected="${role == filter.role}"
+                        th:text="${role.name()}">Role
+                </option>
+            </select>
+        </label>
+        <label for="sport">
+            <select id="sport" name="sportId">
+                <option></option>
+                <option th:each="sport : ${sports}"
+                        th:value="${sport.id}"
+                        th:selected="${sport.id == filter.sportId}"
+                        th:text="${sport.name}">Sport
+                </option>
+            </select>
+        </label>
+    </div>
     <div>
         <label for="sortBy">Сортувати за:
             <select id="sortBy" name="sort">
@@ -68,7 +70,6 @@
             <input id="size" type="number" name="size" th:value="${users.metadata.size}">
         </label>
     </div>
-
     <button type="submit">Фільтр</button>
 </form>
 <div th:each="user : ${users.content}">

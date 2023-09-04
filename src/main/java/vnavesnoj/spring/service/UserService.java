@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vnavesnoj.spring.database.entity.User;
-import vnavesnoj.spring.database.querydsl.QPredicates;
 import vnavesnoj.spring.database.repository.UserRepository;
 import vnavesnoj.spring.dto.UserCreateEditDto;
 import vnavesnoj.spring.dto.UserFilter;
@@ -20,8 +19,6 @@ import vnavesnoj.spring.mapper.Mapper;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
-import static vnavesnoj.spring.database.entity.QUser.user;
 
 /**
  * @author vnavesnoj
@@ -35,26 +32,12 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final Mapper<User, UserReadDto> userReadMapper;
     private final Mapper<UserCreateEditDto, User> userCreateEditMapper;
+    private final Mapper<UserFilter, Predicate> userPredicateMapper;
 
     public Page<UserReadDto> findAll(UserFilter filter, Pageable pageable) {
-        final Predicate predicate = createPredicateByFilter(filter);
+        final Predicate predicate = userPredicateMapper.map(filter);
         return userRepository.findAll(predicate, pageable)
                 .map(userReadMapper::map);
-    }
-
-    private static Predicate createPredicateByFilter(UserFilter filter) {
-        final var namePredicate = QPredicates.builder()
-                .add(filter.getName(), user.firstname::containsIgnoreCase)
-                .add(filter.getName(), user.lastname::containsIgnoreCase)
-                .add(filter.getName(), user.surname::containsIgnoreCase)
-                .buildOr();
-        return QPredicates.builder()
-                .add(namePredicate)
-                .add(filter.getBeforeBirthDate(), user.birthDate::before)
-                .add(filter.getAfterBirthDate(), user.birthDate::after)
-                .add(filter.getRole(), user.role::eq)
-                .add(filter.getSportId(), user.userSports.any().sport.id::eq)
-                .build();
     }
 
     public List<UserReadDto> findAll() {

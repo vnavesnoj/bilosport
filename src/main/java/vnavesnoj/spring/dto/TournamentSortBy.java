@@ -7,14 +7,12 @@ import lombok.Getter;
  * @mail vnavesnoj@gmail.com
  */
 @Getter
-public enum SortBy {
+public enum TournamentSortBy {
 
-
-    LASTNAME("lastname"), BIRTH_DATE("birthDate");
-
+    NAME("name"), DATE("tournamentDate");
     private final String property;
 
-    SortBy(String property) {
+    TournamentSortBy(String property) {
         this.property = property;
     }
 }

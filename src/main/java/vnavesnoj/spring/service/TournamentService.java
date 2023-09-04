@@ -1,14 +1,18 @@
 package vnavesnoj.spring.service;
 
+import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vnavesnoj.spring.database.entity.MemberRole;
 import vnavesnoj.spring.database.entity.Tournament;
 import vnavesnoj.spring.database.entity.TournamentUser;
 import vnavesnoj.spring.database.entity.User;
+import vnavesnoj.spring.database.repository.TournamentRepository;
 import vnavesnoj.spring.dto.TournamentCreateEditDto;
+import vnavesnoj.spring.dto.TournamentFilter;
 import vnavesnoj.spring.dto.TournamentReadDto;
 import vnavesnoj.spring.dto.UserReadDto;
 import vnavesnoj.spring.mapper.Mapper;
@@ -24,13 +28,15 @@ import java.util.*;
 @Transactional(readOnly = true)
 public class TournamentService {
 
-    private final JpaRepository<Tournament, Long> tournamentRepository;
+    private final TournamentRepository tournamentRepository;
 
     private final Mapper<Tournament, TournamentReadDto> tournamentReadMapper;
 
     private final Mapper<TournamentCreateEditDto, Tournament> tournamentCreateEditMapper;
 
     private final Mapper<User, UserReadDto> userReadMapper;
+
+    private final Mapper<TournamentFilter, Predicate> tournamentPredicateMapper;
 
     public Optional<TournamentReadDto> findById(Long id) {
         return tournamentRepository.findById(id)
@@ -41,6 +47,12 @@ public class TournamentService {
         return tournamentRepository.findAll().stream()
                 .map(tournamentReadMapper::map)
                 .toList();
+    }
+
+    public Page<TournamentReadDto> findAll(TournamentFilter filter, Pageable pageable) {
+        final Predicate predicate = tournamentPredicateMapper.map(filter);
+        return tournamentRepository.findAll(predicate, pageable)
+                .map(tournamentReadMapper::map);
     }
 
     public Map<MemberRole, List<UserReadDto>> findAllMembers(Long tournamentId) {

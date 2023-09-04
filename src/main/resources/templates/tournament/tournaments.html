@@ -4,12 +4,67 @@
     <meta charset="UTF-8">
     <title>Турніри</title>
 </head>
+<style>
+    body {
+        background-color: blanchedalmond;
+    }
+</style>
 <body>
 <div th:insert="~{fragment :: header}"></div>
 <p>
-<div th:each="tournament : ${tournaments}">
+<form action="/tournaments">
     <div>
-        <span th:text="${tournament.tournamentDate}">Date </span>
+        <label for="name">Пошук:
+            <input id="name" type="text" name="name" th:value="${filter.name}">
+        </label>
+        <span>
+        <label for="afterDate">Дата проводження:
+            <input id="afterDate" type="date" name="afterDate" th:value="${filter.afterDate}">
+        </label>
+        <span> - </span>
+        <label for="beforeDate">
+            <input id="beforeDate" type="date" name="beforeDate" th:value="${filter.beforeDate}">
+        </label>
+    </span>
+        <label for="sport">
+            <select id="sport" name="sportId">
+                <option></option>
+                <option th:each="sport : ${sports}"
+                        th:value="${sport.id}"
+                        th:selected="${sport.id == filter.sportId}"
+                        th:text="${sport.name}">Sport
+                </option>
+            </select>
+        </label>
+    </div>
+    <div>
+        <label for="sortBy">Сортувати за:
+            <select id="sortBy" name="sort">
+                <option></option>
+                <th:block th:each="sortBy : ${sortBys}">
+                    <option th:each="direction : ${directions}"
+                            th:value="${sortBy.getProperty() + ',' + direction.name()}"
+                            th:selected="${tournaments.metadata.sortBy == sortBy.getProperty()
+                                            && tournaments.metadata.direction == direction}"
+                            th:text="${sortBy.name() + ' ,' + direction.name()}">SortBy
+                    </option>
+                </th:block>
+            </select>
+        </label>
+    </div>
+    <div>
+        <label for="page">Page:
+            <input id="page" type="number" name="page" th:value="${tournaments.metadata.page}">
+        </label>
+        <label for="size">Size:
+            <input id="size" type="number" name="size" th:value="${tournaments.metadata.size}">
+        </label>
+    </div>
+    <button type="submit">Фільтр</button>
+</form>
+<div th:each="tournament : ${tournaments.content}">
+    <div>
+        <span th:text="${tournament.tournamentDate}">Date</span>
         <span>
             <a th:href="@{'/tournaments/' + ${tournament.id}}" th:text="${tournament.name}">Tournament name</a>
         </span>
