@@ -2,6 +2,7 @@ package vnavesnoj.spring.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import vnavesnoj.spring.database.entity.Blog;
 import vnavesnoj.spring.database.repository.BlogBodyRepository;
 import vnavesnoj.spring.database.repository.BlogRepository;
@@ -20,6 +21,7 @@ import java.util.Optional;
  */
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class BlogService {
 
     private final BlogRepository blogRepository;
@@ -43,6 +45,7 @@ public class BlogService {
                 .map(blogReadMapper::map);
     }
 
+    @Transactional
     public BlogReadDto create(BlogCreateEditDto blogCreateDto) {
         return Optional.of(blogCreateDto)
                 .map(blogDto -> {
@@ -58,10 +61,23 @@ public class BlogService {
                 .orElseThrow();
     }
 
+    @Transactional
     public Optional<BlogReadDto> update(Integer id, BlogCreateEditDto blogEditDto) {
         return blogRepository.findById(id)
                 .map(entity -> blogCreateEditMapper.map(blogEditDto, entity))
                 .map(blogRepository::saveAndFlush)
                 .map(blogReadMapper::map);
     }
+
+    @Transactional
+    public boolean delete(Integer id) {
+        return blogRepository.findById(id)
+                .map(blog -> {
+                    blogRepository.delete(blog);
+                    blogRepository.flush();
+                    return true;
+                })
+                .orElse(false);
+    }
+
 }

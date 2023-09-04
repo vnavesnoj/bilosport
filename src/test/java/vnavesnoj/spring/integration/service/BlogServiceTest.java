@@ -50,4 +50,10 @@ class BlogServiceTest extends IntegrationTestBase {
                 blog -> assertThat(blog).isEqualTo(blogService.findById(blog.getId()).orElseThrow())
         );
     }
+
+    @Test
+//    @Rollback(false)
+    void delete() {
+        blogService.delete(1);
+    }
 }

@@ -31,6 +31,6 @@ public class Blog {
 
     private LocalDateTime publicationTime;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
     private BlogBody blogBody;
 }
