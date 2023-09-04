@@ -28,9 +28,13 @@ public class BlogCreateEditMapper implements Mapper<BlogCreateEditDto, Blog> {
     private void copy(BlogCreateEditDto blogDto, Blog blog) {
         blog.setTitle(blogDto.getTitle());
         blog.setAnnouncement(blogDto.getAnnouncement());
-        final BlogBody blogBody = BlogBody.builder()
-                .body(blogDto.getBody())
-                .build();
-        blog.setBlogBody(blogBody);
+        if (blog.getBlogBody() != null) {
+            blog.getBlogBody().setBody(blogDto.getBody());
+        } else {
+            final BlogBody blogBody = BlogBody.builder()
+                    .body(blogDto.getBody())
+                    .build();
+            blog.setBlogBody(blogBody);
+        }
     }
 }

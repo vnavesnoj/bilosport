@@ -43,7 +43,7 @@ public class BlogService {
                 .map(blogReadMapper::map);
     }
 
-    public Optional<BlogReadDto> create(BlogCreateEditDto blogCreateDto) {
+    public BlogReadDto create(BlogCreateEditDto blogCreateDto) {
         return Optional.of(blogCreateDto)
                 .map(blogDto -> {
                     final Blog mappedBlog = blogCreateEditMapper.map(blogDto);
@@ -54,6 +54,14 @@ public class BlogService {
                     blogBodyRepository.save(blog.getBlogBody());
                     return blogRepository.saveAndFlush(blog);
                 })
+                .map(blogReadMapper::map)
+                .orElseThrow();
+    }
+
+    public Optional<BlogReadDto> update(Integer id, BlogCreateEditDto blogEditDto) {
+        return blogRepository.findById(id)
+                .map(entity -> blogCreateEditMapper.map(blogEditDto, entity))
+                .map(blogRepository::saveAndFlush)
                 .map(blogReadMapper::map);
     }
 }
