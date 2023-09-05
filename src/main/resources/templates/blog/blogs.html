@@ -13,7 +13,7 @@
     <div class="d-flex flex-column">
         <a href="/news/add" class="align-self-end text-decoration-none">Додати статтю</a>
     </div>
-    <div th:each="post : ${posts}" class="alert alert-info mt-2">
+    <div th:each="post : ${posts.content}" class="alert alert-info mt-2">
         <p class="text-body-tertiary"
            th:text="${post.publicationTime.toLocalDate() + ' ' + post.publicationTime.toLocalTime()}">
             Дата публікації

@@ -10,4 +10,5 @@ import vnavesnoj.spring.database.entity.Blog;
  */
 @Repository
 public interface BlogRepository extends JpaRepository<Blog, Integer> {
+
 }

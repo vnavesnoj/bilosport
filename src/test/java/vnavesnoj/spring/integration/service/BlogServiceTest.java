@@ -56,4 +56,9 @@ class BlogServiceTest extends IntegrationTestBase {
     void delete() {
         blogService.delete(1);
     }
+
+    @Test
+    void findAllWithSort() {
+
+    }
 }

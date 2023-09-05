@@ -2,7 +2,7 @@ package vnavesnoj.spring.integration.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.annotation.Rollback;
+import org.springframework.data.domain.PageRequest;
 import vnavesnoj.spring.database.entity.Blog;
 import vnavesnoj.spring.database.entity.BlogBody;
 import vnavesnoj.spring.database.repository.BlogRepository;
@@ -21,7 +21,7 @@ class BlogRepositoryTest extends IntegrationTestBase {
     private final BlogRepository blogRepository;
 
     @Test
-    @Rollback(value = false)
+//    @Rollback(value = false)
     public void saveBlog() {
         final var blog = Blog.builder()
                 .title("tittle")
@@ -34,5 +34,10 @@ class BlogRepositoryTest extends IntegrationTestBase {
         final Blog savedBlog = blogRepository.saveAndFlush(blog);
         final Optional<Blog> byId = blogRepository.findById(savedBlog.getId());
         System.out.println();
+    }
+
+    @Test
+    public void findAllWithSort() {
+        final var pageRequest = PageRequest.of(-1, 20);
     }
 }

@@ -1,6 +1,8 @@
 package vnavesnoj.spring.http.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,9 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 import vnavesnoj.spring.dto.BlogCreateEditDto;
 import vnavesnoj.spring.dto.BlogInfoReadDto;
+import vnavesnoj.spring.dto.PageResponse;
 import vnavesnoj.spring.service.BlogService;
-
-import java.util.List;
 
 /**
  * @author vnavesnoj
@@ -27,9 +28,10 @@ public class BlogController {
     private final BlogService blogService;
 
     @GetMapping
-    public String findAllBlogInfo(Model model) {
-        final List<BlogInfoReadDto> posts = blogService.findAllBlogInfo();
-        model.addAttribute("posts", posts);
+    public String findAllBlogInfo(Model model,
+                                  Pageable pageable) {
+        final Page<BlogInfoReadDto> posts = blogService.findAllBlogInfoSortedByDate(pageable);
+        model.addAttribute("posts", PageResponse.of(posts));
         return "blog/blogs";
     }
 
