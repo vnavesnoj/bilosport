@@ -2,9 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Додати статтю</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
 </head>
 <body>
+<div th:insert="~{fragment2 :: header}"></div>
+<p>
+<div class="container mt-5 mb-5">
+    <h1>Що нового?</h1>
+    <form th:action="@{/news/add}" enctype="multipart/form-data" method="post">
+        <input id="title" type="text" name="title" placeholder="Назва статті" class="form-control"><br>
+        <input id="announcement" type="text" name="announcement" placeholder="Анонс" class="form-control"><br>
+        <textarea id="body" name="body" placeholder="Текст статті" class="form-control"></textarea><br>
+        <button type="submit" class="btn btn-success">Опублікувати</button>
+    </form>
+</div>
 
+<div th:insert="~{fragment2 :: footer}"></div>
 </body>
 </html>

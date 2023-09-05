@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Новини</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div th:insert="~{fragment2 :: header}"></div>
+<p>
+<div class="container mt-5">
+    <div class="alert alert-info mt-2">
+        <p class="text-body-tertiary"
+           th:text="${blog.publicationTime.toLocalDate() + ' ' + blog.publicationTime.toLocalTime()}">
+            Дата публікації
+        </p>
+        <h3 th:text="${blog.title}">Заголовок</h3>
+        <p th:text="${blog.blogBody.body}">Текст статті</p>
+        <a th:href="@{'/news/' + ${blog.id} + '/edit'}" class="btn btn-outline-dark">Редагувати</a>
+        <a th:href="@{'/news/' + ${blog.id} + '/remove'}" class="btn btn-outline-dark">Видалити</a>
+    </div>
+</div>
+
+<div th:insert="~{fragment2 :: footer}"></div>
+</body>
+</html>
