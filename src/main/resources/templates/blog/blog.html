@@ -15,7 +15,7 @@
             Дата публікації
         </p>
         <h3 th:text="${blog.title}">Заголовок</h3>
-        <pre th:text="${blog.blogBody.body}" class="form-text">Текст статті</pre>
+        <p th:each="line : ${blog.lines}" th:text="${line}">Строка</p>
         <a th:href="@{'/news/' + ${blog.id} + '/edit'}" class="btn btn-outline-dark">Редагувати</a>
         <a th:href="@{'/news/' + ${blog.id} + '/remove'}" class="btn btn-outline-dark">Видалити</a>
     </div>

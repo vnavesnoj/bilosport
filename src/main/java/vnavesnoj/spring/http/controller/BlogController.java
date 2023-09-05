@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
-import vnavesnoj.spring.dto.BlogCreateEditDto;
-import vnavesnoj.spring.dto.BlogInfoReadDto;
-import vnavesnoj.spring.dto.PageResponse;
+import vnavesnoj.spring.dto.*;
+import vnavesnoj.spring.mapper.Mapper;
 import vnavesnoj.spring.service.BlogService;
 
 /**
@@ -26,6 +25,8 @@ import vnavesnoj.spring.service.BlogService;
 public class BlogController {
 
     private final BlogService blogService;
+
+    private final Mapper<BlogReadDto, BlogViewReadDto> blogViewReadMapper;
 
     @GetMapping
     public String findAllBlogInfo(Model model,
@@ -43,7 +44,7 @@ public class BlogController {
     @GetMapping("/{id}")
     public String findById(Model model, @PathVariable Integer id) {
         blogService.findById(id).ifPresentOrElse(
-                blog -> model.addAttribute("blog", blog),
+                blog -> model.addAttribute("blog", blogViewReadMapper.map(blog)),
                 () -> {
                     throw new ResponseStatusException(HttpStatus.NOT_FOUND);
                 }
