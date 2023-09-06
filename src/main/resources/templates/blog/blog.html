@@ -16,8 +16,10 @@
         </p>
         <h3 th:text="${blog.title}">Заголовок</h3>
         <p th:each="line : ${blog.lines}" th:text="${line}">Строка</p>
-        <a th:href="@{'/news/' + ${blog.id} + '/edit'}" class="btn btn-outline-dark">Редагувати</a>
-        <a th:href="@{'/news/' + ${blog.id} + '/remove'}" class="btn btn-outline-dark">Видалити</a>
+        <form th:action="@{'/news/' + ${blog.id} + '/delete'}" method="post">
+            <a th:href="@{'/news/' + ${blog.id} + '/edit'}" class="btn btn-outline-dark">Редагувати</a>
+            <button class="btn btn-outline-dark ms-2" type="submit">Видалити</button>
+        </form>
     </div>
 </div>
 

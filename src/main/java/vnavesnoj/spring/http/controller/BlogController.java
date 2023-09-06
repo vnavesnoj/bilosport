@@ -52,9 +52,40 @@ public class BlogController {
         return "blog/blog";
     }
 
+    @GetMapping("/{id}/edit")
+    public String findByIdToEdit(Model model, @PathVariable Integer id) {
+        blogService.findById(id).ifPresentOrElse(
+                blog -> model.addAttribute("blog", blog),
+                () -> {
+                    throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+                }
+        );
+        return "blog/blog-edit";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String update(Model model,
+                         @PathVariable Integer id,
+                         BlogCreateEditDto blogDto) {
+        if (blogService.update(id, blogDto).isPresent()) {
+            return "redirect:/news/" + id;
+        } else {
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
+        }
+    }
+
     @PostMapping("/add")
     public String post(Model model, BlogCreateEditDto blogDto) {
         final var blog = blogService.create(blogDto);
         return "redirect:/news/" + blog.getId();
+    }
+
+    @PostMapping("/{id}/delete")
+    public String delete(Model model, @PathVariable Integer id) {
+        if (blogService.delete(id)) {
+            return "redirect:/news";
+        } else {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
