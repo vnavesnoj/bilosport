@@ -2,6 +2,8 @@ package vnavesnoj.spring.dto;
 
 import lombok.Getter;
 
+import static vnavesnoj.spring.database.entity.QTournament.tournament;
+
 /**
  * @author vnavesnoj
  * @mail vnavesnoj@gmail.com
@@ -9,7 +11,7 @@ import lombok.Getter;
 @Getter
 public enum TournamentSortBy {
 
-    NAME("name"), DATE("tournamentDate");
+    DATE(tournament.tournamentDate.getMetadata().getName());
     private final String property;
 
     TournamentSortBy(String property) {

@@ -43,7 +43,6 @@
         <div>
             <label for="sortBy">Сортувати за:
                 <select id="sortBy" name="sort">
-                    <option></option>
                     <th:block th:each="sortBy : ${sortBys}">
                         <option th:each="direction : ${directions}"
                                 th:value="${sortBy.getProperty() + ',' + direction.name()}"

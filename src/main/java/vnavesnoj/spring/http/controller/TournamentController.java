@@ -2,6 +2,7 @@ package vnavesnoj.spring.http.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import vnavesnoj.spring.service.TournamentService;
 
 import static vnavesnoj.spring.database.entity.MemberRole.PARTICIPANT;
 import static vnavesnoj.spring.database.entity.MemberRole.REFEREE;
+import static vnavesnoj.spring.database.entity.QTournament.tournament;
 
 /**
  * @author vnavesnoj
@@ -35,7 +37,16 @@ public class TournamentController {
 
     @GetMapping
     public String findAll(Model model, TournamentFilter filter, Pageable pageable) {
-        final Page<TournamentReadDto> page = tournamentService.findAll(filter, pageable);
+        final Page<TournamentReadDto> page;
+        if (pageable.getSort().isSorted()) {
+            page = tournamentService.findAll(filter, pageable);
+        } else {
+            final var pageRequest = PageRequest.of(
+                    pageable.getPageNumber(),
+                    pageable.getPageSize(),
+                    Sort.by(tournament.tournamentDate.getMetadata().getName()).descending());
+            page = tournamentService.findAll(filter, pageRequest);
+        }
         model.addAttribute("tournaments", PageResponse.of(page));
         model.addAttribute("filter", filter);
         model.addAttribute("sports", sportService.findAll());
