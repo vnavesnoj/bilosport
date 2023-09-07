@@ -2,9 +2,7 @@ package vnavesnoj.spring.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vnavesnoj.spring.database.entity.Blog;
@@ -44,12 +42,8 @@ public class BlogService {
                 .toList();
     }
 
-    public Page<BlogInfoReadDto> findAllBlogInfoSortedByDate(Pageable pageable) {
-        final var pageRequest = PageRequest.of(
-                pageable.getPageNumber(),
-                pageable.getPageSize(),
-                Sort.by("publicationTime").descending());
-        return blogRepository.findAll(pageRequest)
+    public Page<BlogInfoReadDto> findAllBlogInfo(Pageable pageable) {
+        return blogRepository.findAll(pageable)
                 .map(blogInfoReadMapper::map);
     }
 

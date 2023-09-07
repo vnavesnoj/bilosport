@@ -2,7 +2,9 @@ package vnavesnoj.spring.http.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,8 @@ import vnavesnoj.spring.dto.BlogInfoReadDto;
 import vnavesnoj.spring.dto.PageResponse;
 import vnavesnoj.spring.handler.ImageLineHtmlHandler;
 import vnavesnoj.spring.service.BlogService;
+
+import static vnavesnoj.spring.database.entity.QBlog.blog;
 
 /**
  * @author vnavesnoj
@@ -32,7 +36,17 @@ public class BlogController {
     @GetMapping
     public String findAllBlogInfo(Model model,
                                   Pageable pageable) {
-        final Page<BlogInfoReadDto> posts = blogService.findAllBlogInfoSortedByDate(pageable);
+        final Page<BlogInfoReadDto> posts;
+        if (pageable.getSort().isSorted()) {
+            posts = blogService.findAllBlogInfo(pageable);
+        } else {
+            final var pageRequest = PageRequest.of(
+                    pageable.getPageNumber(),
+                    pageable.getPageSize(),
+                    Sort.by(blog.publicationTime.getMetadata().getName()).descending()
+            );
+            posts = blogService.findAllBlogInfo(pageRequest);
+        }
         model.addAttribute("posts", PageResponse.of(posts));
         return "blog/blogs";
     }
