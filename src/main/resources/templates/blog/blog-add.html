@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Додати статтю</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous">
+    </script>
 </head>
 <body>
 <div th:insert="~{fragment2 :: header}"></div>
@@ -13,7 +19,7 @@
     <form th:action="@{/news/add}" enctype="multipart/form-data" method="post">
         <input id="title" type="text" name="title" placeholder="Назва статті" class="form-control"><br>
         <input id="announcement" type="text" name="announcement" placeholder="Анонс" class="form-control"><br>
-        <textarea id="body" name="body" placeholder="Текст статті" class="form-control"></textarea><br>
+        <textarea class="form-control" id="body" name="body" placeholder="Текст статті" rows="10"></textarea><br>
         <button type="submit" class="btn btn-success">Опублікувати</button>
     </form>
 </div>
