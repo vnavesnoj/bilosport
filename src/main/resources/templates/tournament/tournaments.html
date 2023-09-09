@@ -10,39 +10,53 @@
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
             crossorigin="anonymous">
     </script>
+    <style>
+        body {
+            background-color: lightgray;
+        }
+    </style>
 </head>
 <body>
 <div th:insert="~{fragment2 :: header}"></div>
-<p>
-<main role="main">
-    <form action="/tournaments">
-        <div>
-            <label for="name">Пошук:
-                <input id="name" type="text" name="name" th:value="${filter.name}">
-            </label>
-            <span>
-        <label for="afterDate">Дата проводження:
-            <input id="afterDate" type="date" name="afterDate" th:value="${filter.afterDate}">
-        </label>
-        <span> - </span>
-        <label for="beforeDate">
-            <input id="beforeDate" type="date" name="beforeDate" th:value="${filter.beforeDate}">
-        </label>
-    </span>
-            <label for="sport">
-                <select id="sport" name="sportId">
-                    <option></option>
+<div class="container mt-4">
+    <h1 style="text-align: center">Турніри</h1>
+    <hr>
+    <button class="btn btn-dark mt-3 mb-3" type="button" style="text-align: center; width: 100%"
+            data-bs-toggle="collapse" data-bs-target="#collapseExample"
+            aria-expanded="false" aria-controls="collapseExample">
+        Фільтр
+    </button>
+    <div class="collapse mb-3" id="collapseExample" style="">
+        <form action="/tournaments">
+            <div class="mt-2">
+                <label class="form-label" for="name">Назва турніру</label>
+                <input class="form-control" id="name" type="text"
+                       name="name" th:value="${filter.name}">
+            </div>
+            <div class="mt-2">
+                <label class="form-label" for="afterDate">Проводженя після дати</label>
+                <input class="form-control" id="afterDate" type="date"
+                       name="afterDate" th:value="${filter.afterDate}">
+            </div>
+            <div class="mt-2">
+                <label class="form-label" for="beforeDate">Проводженя до дати</label>
+                <input class="form-control" id="beforeDate" type="date"
+                       name="beforeDate" th:value="${filter.beforeDate}">
+            </div>
+            <div class="mt-2">
+                <label class="form-label" for="sport">Вид спорту</label>
+                <select class="form-select" id="sport" name="sportId">
+                    <option value="">Не обрано</option>
                     <option th:each="sport : ${sports}"
                             th:value="${sport.id}"
                             th:selected="${sport.id == filter.sportId}"
                             th:text="${sport.name}">Sport
                     </option>
                 </select>
-            </label>
-        </div>
-        <div>
-            <label for="sortBy">Сортувати за:
-                <select id="sortBy" name="sort">
+            </div>
+            <div class="mt-2">
+                <label class="form-label" for="sortBy">Сортувати за:</label>
+                <select class="form-select" id="sortBy" name="sort">
                     <th:block th:each="sortBy : ${sortBys}">
                         <option th:each="direction : ${directions}"
                                 th:value="${sortBy.getProperty() + ',' + direction.name()}"
@@ -52,27 +66,23 @@
                         </option>
                     </th:block>
                 </select>
-            </label>
-        </div>
-        <div>
-            <label for="page">Page:
-                <input id="page" type="number" name="page" th:value="${tournaments.metadata.page}">
-            </label>
-            <label for="size">Size:
-                <input id="size" type="number" name="size" th:value="${tournaments.metadata.size}">
-            </label>
-        </div>
-        <button type="submit">Фільтр</button>
-    </form>
-    <div th:each="tournament : ${tournaments.content}">
-        <div>
-            <span th:text="${tournament.tournamentDate}">Date</span>
-            <span>
+            </div>
+            <div class="mt-5">
+                <button type="submit" style="width: 100%" class="btn btn-dark">Пошук</button>
+            </div>
+        </form>
+    </div>
+    <div class="mt-5">
+        <div th:each="tournament : ${tournaments.content}">
+            <div>
+                <span th:text="${tournament.tournamentDate}">Date</span>
+                <span>
             <a th:href="@{'/tournaments/' + ${tournament.id}}" th:text="${tournament.name}">Tournament name</a>
         </span>
+            </div>
         </div>
     </div>
-</main>
+</div>
 <div th:insert="~{fragment2 :: footer}"></div>
 </body>
 </html>

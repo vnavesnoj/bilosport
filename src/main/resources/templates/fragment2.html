@@ -10,12 +10,6 @@
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
             crossorigin="anonymous">
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
-            integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
-            crossorigin="anonymous"></script>
     <style>
         body {
             background-color: lightgray;
@@ -59,7 +53,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Action</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" th:href="@{'/logout'}">Вийти</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -71,74 +65,75 @@
     </nav>
 </th:block>
 
-
-<th:block th:fragment="user-filter">
-    <h1 style="text-align: center">Користувачі</h1>
-    <hr>
-    <button class="btn btn-dark mt-3 mb-3" type="button" style="text-align: center; width: 100%"
-            data-bs-toggle="collapse" data-bs-target="#collapseExample"
-            aria-expanded="false" aria-controls="collapseExample">
-        Фільтр
-    </button>
-    <div class="collapse mb-3" id="collapseExample" style="">
-        <form action="/users">
-            <div>
-                <label class="form-label" for="name">Прізвище, ім'я</label>
-                <input id="name" type="text" class="form-control"
-                       name="name" th:value="${filter.name}">
-            </div>
-            <div class="mt-2">
-                <label class="form-label" for="afterBirthDate">Народжені після</label>
-                <input id="afterBirthDate" type="date" class="form-control"
-                       name="afterBirthDate" th:value="${filter.afterBirthDate}">
-            </div>
-            <div class="mt-2">
-                <label class="form-label" for="beforeBirthDate">Народжені до</label>
-                <input id="beforeBirthDate" type="date" class="form-control"
-                       name="beforeBirthDate" th:value="${filter.beforeBirthDate}">
-            </div>
-            <div class="mt-2">
-                <label class="form-label" for="role">Роль</label>
-                <select class="form-select" id="role" name="role">
-                    <option value="">Не обрано</option>
-                    <option th:each="role : ${roles}"
-                            th:value="${role.name()}"
-                            th:selected="${role == filter.role}"
-                            th:text="${role.name()}">Role
-                    </option>
-                </select>
-            </div>
-            <div class="mt-2">
-                <label class="form-label" for="sport">Вид спорту</label>
-                <select class="form-select" id="sport" name="sportId">
-                    <option value="">Не обрано</option>
-                    <option th:each="sport : ${sports}"
-                            th:value="${sport.id}"
-                            th:selected="${sport.id == filter.sportId}"
-                            th:text="${sport.name}">Sport
-                    </option>
-                </select>
-            </div>
-            <div class="mt-2">
-                <label class="form-label" for="sortBy">Сортувати за:</label>
-                <select class="form-select" id="sortBy" name="sort">
-                    <option value="">Не обрано</option>
-                    <th:block th:each="sortBy : ${sortBys}">
-                        <option th:each="direction : ${directions}"
-                                th:value="${sortBy.getProperty() + ',' + direction.name()}"
-                                th:selected="${users.metadata.sortBy == sortBy.getProperty()
-                                            && users.metadata.direction == direction}"
-                                th:text="${sortBy.name() + ' ,' + direction.name()}">SortBy
+<div class="container mt-4">
+    <th:block th:fragment="user-filter">
+        <h1 style="text-align: center">Користувачі</h1>
+        <hr>
+        <button class="btn btn-dark mt-3 mb-3" type="button" style="text-align: center; width: 100%"
+                data-bs-toggle="collapse" data-bs-target="#collapseExample"
+                aria-expanded="false" aria-controls="collapseExample">
+            Фільтр
+        </button>
+        <div class="collapse mb-3" id="collapseExample" style="">
+            <form action="/users">
+                <div class="mt-2">
+                    <label class="form-label" for="name">Прізвище, ім'я</label>
+                    <input id="name" type="text" class="form-control"
+                           name="name" th:value="${filter.name}">
+                </div>
+                <div class="mt-2">
+                    <label class="form-label" for="afterBirthDate">Народжені після</label>
+                    <input id="afterBirthDate" type="date" class="form-control"
+                           name="afterBirthDate" th:value="${filter.afterBirthDate}">
+                </div>
+                <div class="mt-2">
+                    <label class="form-label" for="beforeBirthDate">Народжені до</label>
+                    <input id="beforeBirthDate" type="date" class="form-control"
+                           name="beforeBirthDate" th:value="${filter.beforeBirthDate}">
+                </div>
+                <div class="mt-2">
+                    <label class="form-label" for="role">Роль</label>
+                    <select class="form-select" id="role" name="role">
+                        <option value="">Не обрано</option>
+                        <option th:each="role : ${roles}"
+                                th:value="${role.name()}"
+                                th:selected="${role == filter.role}"
+                                th:text="${role.name()}">Role
                         </option>
-                    </th:block>
-                </select>
-            </div>
-            <div class="mt-5">
-                <button type="submit" style="width: 100%" class="btn btn-dark">Пошук</button>
-            </div>
-        </form>
-    </div>
-</th:block>
+                    </select>
+                </div>
+                <div class="mt-2">
+                    <label class="form-label" for="sport">Вид спорту</label>
+                    <select class="form-select" id="sport" name="sportId">
+                        <option value="">Не обрано</option>
+                        <option th:each="sport : ${sports}"
+                                th:value="${sport.id}"
+                                th:selected="${sport.id == filter.sportId}"
+                                th:text="${sport.name}">Sport
+                        </option>
+                    </select>
+                </div>
+                <div class="mt-2">
+                    <label class="form-label" for="sortBy">Сортувати за:</label>
+                    <select class="form-select" id="sortBy" name="sort">
+                        <option value="">Не обрано</option>
+                        <th:block th:each="sortBy : ${sortBys}">
+                            <option th:each="direction : ${directions}"
+                                    th:value="${sortBy.getProperty() + ',' + direction.name()}"
+                                    th:selected="${users.metadata.sortBy == sortBy.getProperty()
+                                            && users.metadata.direction == direction}"
+                                    th:text="${sortBy.name() + ' ,' + direction.name()}">SortBy
+                            </option>
+                        </th:block>
+                    </select>
+                </div>
+                <div class="mt-5">
+                    <button type="submit" style="width: 100%" class="btn btn-dark">Пошук</button>
+                </div>
+            </form>
+        </div>
+    </th:block>
+</div>
 
 
 <th:block th:fragment="footer">
