@@ -20,7 +20,31 @@
 <th:block th:insert="~{fragment2 :: header}"></th:block>
 
 <div class="container mt-4">
-
+    <form class="" method="post" th:action="@{/registration}">
+        <h2>Реєстрація</h2>
+        <hr>
+        <p>
+            <label for="email" class="sr-only form-label">Електронна пошта</label>
+            <input type="email" id="email" name="email" class="form-control"
+                   required="" placeholder="Email">
+        </p>
+        <p>
+            <label for="username" class="sr-only form-label">Username (унікальне ім'я профілю)</label>
+            <input type="text" id="username" name="username" class="form-control"
+                   required="" placeholder="Username">
+        </p>
+        <p>
+            <label for="password" class="sr-only form-label">Пароль</label>
+            <input type="password" id="password" name="password" class="form-control"
+                   required="" placeholder="Пароль">
+        </p>
+        <p>
+            <label for="passwordConfirm" class="sr-only form-label">Подтвердіть пароль</label>
+            <input type="password" id="passwordConfirm" name="passwordConfirm" class="form-control"
+                   required="" placeholder="Підтвердіть пороль">
+        </p>
+        <button class="btn btn-lg btn-dark btn-block" type="submit">Зареєструватися</button>
+    </form>
 </div>
 
 <th:block th:insert="~{fragment2 :: footer}"></th:block>

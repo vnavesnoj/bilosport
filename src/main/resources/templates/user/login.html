@@ -17,45 +17,12 @@
     </style>
 </head>
 <body>
-<th:block>
-    <nav th:fragment="header" class="navbar navbar-expand-xl navbar-dark bg-dark" aria-label="Sixth navbar example">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Bilosport</a>
-            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarsExample06" aria-controls="navbarsExample06" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="navbar-collapse collapse" id="navbarsExample06" style="">
-                <ul class="navbar-nav me-auto mb-2 mb-xl-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" th:href="@{'/'}">Головна</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{'/news'}">Новини</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{'/users'}">Користувачі</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{'/tournaments'}">Турніри</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                    </li>
-                </ul>
-                <form role="search">
-                    <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-                </form>
-            </div>
-        </div>
-    </nav>
-</th:block>
+<th:block th:insert="fragment2 :: header"></th:block>
 
 <div class="container mt-4">
     <form class="" method="post" th:action="@{/login}">
         <h2>Вхід до системи</h2>
+        <hr>
         <div class="alert alert-danger" th:if="${param.error}" role="alert">Невірні облікові данні користувача</div>
         <div class="alert alert-success" th:if="${param.logout}" role="alert">Ви успішно вийшли</div>
         <p>

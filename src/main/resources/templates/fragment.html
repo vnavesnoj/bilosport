@@ -5,19 +5,23 @@
     <title>Fragments</title>
 </head>
 <body>
-<div th:fragment="header">
-    <span th:text="${#authentication.principal.username}">Username</span>
-    <span> | </span>
-    <span>
-        <a th:href="@{'/users'}">Користувачі</a>
-    </span>
-    <span> | </span>
-    <span>
-        <a th:href="@{'/tournaments'}">Турніри</a>
-    </span>
-    <form th:action="@{/logout}" method="post">
-        <button type="submit">Logout</button>
-    </form>
-</div>
+<th:block th:fragment="userBar">
+    <div sec:authorize=""
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle"
+           href="#" data-bs-toggle="dropdown"
+           aria-expanded="false"
+           th:text="${#authentication.principal.username}">Username</a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li>
+                <form th:action="@{'logout'}" method="post">
+                    <button type="submit" class="dropdown-item">Вийти</button>
+                </form>
+            </li>
+        </ul>
+    </li>
+</th:block>
 </body>
 </html>
