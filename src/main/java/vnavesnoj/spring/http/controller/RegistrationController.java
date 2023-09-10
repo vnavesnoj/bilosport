@@ -1,17 +1,22 @@
 package vnavesnoj.spring.http.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import vnavesnoj.spring.dto.UserCreateEditDto;
+import vnavesnoj.spring.dto.UserCreateDto;
+import vnavesnoj.spring.service.UserService;
 
 /**
  * @author vnavesnoj
  * @mail vnavesnoj@gmail.com
  */
 @Controller
+@RequiredArgsConstructor
 public class RegistrationController {
+
+    private final UserService userService;
 
     @GetMapping("/registration")
     public String registrationPage(Authentication authentication) {
@@ -22,7 +27,8 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String registration(UserCreateEditDto user) {
-        return null;
+    public String registration(UserCreateDto user) {
+        userService.create(user);
+        return "redirect:/login";
     }
 }

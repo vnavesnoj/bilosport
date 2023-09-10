@@ -5,16 +5,12 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
+import vnavesnoj.spring.database.entity.Role;
 import vnavesnoj.spring.database.entity.Sport;
 import vnavesnoj.spring.database.entity.User;
-import vnavesnoj.spring.database.entity.UserSport;
-import vnavesnoj.spring.dto.UserCreateEditDto;
+import vnavesnoj.spring.dto.UserCreateDto;
 
-import java.util.HashSet;
 import java.util.Optional;
-
-import static java.util.function.Predicate.not;
 
 /**
  * @author vnavesnoj
@@ -22,7 +18,7 @@ import static java.util.function.Predicate.not;
  */
 @Component
 @RequiredArgsConstructor
-public class UserCreateEditMapper implements Mapper<UserCreateEditDto, User> {
+public class UserCreateMapper implements Mapper<UserCreateDto, User> {
 
     private final PasswordEncoder passwordEncoder;
 
@@ -31,32 +27,34 @@ public class UserCreateEditMapper implements Mapper<UserCreateEditDto, User> {
 //    private final CrudRepository<Tournament, Long> tournamentRepository;
 
     @Override
-    public User map(UserCreateEditDto userDto) {
+    public User map(UserCreateDto userDto) {
         final var user = new User();
         copy(userDto, user);
         return user;
     }
 
-    public User map(UserCreateEditDto userDto, User user) {
+    public User map(UserCreateDto userDto, User user) {
         copy(userDto, user);
         return user;
     }
 
-    private void copy(UserCreateEditDto userDto, User user) {
+    private void copy(UserCreateDto userDto, User user) {
         user.setUsername(userDto.getUsername());
+        user.setEmail(userDto.getEmail());
         Optional.ofNullable(userDto.getRawPassword())
                 .filter(StringUtils::hasText)
                 .map(passwordEncoder::encode)
                 .ifPresent(user::setPassword);
-        user.setFirstname(userDto.getFirstname());
-        user.setLastname(userDto.getLastname());
-        user.setSurname(userDto.getSurname());
-        user.setBirthDate(userDto.getBirthDate());
-        user.setRole(userDto.getRole());
-        Optional.ofNullable(userDto.getImage())
-                .filter(not(MultipartFile::isEmpty))
-                .ifPresent(image -> user.setImage(image.getOriginalFilename()));
-        setUserSports(userDto, user);
+//        user.setFirstname(userDto.getFirstname());
+//        user.setLastname(userDto.getLastname());
+//        user.setSurname(userDto.getSurname());
+//        user.setBirthDate(userDto.getBirthDate());
+//        user.setRole(userDto.getRole());
+//        Optional.ofNullable(userDto.getImage())
+//                .filter(not(MultipartFile::isEmpty))
+//                .ifPresent(image -> user.setImage(image.getOriginalFilename()));
+//        setUserSports(userDto, user);
+        user.setRole(Role.ATHLETE);
     }
 
 //    private void setTournamentUsers(UserCreateEditDto userDto, User user) {
@@ -73,17 +71,17 @@ public class UserCreateEditMapper implements Mapper<UserCreateEditDto, User> {
 //        user.setTournamentUsers(tournamentUsers);
 //    }
 
-    private void setUserSports(UserCreateEditDto userDto, User user) {
-        final var userSports = new HashSet<UserSport>();
-        userDto.getSportIds().forEach(sportId -> {
-            final var userSport = new UserSport();
-            userSport.setUser(user);
-            final var sport = sportRepository.findById(sportId)
-                    .orElseThrow(() ->
-                            new IllegalArgumentException("Sport does not exist by id: " + sportId));
-            userSport.setSport(sport);
-            userSports.add(userSport);
-        });
-        user.setUserSports(userSports);
-    }
+//    private void setUserSports(UserCreateDto userDto, User user) {
+//        final var userSports = new HashSet<UserSport>();
+//        userDto.getSportIds().forEach(sportId -> {
+//            final var userSport = new UserSport();
+//            userSport.setUser(user);
+//            final var sport = sportRepository.findById(sportId)
+//                    .orElseThrow(() ->
+//                            new IllegalArgumentException("Sport does not exist by id: " + sportId));
+//            userSport.setSport(sport);
+//            userSports.add(userSport);
+//        });
+//        user.setUserSports(userSports);
+//    }
 }

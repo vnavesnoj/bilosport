@@ -2,9 +2,10 @@ CREATE TABLE users
 (
     id         BIGSERIAL PRIMARY KEY,
     username   VARCHAR(128) NOT NULL UNIQUE,
-    password   VARCHAR(128) DEFAULT '{noop}pass',
-    firstname  VARCHAR(64)  NOT NULL,
-    lastname   VARCHAR(64)  NOT NULL,
+    email      VARCHAR(128) NOT NULL UNIQUE,
+    password   VARCHAR(128) NOT NULL DEFAULT '{noop}pass',
+    firstname  VARCHAR(64),
+    lastname   VARCHAR(64),
     surname    VARCHAR(64),
     birth_date DATE,
     role       VARCHAR(32),

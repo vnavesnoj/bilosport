@@ -1,6 +1,7 @@
 package vnavesnoj.spring.database.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import vnavesnoj.spring.database.entity.Role;
 import vnavesnoj.spring.database.entity.User;
@@ -19,4 +20,11 @@ public interface UserRepository extends
     List<User> findAllByRole(Role role);
 
     Optional<User> findByUsername(String username);
+
+    @Query("""
+            SELECT u FROM User u
+            WHERE u.username = :usernameOrEmail
+            OR u.email = :usernameOrEmail
+            """)
+    Optional<User> findByUsernameOrEmail(String usernameOrEmail);
 }
