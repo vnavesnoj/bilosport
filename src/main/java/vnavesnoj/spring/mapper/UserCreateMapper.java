@@ -40,7 +40,7 @@ public class UserCreateMapper implements Mapper<UserCreateDto, User> {
 
     private void copy(UserCreateDto userDto, User user) {
         user.setUsername(userDto.getUsername());
-        user.setEmail(userDto.getEmail());
+        user.setEmail(userDto.getEmail().toLowerCase());
         Optional.ofNullable(userDto.getRawPassword())
                 .filter(StringUtils::hasText)
                 .map(passwordEncoder::encode)
