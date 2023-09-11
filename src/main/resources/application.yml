@@ -20,6 +20,8 @@ spring:
   session:
     jdbc:
       initialize-schema: always
+  config:
+    import: mail-properties.yml
 
 logging:
   level:

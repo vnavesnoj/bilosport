@@ -79,6 +79,16 @@ public class UserService implements UserDetailsService {
                 .orElse(false);
     }
 
+    public boolean usernameUnique(String username) {
+        return userRepository.findByUsername(username)
+                .isPresent();
+    }
+
+    public boolean emailUnique(String email) {
+        return userRepository.findByEmail(email)
+                .isPresent();
+    }
+
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
         return userRepository.findByUsernameOrEmail(usernameOrEmail)

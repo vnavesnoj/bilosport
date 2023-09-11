@@ -3,6 +3,7 @@ package vnavesnoj.spring.handler;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mail.javamail.JavaMailSender;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -16,6 +17,8 @@ import static vnavesnoj.spring.handler.ImageLineHtmlHandler.IMG_PREFIX;
 @SpringBootTest
 @RequiredArgsConstructor
 class HtmlHandlerTest {
+
+    private final JavaMailSender emailSender;
 
     private final ImageLineHtmlHandler imageLineHtmlHandler;
 
@@ -48,5 +51,10 @@ class HtmlHandlerTest {
     void getSrc() {
         final var src = imageLineHtmlHandler.getImageSrcFrom("[IMG]https://img.championat.com/s/735x490/news/big/l/w/skvosh-triatlon-zorbing-chto-vybrat-v-2019_15488563261718964122.jpg[/IMG]");
         System.out.println(src);
+    }
+
+    @Test
+    void test() {
+        System.out.println(emailSender.toString());
     }
 }
