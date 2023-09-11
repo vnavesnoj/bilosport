@@ -81,12 +81,12 @@ public class UserService implements UserDetailsService {
 
     public boolean usernameUnique(String username) {
         return userRepository.findByUsername(username)
-                .isPresent();
+                .isEmpty();
     }
 
     public boolean emailUnique(String email) {
         return userRepository.findByEmail(email)
-                .isPresent();
+                .isEmpty();
     }
 
     @Override

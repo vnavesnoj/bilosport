@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,10 +24,14 @@ public class RegistrationController {
     private final UserService userService;
 
     @GetMapping("/registration")
-    public String registrationPage(Authentication authentication) {
+    public String registrationPage(Authentication authentication,
+                                   Model model,
+                                   UserCreateDto user) {
         if (authentication != null && authentication.isAuthenticated()) {
             return "redirect:/";
         }
+        model.addAttribute("email", user.getEmail());
+        model.addAttribute("username", user.getUsername());
         return "user/registration";
     }
 
@@ -35,18 +40,20 @@ public class RegistrationController {
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("errors",
-                    bindingResult.getAllErrors().stream()
+            redirectAttributes.addFlashAttribute("emailErrors",
+                    bindingResult.getFieldErrors(UserCreateDto.Fields.email).stream()
                             .map(DefaultMessageSourceResolvable::getDefaultMessage)
                             .toList());
-//            redirectAttributes.addAttribute("emailErrors",
-//                    bindingResult.getFieldError(UserCreateDto.Fields.email));
-//            redirectAttributes.addAttribute("usernameErrors",
-//                    bindingResult.getFieldError(UserCreateDto.Fields.username));
-//            redirectAttributes.addAttribute("rawPasswordErrors",
-//                    bindingResult.getFieldError(UserCreateDto.Fields.rawPassword));
-//            redirectAttributes.addAttribute("confirmPasswordErrors",
-//                    bindingResult.getGlobalErrors());
+            redirectAttributes.addFlashAttribute("usernameErrors",
+                    bindingResult.getFieldErrors(UserCreateDto.Fields.username).stream()
+                            .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                            .toList());
+            redirectAttributes.addFlashAttribute("rawPasswordErrors",
+                    bindingResult.getFieldErrors(UserCreateDto.Fields.rawPassword).stream()
+                            .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                            .toList());
+            redirectAttributes.addAttribute("email", user.getEmail());
+            redirectAttributes.addAttribute("username", user.getUsername());
             return "redirect:/registration";
         }
 
