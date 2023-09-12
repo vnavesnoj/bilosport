@@ -104,6 +104,7 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("Failed to retrieve user: " + usernameOrEmail));
     }
 
+    @Transactional
     public void createVerificationToken(UserReadDto userDto, String token) {
         final var user = userRepository.findById(userDto.getId()).orElseThrow();
         final var verificationToken = VerificationToken.builder()
