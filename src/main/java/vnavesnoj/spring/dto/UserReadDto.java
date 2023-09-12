@@ -15,6 +15,7 @@ public class UserReadDto {
 
     Long id;
     String username;
+    String email;
     String firstname;
     String lastname;
     String surname;

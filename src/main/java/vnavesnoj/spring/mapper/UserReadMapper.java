@@ -2,9 +2,10 @@ package vnavesnoj.spring.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import vnavesnoj.spring.database.entity.*;
+import vnavesnoj.spring.database.entity.Sport;
+import vnavesnoj.spring.database.entity.User;
+import vnavesnoj.spring.database.entity.UserSport;
 import vnavesnoj.spring.dto.SportReadDto;
-import vnavesnoj.spring.dto.TournamentReadDto;
 import vnavesnoj.spring.dto.UserReadDto;
 
 /**
@@ -16,7 +17,6 @@ import vnavesnoj.spring.dto.UserReadDto;
 public class UserReadMapper implements Mapper<User, UserReadDto> {
 
     private final Mapper<Sport, SportReadDto> sportReadMapper;
-    private final Mapper<Tournament, TournamentReadDto> tournamentReadMapper;
 
     @Override
     public UserReadDto map(User user) {
@@ -24,13 +24,10 @@ public class UserReadMapper implements Mapper<User, UserReadDto> {
                 .map(UserSport::getSport)
                 .map(sportReadMapper::map)
                 .toList();
-        final var tournaments = user.getTournamentUsers().stream()
-                .map(TournamentUser::getTournament)
-                .map(tournamentReadMapper::map)
-                .toList();
         return new UserReadDto(
                 user.getId(),
                 user.getUsername(),
+                user.getEmail(),
                 user.getFirstname(),
                 user.getLastname(),
                 user.getSurname(),
