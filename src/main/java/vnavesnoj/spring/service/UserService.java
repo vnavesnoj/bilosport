@@ -10,12 +10,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vnavesnoj.spring.database.entity.User;
+import vnavesnoj.spring.database.entity.VerificationToken;
 import vnavesnoj.spring.database.repository.UserRepository;
+import vnavesnoj.spring.database.repository.VerificationTokenRepository;
 import vnavesnoj.spring.dto.UserCreateDto;
 import vnavesnoj.spring.dto.UserFilter;
 import vnavesnoj.spring.dto.UserReadDto;
 import vnavesnoj.spring.mapper.Mapper;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +33,7 @@ import java.util.Optional;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final VerificationTokenRepository verificationTokenRepository;
     private final Mapper<User, UserReadDto> userReadMapper;
     private final Mapper<UserCreateDto, User> userCreateMapper;
     private final Mapper<UserFilter, Predicate> userPredicateMapper;
@@ -98,5 +102,15 @@ public class UserService implements UserDetailsService {
                         Collections.singleton(user.getRole())
                 ))
                 .orElseThrow(() -> new UsernameNotFoundException("Failed to retrieve user: " + usernameOrEmail));
+    }
+
+    public void createVerificationToken(UserReadDto userDto, String token) {
+        final var user = userRepository.findById(userDto.getId()).orElseThrow();
+        final var verificationToken = VerificationToken.builder()
+                .token(token)
+                .createdAt(LocalDateTime.now())
+                .user(user)
+                .build();
+        verificationTokenRepository.save(verificationToken);
     }
 }
