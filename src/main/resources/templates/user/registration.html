@@ -23,34 +23,40 @@
     <form class="" method="post" th:action="@{/registration}">
         <h2>Реєстрація</h2>
         <hr>
+        <div class="alert alert-danger" th:if="${globalError}">
+            <ul>
+                <li th:text="${globalError}">Error</li>
+            </ul>
+        </div>
         <p>
             <label for="email" class="sr-only form-label">Електронна пошта</label>
+            <span th:if="${emailErrors}" th:unless="${emailErrors.isEmpty()}" class="text-danger">*</span>
             <input type="email" id="email" name="email" class="form-control"
                    required="" placeholder="Email" th:value="${email}">
         </p>
-        <th:block th:if="${emailErrors}">
-            <div class="alert alert-danger" th:unless="${emailErrors.isEmpty()}">
-                <ul>
-                    <li th:each="emailError : ${emailErrors}" th:text="${emailError}">Error</li>
-                </ul>
-            </div>
-        </th:block>
+        <div class="alert alert-danger" th:if="${emailErrors}" th:unless="${emailErrors.isEmpty()}">
+            <ul>
+                <li th:each="emailError : ${emailErrors}" th:text="${emailError}">Error</li>
+            </ul>
+        </div>
         <p>
             <label for="username" class="sr-only form-label">Username (унікальне ім'я профілю)</label>
+            <span th:if="${usernameErrors}" th:unless="${usernameErrors.isEmpty()}" class="text-danger">*</span>
             <input type="text" id="username" name="username" class="form-control"
                    required="" placeholder="Username" th:value="${username}">
         </p>
-        <div class="alert alert-danger" th:if="${usernameErrors}">
+        <div class="alert alert-danger" th:if="${usernameErrors}" th:unless="${usernameErrors.isEmpty()}">
             <ul>
                 <li th:each="usernameError : ${usernameErrors}" th:text="${usernameError}">Error</li>
             </ul>
         </div>
         <p>
             <label for="password" class="sr-only form-label">Пароль</label>
+            <span th:if="${rawPasswordErrors}" th:unless="${rawPasswordErrors.isEmpty()}" class="text-danger">*</span>
             <input type="password" id="password" name="rawPassword" class="form-control"
                    required="" placeholder="Пароль">
         </p>
-        <div class="alert alert-danger" th:if="${rawPasswordErrors}">
+        <div class="alert alert-danger" th:if="${rawPasswordErrors}" th:unless="${rawPasswordErrors.isEmpty()}">
             <ul>
                 <li th:each="rawPasswordError : ${rawPasswordErrors}" th:text="${rawPasswordError}">Error</li>
             </ul>

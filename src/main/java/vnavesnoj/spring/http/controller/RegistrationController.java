@@ -52,12 +52,21 @@ public class RegistrationController {
                     bindingResult.getFieldErrors(UserCreateDto.Fields.rawPassword).stream()
                             .map(DefaultMessageSourceResolvable::getDefaultMessage)
                             .toList());
-            redirectAttributes.addAttribute("email", user.getEmail());
-            redirectAttributes.addAttribute("username", user.getUsername());
+            addUserAttributes(user, redirectAttributes);
             return "redirect:/registration";
         }
-
-        userService.create(user);
+        final var newUser = userService.create(user);
+        if (newUser == null) {
+            redirectAttributes.addFlashAttribute("globalError",
+                    "Помилка при створенні користувача. Спробуйте ще раз");
+            addUserAttributes(user, redirectAttributes);
+            return "redirect:/registration";
+        }
         return "redirect:/login";
+    }
+
+    private static void addUserAttributes(UserCreateDto user, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("email", user.getEmail());
+        redirectAttributes.addAttribute("username", user.getUsername());
     }
 }
