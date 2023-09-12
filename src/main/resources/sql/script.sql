@@ -9,7 +9,8 @@ CREATE TABLE users
     surname    VARCHAR(64),
     birth_date DATE,
     role       VARCHAR(32),
-    image      VARCHAR(64)
+    image      VARCHAR(64),
+    enabled    BOOLEAN      NOT NULL DEFAULT 'false'
 );
 
 CREATE TABLE sport
@@ -72,4 +73,12 @@ CREATE TABLE blog
     announcement     VARCHAR(256),
     publication_time TIMESTAMP    NOT NULL UNIQUE,
     blog_body_id     INT REFERENCES blog_body
+);
+
+CREATE TABLE verification_token
+(
+    id         BIGSERIAL PRIMARY KEY,
+    token      VARCHAR(64) NOT NULL,
+    created_at TIMESTAMP   NOT NULL,
+    user_id    BIGINT      NOT NULL UNIQUE REFERENCES users
 );

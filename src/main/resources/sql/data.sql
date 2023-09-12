@@ -1,16 +1,16 @@
-INSERT INTO users(email, username, firstname, lastname, birth_date, role)
-VALUES ('ivan@gmail.com', 'Ivan', 'Іван', 'Іванов', '1981-10-13', 'COACH'),
-       ('petro@gmail.com', 'Petr', 'Петро', 'Петров', '1972-02-01', 'COACH'),
-       ('sveta@gmail.com', 'Sveta', 'Свєта', 'Свєтікова', '1993-08-19', 'COACH'),
-       ('dmitro@gmail.com', 'Dmitro', 'Дмитро', 'Дмитров', '1979-06-23', 'ADMIN'),
-       ('shevchenko@gmail.com', 'shevchenko', 'Іван', 'Шевченко', '2010-08-25', 'ATHLETE'),
-       ('skovoroda@gmail.com', 'skovoroda', 'Григорій', 'Сковорода', '2006-03-03', 'ATHLETE'),
-       ('mask@gmail.com', 'Mask', 'Ілон', 'Маск', '2012-01-15', 'ATHLETE'),
-       ('ukrainka@gmail.com', 'ukrainka', 'Леся', 'Українка', '2009-11-11', 'ATHLETE'),
-       ('chikchik@gmail.com', 'ChikChik', 'Данило', 'Чикатило', '1979-06-23', 'ATHLETE'),
-       ('zelia@gmail.com', 'Zelia', 'Володимир', 'Зеленський', '1999-09-19', 'ATHLETE'),
-       ('timoha@gmail.com', 'Timoha', 'Юлія', 'Тимошенко', '2013-04-01', 'ATHLETE'),
-       ('volk@gmail.com', 'Volk', 'Олександр', 'Волков', '1997-12-07', 'ATHLETE');
+INSERT INTO users(email, username, firstname, lastname, birth_date, role, enabled)
+VALUES ('ivan@gmail.com', 'Ivan', 'Іван', 'Іванов', '1981-10-13', 'COACH', 'true'),
+       ('petro@gmail.com', 'Petr', 'Петро', 'Петров', '1972-02-01', 'COACH', 'true'),
+       ('sveta@gmail.com', 'Sveta', 'Свєта', 'Свєтікова', '1993-08-19', 'COACH', 'true'),
+       ('dmitro@gmail.com', 'Dmitro', 'Дмитро', 'Дмитров', '1979-06-23', 'ADMIN', 'true'),
+       ('shevchenko@gmail.com', 'shevchenko', 'Іван', 'Шевченко', '2010-08-25', 'ATHLETE', 'true'),
+       ('skovoroda@gmail.com', 'skovoroda', 'Григорій', 'Сковорода', '2006-03-03', 'ATHLETE', 'true'),
+       ('mask@gmail.com', 'Mask', 'Ілон', 'Маск', '2012-01-15', 'ATHLETE', 'true'),
+       ('ukrainka@gmail.com', 'ukrainka', 'Леся', 'Українка', '2009-11-11', 'ATHLETE', 'true'),
+       ('chikchik@gmail.com', 'ChikChik', 'Данило', 'Чикатило', '1979-06-23', 'ATHLETE', 'true'),
+       ('zelia@gmail.com', 'Zelia', 'Володимир', 'Зеленський', '1999-09-19', 'ATHLETE', 'true'),
+       ('timoha@gmail.com', 'Timoha', 'Юлія', 'Тимошенко', '2013-04-01', 'ATHLETE', 'true'),
+       ('volk@gmail.com', 'Volk', 'Олександр', 'Волков', '1997-12-07', 'ATHLETE', 'true');
 
 SELECT setval('users_id_seq', (SELECT max(id) FROM users));
 

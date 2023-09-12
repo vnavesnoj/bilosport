@@ -48,6 +48,8 @@ public class User {
 
     private String image;
 
+    private boolean enabled;
+
     @Builder.Default
     @OneToMany(mappedBy = "user")
     private Set<UserSport> userSports = new HashSet<>();
