@@ -1,7 +1,9 @@
 package vnavesnoj.spring.http.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vnavesnoj.spring.dto.UserCreateDto;
+import vnavesnoj.spring.listener.OnRegistrationCompleteEvent;
 import vnavesnoj.spring.service.UserService;
 
 /**
@@ -22,6 +25,8 @@ import vnavesnoj.spring.service.UserService;
 public class RegistrationController {
 
     private final UserService userService;
+
+    private final ApplicationEventPublisher eventPublisher;
 
     @GetMapping("/registration")
     public String registrationPage(Authentication authentication,
@@ -38,7 +43,8 @@ public class RegistrationController {
     @PostMapping("/registration")
     public String registration(@Valid UserCreateDto user,
                                BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) {
+                               RedirectAttributes redirectAttributes,
+                               HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("emailErrors",
                     bindingResult.getFieldErrors(UserCreateDto.Fields.email).stream()
@@ -62,6 +68,7 @@ public class RegistrationController {
             addUserAttributes(user, redirectAttributes);
             return "redirect:/registration";
         }
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(newUser, request.getContextPath()));
         return "redirect:/login";
     }
 
