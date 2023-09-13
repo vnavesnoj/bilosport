@@ -24,10 +24,12 @@ public class VerificationToken {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String token;
 
     @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 }

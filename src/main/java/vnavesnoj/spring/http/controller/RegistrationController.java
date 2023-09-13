@@ -67,6 +67,10 @@ public class RegistrationController {
         return "redirect:/login";
     }
 
+    @GetMapping()
+    public String confirmRegistration(Model model, String token) {
+        return null;
+    }
 
     private static void addValidationErrorAttributes(UserCreateDto user, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("emailErrors",
