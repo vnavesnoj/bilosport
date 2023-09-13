@@ -20,6 +20,11 @@
 <th:block th:insert="~{fragment2 :: header}"></th:block>
 
 <div class="container mt-4">
+    <th:block th:if="${registrationSuccess != null}">
+        <div class="alert alert-success">
+            <p th:each="line : ${registrationSuccess.lines()}" th:text="${line}">text</p>
+        </div>
+    </th:block>
     <form class="" method="post" th:action="@{/login}">
         <h2>Вхід до системи</h2>
         <hr>
