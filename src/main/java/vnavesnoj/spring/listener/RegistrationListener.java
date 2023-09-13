@@ -47,6 +47,9 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
         email.setTo(recipientAddress);
         email.setSubject(subject);
         email.setText(message);
-        mailSender.send(email);
+//        mailSender.send(email);
+        System.out.println(recipientAddress);
+        System.out.println(subject);
+        System.out.println(message);
     }
 }

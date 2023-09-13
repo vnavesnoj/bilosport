@@ -78,7 +78,7 @@ CREATE TABLE blog
 CREATE TABLE verification_token
 (
     id         BIGSERIAL PRIMARY KEY,
-    token      VARCHAR(32) NOT NULL UNIQUE,
+    token      VARCHAR(64) NOT NULL UNIQUE,
     created_at TIMESTAMP   NOT NULL,
     user_id    BIGINT      NOT NULL UNIQUE REFERENCES users ON DELETE CASCADE
 );
