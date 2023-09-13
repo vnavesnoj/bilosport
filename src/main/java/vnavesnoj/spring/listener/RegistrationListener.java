@@ -6,7 +6,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
-import vnavesnoj.spring.service.UserService;
+import vnavesnoj.spring.service.VerificationTokenService;
 
 import java.util.UUID;
 
@@ -18,7 +18,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
 
-    private final UserService userService;
+    private final VerificationTokenService verificationTokenService;
 
     private final MessageSource messageSource;
 
@@ -33,7 +33,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     private void confirmRegistration(OnRegistrationCompleteEvent event) {
         final var user = event.getNewUser();
         final var token = UUID.randomUUID().toString();
-        userService.createVerificationToken(user, token);
+        verificationTokenService.createVerificationToken(user, token);
 
         final var recipientAddress = user.getEmail();
         final var subject = "Підтвердження реєстрації";
