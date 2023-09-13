@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import vnavesnoj.spring.dto.UserCreateDto;
+import vnavesnoj.spring.dto.UserReadDto;
 import vnavesnoj.spring.listener.OnRegistrationCompleteEvent;
 import vnavesnoj.spring.service.UserService;
 
@@ -62,18 +63,19 @@ public class RegistrationController {
             addUserAttributes(user, redirectAttributes);
             return "redirect:/registration";
         }
+        UserReadDto newUser;
         try {
-            final var newUser = userService.create(user);
-            eventPublisher.publishEvent(new OnRegistrationCompleteEvent(
-                    newUser,
-                    request.getLocale(),
-                    ServletUriComponentsBuilder.fromRequestUri(request).replacePath(null).toUriString()));
+            newUser = userService.create(user);
         } catch (RuntimeException e) {
             redirectAttributes.addFlashAttribute("globalError",
                     "Помилка при створенні користувача. Спробуйте ще раз");
             addUserAttributes(user, redirectAttributes);
             return "redirect:/registration";
         }
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(
+                newUser,
+                request.getLocale(),
+                ServletUriComponentsBuilder.fromRequestUri(request).replacePath(null).toUriString()));
         return "redirect:/login";
     }
 
