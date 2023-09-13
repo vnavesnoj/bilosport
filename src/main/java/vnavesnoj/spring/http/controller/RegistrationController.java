@@ -3,7 +3,6 @@ package vnavesnoj.spring.http.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -12,8 +11,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import vnavesnoj.spring.dto.UserCreateDto;
-import vnavesnoj.spring.dto.UserReadDto;
+import vnavesnoj.spring.dto.UserRegisterDto;
 import vnavesnoj.spring.service.UserService;
 
 /**
@@ -25,8 +25,6 @@ import vnavesnoj.spring.service.UserService;
 public class RegistrationController {
 
     private final UserService userService;
-
-    private final ApplicationEventPublisher eventPublisher;
 
     @GetMapping("/registration")
     public String registrationPage(Authentication authentication,
@@ -49,26 +47,26 @@ public class RegistrationController {
             addValidationErrorAttributes(user, bindingResult, redirectAttributes);
             return "redirect:/registration";
         }
-        UserReadDto newUser;
         try {
-            newUser = userService.create(user);
+            userService.register(new UserRegisterDto(
+                    user,
+                    request.getLocale(),
+                    ServletUriComponentsBuilder.fromRequestUri(request).replacePath(null).toUriString()
+            ));
         } catch (RuntimeException e) {
             redirectAttributes.addFlashAttribute("globalError",
-                    "Помилка при створенні користувача. Спробуйте ще раз");
+                    "Помилка під час створення користувача. Спробуйте ще раз");
             addUserAttributes(user, redirectAttributes);
             return "redirect:/registration";
         }
-//        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(
-//                newUser,
-//                request.getLocale(),
-//                ServletUriComponentsBuilder.fromRequestUri(request).replacePath(null).toUriString()));
         redirectAttributes.addFlashAttribute(
                 "registrationSuccess",
                 """
                         Дякуємо за реєстрацію на нашому сайті.
-                        Для активації вашого облікового запису на вказану електронну пошту було надіслано верифікаційний код.""");
+                        Для активації вашого акаунту на вказану електронну пошту був надіслан верифікаційний код.""");
         return "redirect:/login";
     }
+
 
     private static void addValidationErrorAttributes(UserCreateDto user, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("emailErrors",

@@ -2,6 +2,7 @@ package vnavesnoj.spring.service;
 
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,8 @@ import vnavesnoj.spring.database.repository.VerificationTokenRepository;
 import vnavesnoj.spring.dto.UserCreateDto;
 import vnavesnoj.spring.dto.UserFilter;
 import vnavesnoj.spring.dto.UserReadDto;
+import vnavesnoj.spring.dto.UserRegisterDto;
+import vnavesnoj.spring.listener.OnRegistrationCompleteEvent;
 import vnavesnoj.spring.mapper.Mapper;
 
 import java.time.LocalDateTime;
@@ -34,6 +37,7 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final VerificationTokenRepository verificationTokenRepository;
+    private final ApplicationEventPublisher eventPublisher;
     private final Mapper<User, UserReadDto> userReadMapper;
     private final Mapper<UserCreateDto, User> userCreateMapper;
     private final Mapper<UserFilter, Predicate> userPredicateMapper;
@@ -62,6 +66,17 @@ public class UserService implements UserDetailsService {
                 .map(userRepository::save)
                 .map(userReadMapper::map)
                 .orElseThrow();
+    }
+
+    @Transactional
+    public UserReadDto register(UserRegisterDto userRegisterDto) {
+        final var newUser = create(userRegisterDto.getUserCreateDto());
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(
+                newUser,
+                userRegisterDto.getLocale(),
+                userRegisterDto.getAppUrl()
+        ));
+        return newUser;
     }
 
     @Transactional
