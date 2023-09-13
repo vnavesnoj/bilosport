@@ -8,8 +8,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 import vnavesnoj.spring.service.VerificationTokenService;
 
-import java.util.UUID;
-
 /**
  * @author vnavesnoj
  * @mail vnavesnoj@gmail.com
@@ -32,8 +30,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 
     private void confirmRegistration(OnRegistrationCompleteEvent event) {
         final var user = event.getNewUser();
-        final var token = UUID.randomUUID().toString();
-        verificationTokenService.createVerificationToken(user, token);
+        final var token = verificationTokenService.createVerificationTokenFor(user);
 
         final var recipientAddress = user.getEmail();
         final var subject = "Підтвердження реєстрації";
