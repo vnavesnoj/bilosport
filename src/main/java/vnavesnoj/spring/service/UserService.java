@@ -104,6 +104,12 @@ public class UserService implements UserDetailsService {
                 .isEmpty();
     }
 
+    @Transactional
+    public void activate(UserReadDto userReadDto) {
+        final var user = userRepository.findById(userReadDto.getId()).orElseThrow();
+        user.setEnabled(true);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
         return userRepository.findByUsernameOrEmail(usernameOrEmail)

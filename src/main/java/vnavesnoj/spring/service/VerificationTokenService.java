@@ -37,7 +37,7 @@ public class VerificationTokenService {
         final var token = UUID.randomUUID().toString();
         final var now = LocalDateTime.now();
         final var minCreatedAt = now.minus(TOKEN_LIFE_TIME);
-        if (verificationTokenRepository.findByToken(token, minCreatedAt).isEmpty()) {
+        if (verificationTokenRepository.findByToken(token, minCreatedAt).isPresent()) {
             throw new RuntimeException("Created verification token is already exist");
         }
         final var user = userRepository.findById(userDto.getId()).orElseThrow();
@@ -53,5 +53,10 @@ public class VerificationTokenService {
     public Optional<VerificationTokenReadDto> findByToken(String token) {
         return verificationTokenRepository.findByToken(token)
                 .map(verificationTokenReadMapper::map);
+    }
+
+    public boolean isExpired(VerificationTokenReadDto verificationToken) {
+        final var minCreatedAt = LocalDateTime.now().minus(TOKEN_LIFE_TIME);
+        return verificationToken.getCreatedAt().isBefore(minCreatedAt);
     }
 }

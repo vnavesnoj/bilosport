@@ -29,6 +29,7 @@ public class SecurityConfiguration {
                             mvc.pattern("/login"),
                             mvc.pattern("/registration"),
                             mvc.pattern("/"),
+                            mvc.pattern("/registrationConfirm"),
                             mvc.pattern("/news/**")).permitAll()
                     .anyRequest().authenticated();
 

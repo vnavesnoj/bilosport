@@ -15,7 +15,7 @@ public class VerificationTokenReadDto {
 
     String token;
 
-    LocalDateTime expired;
+    LocalDateTime createdAt;
 
     UserReadDto user;
 }

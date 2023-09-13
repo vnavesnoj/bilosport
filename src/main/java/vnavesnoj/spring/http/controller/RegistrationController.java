@@ -15,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import vnavesnoj.spring.dto.UserCreateDto;
 import vnavesnoj.spring.dto.UserRegisterDto;
 import vnavesnoj.spring.service.UserService;
+import vnavesnoj.spring.service.VerificationTokenService;
 
 /**
  * @author vnavesnoj
@@ -25,6 +26,8 @@ import vnavesnoj.spring.service.UserService;
 public class RegistrationController {
 
     private final UserService userService;
+
+    private final VerificationTokenService verificationTokenService;
 
     @GetMapping("/registration")
     public String registrationPage(Authentication authentication,
@@ -54,22 +57,41 @@ public class RegistrationController {
                     ServletUriComponentsBuilder.fromRequestUri(request).replacePath(null).toUriString()
             ));
         } catch (RuntimeException e) {
+            e.printStackTrace();
             redirectAttributes.addFlashAttribute("globalError",
                     "Помилка під час створення користувача. Спробуйте ще раз");
             addUserAttributes(user, redirectAttributes);
             return "redirect:/registration";
         }
         redirectAttributes.addFlashAttribute(
-                "registrationSuccess",
+                "success",
                 """
                         Дякуємо за реєстрацію на нашому сайті.
                         Для активації вашого акаунту на вказану електронну пошту був надіслан верифікаційний код.""");
         return "redirect:/login";
     }
 
-    @GetMapping()
-    public String confirmRegistration(Model model, String token) {
-        return null;
+    @GetMapping("/registrationConfirm")
+    public String confirmRegistration(RedirectAttributes redirectAttributes, String token) {
+        final var maybeToken = verificationTokenService.findByToken(token);
+        if (maybeToken.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "Невірний код активації.");
+            return "redirect:/login";
+        }
+        final var verificationToken = maybeToken.orElseThrow();
+        if (verificationTokenService.isExpired(verificationToken)) {
+            redirectAttributes.addFlashAttribute("error", "Термін дії токена минув.");
+            return "redirect:/login";
+        }
+        try {
+            userService.activate(verificationToken.getUser());
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "Помилка під час активації акаунту.");
+            return "redirect:/login";
+        }
+        redirectAttributes.addFlashAttribute("success", "Акаунт успішно активовано.");
+        return "redirect:/login";
     }
 
     private static void addValidationErrorAttributes(UserCreateDto user, BindingResult bindingResult, RedirectAttributes redirectAttributes) {

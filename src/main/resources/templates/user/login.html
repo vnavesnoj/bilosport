@@ -20,11 +20,12 @@
 <th:block th:insert="~{fragment2 :: header}"></th:block>
 
 <div class="container mt-4">
-    <th:block th:if="${registrationSuccess != null}">
-        <div class="alert alert-success">
-            <p th:each="line : ${registrationSuccess.lines()}" th:text="${line}">text</p>
-        </div>
-    </th:block>
+    <div th:if="${success != null}" class="alert alert-success">
+        <p th:each="line : ${success.lines()}" th:text="${line}">text</p>
+    </div>
+    <div th:if="${error != null}" class="alert alert-danger">
+        <p th:each="line : ${error.lines()}" th:text="${line}">text</p>
+    </div>
     <form class="" method="post" th:action="@{/login}">
         <h2>Вхід до системи</h2>
         <hr>
