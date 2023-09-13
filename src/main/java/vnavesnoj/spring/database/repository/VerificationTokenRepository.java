@@ -18,5 +18,8 @@ public interface VerificationTokenRepository extends JpaRepository<VerificationT
             WHERE t.token = :token
             AND t.createdAt > :minCreatedAt
             """)
-    Optional<VerificationToken> findBy(String token, LocalDateTime minCreatedAt);
+    Optional<VerificationToken> findByToken(String token, LocalDateTime minCreatedAt);
+
+
+    Optional<VerificationToken> findByToken(String token);
 }
