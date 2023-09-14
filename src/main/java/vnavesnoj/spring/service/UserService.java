@@ -116,6 +116,10 @@ public class UserService implements UserDetailsService {
                 .map(user -> new org.springframework.security.core.userdetails.User(
                         user.getUsername(),
                         user.getPassword(),
+                        user.isEnabled(),
+                        true,
+                        true,
+                        true,
                         Collections.singleton(user.getRole())
                 ))
                 .orElseThrow(() -> new UsernameNotFoundException("Failed to retrieve user: " + usernameOrEmail));

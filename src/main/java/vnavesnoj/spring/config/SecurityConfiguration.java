@@ -1,5 +1,7 @@
 package vnavesnoj.spring.config;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,8 +10,11 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+import vnavesnoj.spring.handler.failure.CustomAuthenticationFailureHandler;
 
 /**
  * @author vnavesnoj
@@ -17,7 +22,11 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
  */
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfiguration {
+
+    private final MessageSource messageSource;
+    private final LocaleResolver localeResolver;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
@@ -41,8 +50,14 @@ public class SecurityConfiguration {
         http.formLogin(login -> login
                 .loginPage("/login")
                 .defaultSuccessUrl("/")
+                .failureHandler(authenticationFailureHandler())
                 .permitAll());
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler(messageSource, localeResolver);
     }
 
     @Bean

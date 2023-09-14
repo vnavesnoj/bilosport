@@ -29,8 +29,12 @@
     <form class="" method="post" th:action="@{/login}">
         <h2>Вхід до системи</h2>
         <hr>
-        <div class="alert alert-danger" th:if="${param.error}" role="alert">Невірні облікові данні користувача</div>
-        <div class="alert alert-success" th:if="${param.logout}" role="alert">Ви успішно вийшли</div>
+        <div class="alert alert-danger" th:if="${param.error}" role="alert">
+            <p th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">Error</p>
+        </div>
+        <div class="alert alert-success" th:if="${param.logout}" role="alert">
+            <p>Ви успішно вийшли</p>
+        </div>
         <p>
             <label for="username" class="sr-only form-label">Електронна пошта або username</label>
             <input type="text" id="username" name="username" class="form-control"
