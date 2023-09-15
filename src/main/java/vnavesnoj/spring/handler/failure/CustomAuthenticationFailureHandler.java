@@ -24,6 +24,7 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
 
     private final LocaleResolver localeResolver;
 
+
     public CustomAuthenticationFailureHandler(MessageSource messages, LocaleResolver localeResolver) {
         super("/login?error");
         this.messages = messages;

@@ -10,6 +10,7 @@ import vnavesnoj.spring.dto.UserReadDto;
 import vnavesnoj.spring.dto.VerificationTokenReadDto;
 import vnavesnoj.spring.mapper.Mapper;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.Optional;
@@ -31,6 +32,7 @@ public class VerificationTokenService {
     private final Mapper<VerificationToken, VerificationTokenReadDto> verificationTokenReadMapper;
 
     private static final Period TOKEN_LIFE_TIME = Period.of(0, 0, 1);
+    private static final Duration TOKEN_TO_RESEND = Duration.ofMinutes(15L);
 
     @Transactional
     public String createVerificationTokenFor(UserReadDto userDto) {
@@ -58,5 +60,17 @@ public class VerificationTokenService {
     public boolean isExpired(VerificationTokenReadDto verificationToken) {
         final var minCreatedAt = LocalDateTime.now().minus(TOKEN_LIFE_TIME);
         return verificationToken.getCreatedAt().isBefore(minCreatedAt);
+    }
+
+    private Boolean canToResend(VerificationToken verificationToken) {
+        final var now = LocalDateTime.now();
+        return verificationToken.getCreatedAt().plus(TOKEN_TO_RESEND).isBefore(now);
+    }
+
+    public boolean canToResendToken(String emailOrUsername) {
+        return userRepository.findByUsernameOrEmail(emailOrUsername)
+                .flatMap(verificationTokenRepository::findByUser)
+                .map(this::canToResend)
+                .orElse(false);
     }
 }

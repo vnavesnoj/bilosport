@@ -36,9 +36,9 @@
             <p>Ви успішно вийшли</p>
         </div>
         <p>
-            <label for="username" class="sr-only form-label">Електронна пошта або username</label>
-            <input type="text" id="username" name="username" class="form-control"
-                   placeholder="Email або username" required="" autofocus="">
+            <label for="emailOrUsername" class="sr-only form-label">Електронна пошта або username</label>
+            <input type="text" id="emailOrUsername" name="emailOrUsername" class="form-control"
+                   placeholder="Email або username" required="" autofocus="" th:value="${emailOrUsername}">
         </p>
         <p>
             <label for="password" class="sr-only form-label">Пароль</label>

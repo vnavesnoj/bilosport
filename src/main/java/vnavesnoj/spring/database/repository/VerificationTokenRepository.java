@@ -2,6 +2,7 @@ package vnavesnoj.spring.database.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import vnavesnoj.spring.database.entity.User;
 import vnavesnoj.spring.database.entity.VerificationToken;
 
 import java.time.LocalDateTime;
@@ -22,4 +23,6 @@ public interface VerificationTokenRepository extends JpaRepository<VerificationT
 
 
     Optional<VerificationToken> findByToken(String token);
+
+    Optional<VerificationToken> findByUser(User user);
 }
