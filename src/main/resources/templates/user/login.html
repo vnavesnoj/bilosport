@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,6 +31,13 @@
         <hr>
         <div class="alert alert-danger" th:if="${param.error}" role="alert">
             <p th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">Error</p>
+            <th:block th:if="${param.error[0]}=='disabled'">
+                <p>Перевірте свою електронну пошту, на яку був відправлен код.</p>
+                <p>Також можливо, що лист з верифікаційним кодом буде в розділі "Спан"</p>
+                <p>Якщо не прийшов лист з кодом на вказану в рєстрації пошту, то
+                    <a th:href="@{'/resendConfirmToken'}" class="link-body-emphasis">вам сюди.</a>
+                </p>
+            </th:block>
         </div>
         <div class="alert alert-success" th:if="${param.logout}" role="alert">
             <p>Ви успішно вийшли</p>

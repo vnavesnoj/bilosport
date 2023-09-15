@@ -51,6 +51,7 @@ public class SecurityConfiguration {
                 .loginPage("/login")
                 .defaultSuccessUrl("/")
                 .failureHandler(authenticationFailureHandler())
+                .usernameParameter("emailOrUsername")
                 .permitAll());
         return http.build();
     }

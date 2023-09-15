@@ -24,7 +24,6 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
 
     private final LocaleResolver localeResolver;
 
-
     public CustomAuthenticationFailureHandler(MessageSource messages, LocaleResolver localeResolver) {
         super("/login?error");
         this.messages = messages;
@@ -33,12 +32,19 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        super.onAuthenticationFailure(request, response, exception);
+        final var emailOrUsername = request.getParameter("emailOrUsername");
+        final var urlBuilder = new StringBuilder("/login?emailOrUsername=" + emailOrUsername + "&error=");
+        final var errorMessageBuilder = new StringBuilder();
         final var locale = localeResolver.resolveLocale(request);
-        String errorMessage = messages.getMessage("auth.message.badCredentials", null, locale);
         if (exception instanceof DisabledException) {
-            errorMessage = messages.getMessage("auth.message.disabled", null, locale);
+            errorMessageBuilder.append(messages.getMessage("auth.message.disabled", null, locale));
+            urlBuilder.append("disabled");
+        } else {
+            errorMessageBuilder.append(messages.getMessage("auth.message.badCredentials", null, locale));
+            urlBuilder.append("badCredentials");
         }
-        request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, errorMessage);
+        setDefaultFailureUrl(urlBuilder.toString());
+        super.onAuthenticationFailure(request, response, exception);
+        request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, errorMessageBuilder.toString());
     }
 }
