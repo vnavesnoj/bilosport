@@ -3,6 +3,7 @@ package vnavesnoj.spring.http.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -15,9 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import vnavesnoj.spring.dto.UserCreateDto;
-import vnavesnoj.spring.exception.RegisteredEmailNotFoundException;
-import vnavesnoj.spring.exception.TokenCreatedRecently;
-import vnavesnoj.spring.exception.UserAlreadyEnabled;
+import vnavesnoj.spring.exception.*;
 import vnavesnoj.spring.listener.OnRegistrationCompleteEvent;
 import vnavesnoj.spring.listener.OnVerificationTokenCreateEvent;
 import vnavesnoj.spring.service.UserService;
@@ -27,6 +26,7 @@ import vnavesnoj.spring.service.VerificationTokenService;
  * @author vnavesnoj
  * @mail vnavesnoj@gmail.com
  */
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class RegistrationController {
@@ -84,24 +84,19 @@ public class RegistrationController {
 
     @GetMapping("/registrationConfirm")
     public String confirmRegistration(RedirectAttributes redirectAttributes, String token) {
-        final var maybeToken = verificationTokenService.findByToken(token);
-        if (maybeToken.isEmpty()) {
-            redirectAttributes.addFlashAttribute("error", "Невірний код активації.");
-            return "redirect:/login";
-        }
-        final var verificationToken = maybeToken.orElseThrow();
-        if (verificationTokenService.isExpired(verificationToken)) {
-            redirectAttributes.addFlashAttribute("error", "Термін дії кода активації минув.");
-            return "redirect:/login";
-        }
         try {
-            userService.activate(verificationToken.getUser());
+            verificationTokenService.tryActivateUserByToken(token);
+            redirectAttributes.addFlashAttribute("success", "Акаунт успішно активовано.");
+        } catch (TokenNotExists e) {
+            redirectAttributes.addFlashAttribute("error", "Невірний код активації.");
+        } catch (TokenExpired e) {
+            redirectAttributes.addFlashAttribute("error", "Термін дії кода активації минув.");
+        } catch (UserAlreadyEnabled e) {
+            redirectAttributes.addFlashAttribute("info", "Користувач вже активован.");
         } catch (RuntimeException e) {
-            e.printStackTrace();
-            redirectAttributes.addFlashAttribute("error", "Помилка під час активації акаунту.");
-            return "redirect:/login";
+            log.error(e.getMessage(), e);
+            redirectAttributes.addFlashAttribute("error", "Помилка під час активації користувача.");
         }
-        redirectAttributes.addFlashAttribute("success", "Акаунт успішно активовано.");
         return "redirect:/login";
     }
 

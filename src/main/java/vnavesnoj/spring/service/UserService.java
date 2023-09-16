@@ -15,12 +15,9 @@ import vnavesnoj.spring.database.repository.UserRepository;
 import vnavesnoj.spring.dto.UserCreateDto;
 import vnavesnoj.spring.dto.UserFilter;
 import vnavesnoj.spring.dto.UserReadDto;
-import vnavesnoj.spring.dto.UserRegisterDto;
-import vnavesnoj.spring.listener.OnRegistrationCompleteEvent;
 import vnavesnoj.spring.mapper.Mapper;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -44,19 +41,8 @@ public class UserService implements UserDetailsService {
                 .map(userReadMapper::map);
     }
 
-    public List<UserReadDto> findAll() {
-        return userRepository.findAll().stream()
-                .map(userReadMapper::map)
-                .toList();
-    }
-
     public Optional<UserReadDto> findById(Long id) {
         return userRepository.findById(id)
-                .map(userReadMapper::map);
-    }
-
-    public Optional<UserReadDto> findByEmail(String email) {
-        return userRepository.findByEmail(email)
                 .map(userReadMapper::map);
     }
 
@@ -67,17 +53,6 @@ public class UserService implements UserDetailsService {
                 .map(userRepository::save)
                 .map(userReadMapper::map)
                 .orElseThrow();
-    }
-
-    @Transactional
-    public UserReadDto register(UserRegisterDto userRegisterDto) {
-        final var newUser = create(userRegisterDto.getUserCreateDto());
-        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(
-                newUser,
-                userRegisterDto.getLocale(),
-                userRegisterDto.getAppUrl()
-        ));
-        return newUser;
     }
 
     @Transactional

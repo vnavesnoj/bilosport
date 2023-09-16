@@ -26,6 +26,9 @@
     <div th:if="${error != null}" class="alert alert-danger">
         <p th:each="line : ${error.lines()}" th:text="${line}">text</p>
     </div>
+    <div th:if="${info != null}" class="alert alert-secondary">
+        <p th:each="line : ${info.lines()}" th:text="${line}">text</p>
+    </div>
     <form class="" method="post" th:action="@{/login}">
         <h2>Вхід до системи</h2>
         <hr>

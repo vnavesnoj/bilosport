@@ -7,17 +7,13 @@ import vnavesnoj.spring.database.entity.User;
 import vnavesnoj.spring.database.entity.VerificationToken;
 import vnavesnoj.spring.database.repository.UserRepository;
 import vnavesnoj.spring.database.repository.VerificationTokenRepository;
-import vnavesnoj.spring.dto.UserReadDto;
 import vnavesnoj.spring.dto.VerificationTokenReadDto;
-import vnavesnoj.spring.exception.RegisteredEmailNotFoundException;
-import vnavesnoj.spring.exception.TokenCreatedRecently;
-import vnavesnoj.spring.exception.UserAlreadyEnabled;
+import vnavesnoj.spring.exception.*;
 import vnavesnoj.spring.mapper.Mapper;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -39,24 +35,6 @@ public class VerificationTokenService {
     private static final Duration TOKEN_TO_RESEND = Duration.ofMinutes(15L);
 
     @Transactional
-    public String createVerificationTokenFor(UserReadDto userDto) {
-        final var token = UUID.randomUUID().toString();
-        final var now = LocalDateTime.now();
-        final var minCreatedAt = now.minus(TOKEN_LIFE_TIME);
-        if (verificationTokenRepository.findByToken(token, minCreatedAt).isPresent()) {
-            throw new RuntimeException("Created verification token is already exist");
-        }
-        final var user = userRepository.findById(userDto.getId()).orElseThrow();
-        final var verificationToken = VerificationToken.builder()
-                .token(token)
-                .createdAt(now)
-                .user(user)
-                .build();
-        verificationTokenRepository.save(verificationToken);
-        return token;
-    }
-
-    @Transactional
     public VerificationTokenReadDto createVerificationTokenFor(String email) {
         final var token = UUID.randomUUID().toString();
         final var now = LocalDateTime.now();
@@ -74,12 +52,7 @@ public class VerificationTokenService {
         return verificationTokenReadMapper.map(verificationTokenRepository.save(verificationToken));
     }
 
-    public Optional<VerificationTokenReadDto> findByToken(String token) {
-        return verificationTokenRepository.findByToken(token)
-                .map(verificationTokenReadMapper::map);
-    }
-
-    public boolean isExpired(VerificationTokenReadDto verificationToken) {
+    private boolean isExpired(VerificationToken verificationToken) {
         final var minCreatedAt = LocalDateTime.now().minus(TOKEN_LIFE_TIME);
         return verificationToken.getCreatedAt().isBefore(minCreatedAt);
     }
@@ -87,19 +60,6 @@ public class VerificationTokenService {
     private Boolean checkTokenTimeToResend(VerificationToken verificationToken) {
         final var now = LocalDateTime.now();
         return verificationToken.getCreatedAt().plus(TOKEN_TO_RESEND).isBefore(now);
-    }
-
-    public boolean canToResendToken(String email) {
-        return userRepository.findByEmail(email)
-                .flatMap(verificationTokenRepository::findLastBy)
-                .map(this::checkTokenTimeToResend)
-                .orElse(false);
-    }
-
-    public boolean canToResendToken(UserReadDto user) {
-        return verificationTokenRepository.findByUserId(user.getId())
-                .map(this::checkTokenTimeToResend)
-                .orElse(false);
     }
 
     private boolean alreadyCanToResendToken(User user) {
@@ -120,5 +80,20 @@ public class VerificationTokenService {
             throw new TokenCreatedRecently("Token to resend will available every + " + TOKEN_TO_RESEND);
         }
         return createVerificationTokenFor(email);
+    }
+
+    @Transactional
+    public void tryActivateUserByToken(String token) throws TokenNotExists, TokenExpired, UserAlreadyEnabled {
+        final var verificationToken = verificationTokenRepository.findByToken(token).orElseThrow(() ->
+                new TokenNotExists("Token " + token + " does not exist in repository"));
+        if (isExpired(verificationToken)) {
+            throw new TokenExpired("Token life time has expired at "
+                    + verificationToken.getCreatedAt().plus(TOKEN_LIFE_TIME));
+        }
+        if (verificationToken.getUser().isEnabled()) {
+            throw new UserAlreadyEnabled("User with email + " + verificationToken.getUser().getEmail() + " already enabled");
+        }
+        verificationToken.getUser().setEnabled(true);
+        verificationTokenRepository.save(verificationToken);
     }
 }

@@ -32,7 +32,7 @@ public class MailSenderService {
         mailToSend.setTo(recipientEmail);
         mailToSend.setSubject(subject);
         mailToSend.setText(message);
-//        mailSender.send(email);
+//        mailSender.send(mailToSend);
         System.out.println(recipientEmail);
         System.out.println(subject);
         System.out.println(message);
