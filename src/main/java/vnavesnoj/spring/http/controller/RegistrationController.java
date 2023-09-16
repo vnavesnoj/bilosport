@@ -3,6 +3,8 @@ package vnavesnoj.spring.http.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.MessageSource;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import vnavesnoj.spring.dto.UserCreateDto;
 import vnavesnoj.spring.dto.UserRegisterDto;
+import vnavesnoj.spring.exception.RegisteredEmailNotFoundException;
+import vnavesnoj.spring.exception.TokenCreatedRecently;
+import vnavesnoj.spring.exception.UserAlreadyEnabled;
+import vnavesnoj.spring.listener.OnVerificationTokenCreateEvent;
 import vnavesnoj.spring.service.UserService;
 import vnavesnoj.spring.service.VerificationTokenService;
 
@@ -28,6 +34,10 @@ public class RegistrationController {
     private final UserService userService;
 
     private final VerificationTokenService verificationTokenService;
+
+    private final MessageSource messageSource;
+
+    private final ApplicationEventPublisher eventPublisher;
 
     @GetMapping("/registration")
     public String registrationPage(Authentication authentication,
@@ -80,7 +90,7 @@ public class RegistrationController {
         }
         final var verificationToken = maybeToken.orElseThrow();
         if (verificationTokenService.isExpired(verificationToken)) {
-            redirectAttributes.addFlashAttribute("error", "Термін дії токена минув.");
+            redirectAttributes.addFlashAttribute("error", "Термін дії кода активації минув.");
             return "redirect:/login";
         }
         try {
@@ -92,6 +102,67 @@ public class RegistrationController {
         }
         redirectAttributes.addFlashAttribute("success", "Акаунт успішно активовано.");
         return "redirect:/login";
+    }
+
+    @GetMapping("/resendConfirmToken")
+    public String checkEmail(Authentication authentication) {
+        if (authentication != null && !authentication.isAuthenticated()) {
+            return "redirect:/";
+        }
+        return "user/resend-confirm-token";
+    }
+
+    @PostMapping("/resendConfirmToken")
+    public String resendConfirmToken(String email,
+                                     HttpServletRequest request,
+                                     RedirectAttributes redirectAttributes) {
+        final var locale = request.getLocale();
+        try {
+            final var token = verificationTokenService.tryCreateVerificationTokenFor(email);
+            eventPublisher.publishEvent(new OnVerificationTokenCreateEvent(
+                    token,
+                    request.getLocale(),
+                    ServletUriComponentsBuilder.fromRequestUri(request).replacePath(null).toUriString()
+            ));
+            redirectAttributes.addFlashAttribute("success", messageSource.getMessage(
+                    "resendToken.message.success",
+                    new Object[0],
+                    locale
+            ));
+            return "redirect:/login";
+        } catch (RegisteredEmailNotFoundException e) {
+            redirectAttributes.addFlashAttribute("error", messageSource.getMessage(
+                    "resendToken.message.emailNotExists",
+                    new Object[]{email},
+                    locale
+            ));
+            redirectAttributes.addAttribute("email", email);
+            return "redirect:/resendConfirmToken";
+        } catch (UserAlreadyEnabled e) {
+            redirectAttributes.addFlashAttribute("error", messageSource.getMessage(
+                    "resendToken.message.emailAlreadyEnabled",
+                    new Object[]{email},
+                    locale
+            ));
+            redirectAttributes.addFlashAttribute("email", email);
+            return "redirect:/resendConfirmToken";
+        } catch (TokenCreatedRecently e) {
+            redirectAttributes.addFlashAttribute("error", messageSource.getMessage(
+                    "resendToken.message.needToWait",
+                    new Object[]{email},
+                    locale
+            ));
+            redirectAttributes.addFlashAttribute("email", email);
+            return "redirect:/resendConfirmToken";
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("error", messageSource.getMessage(
+                    "resendToken.message.error",
+                    new Object[]{email},
+                    locale
+            ));
+            redirectAttributes.addFlashAttribute("email", email);
+            return "redirect:/resendConfirmToken";
+        }
     }
 
     private static void addValidationErrorAttributes(UserCreateDto user, BindingResult bindingResult, RedirectAttributes redirectAttributes) {

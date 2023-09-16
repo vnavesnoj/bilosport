@@ -23,4 +23,5 @@ public class UserReadDto {
     Role role;
     List<SportReadDto> sports;
     String image;
+    boolean enabled;
 }

@@ -34,6 +34,7 @@ public class UserReadMapper implements Mapper<User, UserReadDto> {
                 user.getBirthDate(),
                 user.getRole(),
                 sports,
-                user.getImage());
+                user.getImage(),
+                user.isEnabled());
     }
 }

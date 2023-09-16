@@ -39,6 +39,7 @@ public class SecurityConfiguration {
                             mvc.pattern("/registration"),
                             mvc.pattern("/"),
                             mvc.pattern("/registrationConfirm"),
+                            mvc.pattern("/resendConfirmToken"),
                             mvc.pattern("/news/**")).permitAll()
                     .anyRequest().authenticated();
 

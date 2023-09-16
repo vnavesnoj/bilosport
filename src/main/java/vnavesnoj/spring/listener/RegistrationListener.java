@@ -2,10 +2,8 @@ package vnavesnoj.spring.listener;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.MessageSource;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
+import vnavesnoj.spring.service.MailSenderService;
 import vnavesnoj.spring.service.VerificationTokenService;
 
 /**
@@ -18,35 +16,15 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 
     private final VerificationTokenService verificationTokenService;
 
-    private final MessageSource messageSource;
-
-    private final JavaMailSender mailSender;
+    private final MailSenderService mailSenderService;
 
 
     @Override
     public void onApplicationEvent(OnRegistrationCompleteEvent event) {
-        this.confirmRegistration(event);
-    }
-
-    private void confirmRegistration(OnRegistrationCompleteEvent event) {
-        final var user = event.getNewUser();
-        final var token = verificationTokenService.createVerificationTokenFor(user);
-
-        final var recipientAddress = user.getEmail();
-        final var subject = "Підтвердження реєстрації";
-        final var confirmationUrl = event.getAppUrl() + "/registrationConfirm?token=" + token;
-        final var message = messageSource.getMessage(
-                "message.regConfirm",
-                new Object[]{confirmationUrl},
+        mailSenderService.sendVerificationToken(
+                event.getNewUser().getEmail(),
+                verificationTokenService.createVerificationTokenFor(event.getNewUser().getEmail()).getToken(),
+                event.getAppUrl(),
                 event.getLocale());
-
-        final var email = new SimpleMailMessage();
-        email.setTo(recipientAddress);
-        email.setSubject(subject);
-        email.setText(message);
-//        mailSender.send(email);
-        System.out.println(recipientAddress);
-        System.out.println(subject);
-        System.out.println(message);
     }
 }
