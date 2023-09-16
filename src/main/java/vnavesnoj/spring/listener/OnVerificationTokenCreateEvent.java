@@ -15,15 +15,15 @@ import java.util.Locale;
 @Value
 public class OnVerificationTokenCreateEvent extends ApplicationEvent {
 
-    VerificationTokenReadDto token;
+    VerificationTokenReadDto verificationToken;
 
     Locale locale;
 
     String appUrl;
 
-    public OnVerificationTokenCreateEvent(VerificationTokenReadDto token, Locale locale, String appUrl) {
-        super(token);
-        this.token = token;
+    public OnVerificationTokenCreateEvent(VerificationTokenReadDto verificationToken, Locale locale, String appUrl) {
+        super(verificationToken);
+        this.verificationToken = verificationToken;
         this.locale = locale;
         this.appUrl = appUrl;
     }

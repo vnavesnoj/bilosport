@@ -24,7 +24,13 @@ public interface VerificationTokenRepository extends JpaRepository<VerificationT
 
     Optional<VerificationToken> findByToken(String token);
 
-    Optional<VerificationToken> findByUser(User user);
+    @Query("""
+            SELECT t FROM VerificationToken t
+            WHERE t.user = :user
+            ORDER BY t.createdAt DESC
+            LIMIT 1
+            """)
+    Optional<VerificationToken> findLastBy(User user);
 
     Optional<VerificationToken> findByUserId(Long id);
 }

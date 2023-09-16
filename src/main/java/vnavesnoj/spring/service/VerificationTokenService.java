@@ -91,7 +91,7 @@ public class VerificationTokenService {
 
     public boolean canToResendToken(String email) {
         return userRepository.findByEmail(email)
-                .flatMap(verificationTokenRepository::findByUser)
+                .flatMap(verificationTokenRepository::findLastBy)
                 .map(this::checkTokenTimeToResend)
                 .orElse(false);
     }
@@ -103,7 +103,7 @@ public class VerificationTokenService {
     }
 
     private boolean alreadyCanToResendToken(User user) {
-        return verificationTokenRepository.findByUser(user)
+        return verificationTokenRepository.findLastBy(user)
                 .map(this::checkTokenTimeToResend)
                 .orElse(false);
     }

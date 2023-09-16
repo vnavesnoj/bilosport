@@ -155,6 +155,7 @@ public class RegistrationController {
             redirectAttributes.addFlashAttribute("email", email);
             return "redirect:/resendConfirmToken";
         } catch (RuntimeException e) {
+            e.printStackTrace();
             redirectAttributes.addFlashAttribute("error", messageSource.getMessage(
                     "resendToken.message.error",
                     new Object[]{email},
