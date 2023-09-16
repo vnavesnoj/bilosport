@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import vnavesnoj.spring.dto.UserCreateDto;
-import vnavesnoj.spring.dto.UserRegisterDto;
 import vnavesnoj.spring.exception.RegisteredEmailNotFoundException;
 import vnavesnoj.spring.exception.TokenCreatedRecently;
 import vnavesnoj.spring.exception.UserAlreadyEnabled;
+import vnavesnoj.spring.listener.OnRegistrationCompleteEvent;
 import vnavesnoj.spring.listener.OnVerificationTokenCreateEvent;
 import vnavesnoj.spring.service.UserService;
 import vnavesnoj.spring.service.VerificationTokenService;
@@ -61,8 +61,9 @@ public class RegistrationController {
             return "redirect:/registration";
         }
         try {
-            userService.register(new UserRegisterDto(
-                    user,
+            final var userReadDto = userService.create(user);
+            eventPublisher.publishEvent(new OnRegistrationCompleteEvent(
+                    userReadDto,
                     request.getLocale(),
                     ServletUriComponentsBuilder.fromRequestUri(request).replacePath(null).toUriString()
             ));
