@@ -54,6 +54,7 @@ public class SecurityConfiguration {
                 .failureHandler(authenticationFailureHandler())
                 .usernameParameter("emailOrUsername")
                 .permitAll());
+        http.rememberMe(remember -> remember.key("6Odk86,3DjU="));
         return http.build();
     }
 

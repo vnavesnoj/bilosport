@@ -55,7 +55,11 @@
             <input type="password" id="password" name="password" class="form-control" placeholder="Пароль"
                    required="">
         </p>
-        <button class="btn btn-lg btn-dark btn-block" type="submit">Війти</button>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
+            <label class="form-check-label" for="remember-me">Запам'ятати мене</label>
+        </div>
+        <button class="btn btn-lg btn-dark btn-block mt-3" type="submit">Війти</button>
     </form>
     <p class="mt-2">Немає акаунту?
         <a th:href="@{'/registration'}" class="link-body-emphasis">Зареєструйтесь тут</a>
