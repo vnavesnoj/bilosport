@@ -12,7 +12,8 @@ import java.util.Optional;
  * @author vnavesnoj
  * @mail vnavesnoj@gmail.com
  */
-public interface VerificationTokenRepository extends JpaRepository<VerificationToken, Long> {
+public interface VerificationTokenRepository extends BaseTokenRepository<VerificationToken>,
+        JpaRepository<VerificationToken, Long> {
 
     @Query("""
             SELECT t FROM VerificationToken t
@@ -31,6 +32,4 @@ public interface VerificationTokenRepository extends JpaRepository<VerificationT
             LIMIT 1
             """)
     Optional<VerificationToken> findLastBy(User user);
-
-    Optional<VerificationToken> findByUserId(Long id);
 }

@@ -50,7 +50,7 @@ public class SecurityConfiguration {
                 .deleteCookies("JSESSIONID"));
         http.formLogin(login -> login
                 .loginPage("/login")
-                .defaultSuccessUrl("/")
+                .defaultSuccessUrl("/", true)
                 .failureHandler(authenticationFailureHandler())
                 .usernameParameter("emailOrUsername")
                 .permitAll());
