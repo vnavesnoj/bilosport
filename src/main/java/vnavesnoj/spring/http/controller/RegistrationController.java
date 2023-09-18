@@ -114,7 +114,7 @@ public class RegistrationController {
                                      RedirectAttributes redirectAttributes) {
         final var locale = request.getLocale();
         try {
-            final var token = verificationTokenService.tryCreateVerificationTokenFor(email);
+            final var token = verificationTokenService.tryCreateTokenFor(email);
             eventPublisher.publishEvent(new OnVerificationTokenCreateEvent(
                     token,
                     request.getLocale(),

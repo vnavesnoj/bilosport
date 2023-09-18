@@ -24,7 +24,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     @Override
     public void onApplicationEvent(OnRegistrationCompleteEvent event) {
         final var token =
-                verificationTokenService.tryCreateVerificationTokenFor(event.getNewUser().getEmail());
+                verificationTokenService.tryCreateTokenFor(event.getNewUser().getEmail());
         eventPublisher.publishEvent(
                 new OnVerificationTokenCreateEvent(token, event.getLocale(), event.getAppUrl()));
     }

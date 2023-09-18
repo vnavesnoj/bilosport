@@ -2,10 +2,10 @@ package vnavesnoj.spring.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import vnavesnoj.spring.database.entity.ResetPasswordToken;
 import vnavesnoj.spring.database.entity.User;
-import vnavesnoj.spring.database.entity.VerificationToken;
+import vnavesnoj.spring.dto.ResetPasswordTokenDto;
 import vnavesnoj.spring.dto.UserReadDto;
-import vnavesnoj.spring.dto.VerificationTokenReadDto;
 
 /**
  * @author vnavesnoj
@@ -13,13 +13,13 @@ import vnavesnoj.spring.dto.VerificationTokenReadDto;
  */
 @Component
 @RequiredArgsConstructor
-public class VerificationTokenReadMapper implements Mapper<VerificationToken, VerificationTokenReadDto> {
+public class ResetPasswordReadMapper implements Mapper<ResetPasswordToken, ResetPasswordTokenDto> {
 
     private final Mapper<User, UserReadDto> userReadMapper;
 
     @Override
-    public VerificationTokenReadDto map(VerificationToken token) {
-        return new VerificationTokenReadDto(
+    public ResetPasswordTokenDto map(ResetPasswordToken token) {
+        return new ResetPasswordTokenDto(
                 token.getId(),
                 token.getToken(),
                 token.getCreatedAt(),

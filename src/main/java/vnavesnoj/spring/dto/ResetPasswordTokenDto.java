@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  * @mail vnavesnoj@gmail.com
  */
 @Value
-public class VerificationTokenReadDto implements BaseTokenReadDto {
+public class ResetPasswordTokenDto implements BaseTokenReadDto {
 
     Long id;
 
