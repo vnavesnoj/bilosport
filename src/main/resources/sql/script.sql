@@ -80,5 +80,13 @@ CREATE TABLE verification_token
     id         BIGSERIAL PRIMARY KEY,
     token      VARCHAR(64) NOT NULL UNIQUE,
     created_at TIMESTAMP   NOT NULL,
-    user_id BIGINT NOT NULL REFERENCES users ON DELETE CASCADE
+    user_id    BIGINT      NOT NULL REFERENCES users ON DELETE CASCADE
+);
+
+CREATE TABLE reset_password_token
+(
+    id         BIGSERIAL PRIMARY KEY,
+    token      VARCHAR(64) NOT NULL UNIQUE,
+    created_at TIMESTAMP   NOT NULL,
+    user_id    BIGINT      NOT NULL REFERENCES users ON DELETE CASCADE
 );
