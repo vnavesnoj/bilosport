@@ -61,9 +61,12 @@
         </div>
         <button class="btn btn-lg btn-dark btn-block mt-3" type="submit">Війти</button>
     </form>
-    <p class="mt-2">Немає акаунту?
-        <a th:href="@{'/registration'}" class="link-body-emphasis">Зареєструйтесь тут</a>
-    </p>
+    <div class="mt-3">
+        <p>Немає акаунту?
+            <a th:href="@{'/registration'}" class="link-body-emphasis">Зареєструйтесь тут</a>
+        </p>Забули пароль?
+        <a th:href="@{'/forgotPassword'}" class="link-body-emphasis">Вам сюди</a>
+    </div>
 </div>
 
 <th:block th:insert="~{fragment2 :: footer}"></th:block>

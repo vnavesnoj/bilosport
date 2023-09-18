@@ -30,7 +30,7 @@ public class VerificationTokenService extends BaseTokenService<VerificationToken
     }
 
     @Override
-    protected VerificationToken getToken(String token, LocalDateTime now, User user) {
+    protected VerificationToken buildTokenEntity(String token, LocalDateTime now, User user) {
         return VerificationToken.builder()
                 .token(token)
                 .createdAt(now)

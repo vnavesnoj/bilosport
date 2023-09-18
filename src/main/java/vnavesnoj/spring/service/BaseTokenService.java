@@ -41,12 +41,13 @@ public abstract class BaseTokenService<T extends BaseToken<? extends Serializabl
             throw new RuntimeException("Created verification token is already exist");
         }
         final var user = userRepository.findByEmail(email).orElseThrow();
-        final T token = getToken(baseToken, now, user);
+        final T token = buildTokenEntity(baseToken, now, user);
+
         baseTokenRepository.save(token);
         return baseTokenReadMapper.map(baseTokenRepository.save(token));
     }
 
-    protected abstract T getToken(String token, LocalDateTime now, User user);
+    protected abstract T buildTokenEntity(String token, LocalDateTime now, User user);
 
     private Boolean tokenNotReadyToResend(T token) {
         final var now = LocalDateTime.now();

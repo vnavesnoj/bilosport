@@ -29,8 +29,12 @@ public class ResetPasswordTokenService extends BaseTokenService<ResetPasswordTok
     }
 
     @Override
-    protected ResetPasswordToken getToken(String token, LocalDateTime now, User user) {
-        return null;
+    protected ResetPasswordToken buildTokenEntity(String token, LocalDateTime now, User user) {
+        return ResetPasswordToken.builder()
+                .token(token)
+                .createdAt(now)
+                .user(user)
+                .build();
     }
 
     @Transactional
