@@ -60,5 +60,10 @@ public abstract class BaseTokenService<T extends BaseToken<? extends Serializabl
                 .orElse(false);
     }
 
+    protected boolean isExpired(T token) {
+        final var minCreatedAt = LocalDateTime.now().minus(TOKEN_LIFE_TIME);
+        return token.getCreatedAt().isBefore(minCreatedAt);
+    }
+
     public abstract DTO tryCreateTokenFor(String email) throws Exception;
 }

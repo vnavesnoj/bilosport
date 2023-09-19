@@ -32,19 +32,17 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
         MvcRequestMatcher.Builder mvc = new MvcRequestMatcher.Builder(introspector);
         http.csrf(AbstractHttpConfigurer::disable);
-        http.authorizeHttpRequests(requests -> {
-            requests
-                    .requestMatchers(
-                            mvc.pattern("/login"),
-                            mvc.pattern("/registration"),
-                            mvc.pattern("/"),
-                            mvc.pattern("/registrationConfirm"),
-                            mvc.pattern("/resendConfirmToken"),
-                            mvc.pattern("/forgotPassword"),
-                            mvc.pattern("/news/**")).permitAll()
-                    .anyRequest().authenticated();
-
-        });
+        http.authorizeHttpRequests(requests -> requests
+                .requestMatchers(
+                        mvc.pattern("/login"),
+                        mvc.pattern("/registration"),
+                        mvc.pattern("/"),
+                        mvc.pattern("/registrationConfirm"),
+                        mvc.pattern("/resendConfirmToken"),
+                        mvc.pattern("/forgotPassword"),
+                        mvc.pattern("/resetPassword"),
+                        mvc.pattern("/news/**")).permitAll()
+                .anyRequest().authenticated());
         http.logout(logout -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login")

@@ -66,9 +66,4 @@ public class VerificationTokenService extends BaseTokenService<VerificationToken
         verificationToken.getUser().setEnabled(true);
         getBaseTokenRepository().save(verificationToken);
     }
-
-    private boolean isExpired(VerificationToken token) {
-        final var minCreatedAt = LocalDateTime.now().minus(TOKEN_LIFE_TIME);
-        return token.getCreatedAt().isBefore(minCreatedAt);
-    }
 }
