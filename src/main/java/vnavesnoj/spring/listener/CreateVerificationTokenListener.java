@@ -18,8 +18,7 @@ public class CreateVerificationTokenListener implements ApplicationListener<OnVe
     @Override
     public void onApplicationEvent(OnVerificationTokenCreateEvent event) {
         mailSenderService.sendVerificationToken(
-                event.getVerificationToken().getUser().getEmail(),
-                event.getVerificationToken().getToken(),
+                event.getVerificationToken(),
                 event.getAppUrl(),
                 event.getLocale()
         );
