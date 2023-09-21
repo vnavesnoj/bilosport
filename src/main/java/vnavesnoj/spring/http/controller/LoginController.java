@@ -8,7 +8,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,20 +42,13 @@ public class LoginController {
 
     @GetMapping("/login")
     public String loginPage(Model model,
-                            Authentication authentication,
                             String emailOrUsername) {
-        if (authentication != null && authentication.isAuthenticated()) {
-            return "redirect:/";
-        }
         model.addAttribute("emailOrUsername", emailOrUsername);
         return "user/login";
     }
 
     @GetMapping("/forgotPassword")
-    public String checkEmailForResetPassword(Authentication authentication) {
-        if (authentication != null && !authentication.isAuthenticated()) {
-            return "redirect:/";
-        }
+    public String checkEmailForResetPassword() {
         return "user/forgotPassword";
     }
 
@@ -107,13 +99,9 @@ public class LoginController {
     }
 
     @GetMapping("/resetPassword")
-    public String resetPasswordPage(Authentication authentication,
-                                    Locale locale,
+    public String resetPasswordPage(Locale locale,
                                     String token,
                                     RedirectAttributes redirectAttributes) {
-        if (authentication != null && authentication.isAuthenticated()) {
-            return "redirect:/";
-        }
         try {
             resetPasswordTokenService.tryFindActualToken(token);
             return "user/resetPassword";
@@ -144,14 +132,10 @@ public class LoginController {
 
     @PreAuthorize("!isAuthenticated()")
     @PostMapping("/resetPassword")
-    public String resetPassword(Authentication authentication,
-                                Locale locale,
+    public String resetPassword(Locale locale,
                                 RedirectAttributes redirectAttributes,
                                 @Valid UserEditPasswordDto userEditPasswordDto,
                                 BindingResult bindingResult) {
-        if (authentication != null && authentication.isAuthenticated()) {
-            return "redirect:/";
-        }
         if (bindingResult.hasFieldErrors("rawPassword")) {
             redirectAttributes.addFlashAttribute("rawPasswordErrors",
                     bindingResult.getFieldErrors(UserEditPasswordDto.Fields.rawPassword).stream()

@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -31,17 +31,19 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
         MvcRequestMatcher.Builder mvc = new MvcRequestMatcher.Builder(introspector);
-        http.csrf(AbstractHttpConfigurer::disable);
+//        http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(requests -> requests
+                .requestMatchers(
+                        mvc.pattern("/"),
+                        mvc.pattern("/news/**")).permitAll()
                 .requestMatchers(
                         mvc.pattern("/login"),
                         mvc.pattern("/registration"),
-                        mvc.pattern("/"),
                         mvc.pattern("/registrationConfirm"),
                         mvc.pattern("/resendConfirmToken"),
                         mvc.pattern("/forgotPassword"),
-                        mvc.pattern("/resetPassword"),
-                        mvc.pattern("/news/**")).permitAll()
+                        mvc.pattern("/resetPassword")).access((authentication, object) ->
+                        new AuthorizationDecision(!authentication.get().isAuthenticated()))
                 .anyRequest().authenticated());
         http.logout(logout -> logout
                 .logoutUrl("/logout")

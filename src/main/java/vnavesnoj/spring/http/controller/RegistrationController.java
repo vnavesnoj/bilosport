@@ -40,12 +40,8 @@ public class RegistrationController {
     private final ApplicationEventPublisher eventPublisher;
 
     @GetMapping("/registration")
-    public String registrationPage(Authentication authentication,
-                                   Model model,
+    public String registrationPage(Model model,
                                    UserCreateDto user) {
-        if (authentication != null && authentication.isAuthenticated()) {
-            return "redirect:/";
-        }
         model.addAttribute("email", user.getEmail());
         model.addAttribute("username", user.getUsername());
         return "user/registration";
@@ -162,7 +158,9 @@ public class RegistrationController {
         }
     }
 
-    private static void addValidationErrorAttributes(UserCreateDto user, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    private static void addValidationErrorAttributes(UserCreateDto user,
+                                                     BindingResult bindingResult,
+                                                     RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("emailErrors",
                 bindingResult.getFieldErrors(UserCreateDto.Fields.email).stream()
                         .map(DefaultMessageSourceResolvable::getDefaultMessage)
