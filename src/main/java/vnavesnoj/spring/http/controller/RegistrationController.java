@@ -39,6 +39,7 @@ public class RegistrationController {
 
     private final ApplicationEventPublisher eventPublisher;
 
+    //TODO токен должен иметь свойство isActivated(), чтобы убрать возможность его переиспользования
     @GetMapping("/registration")
     public String registrationPage(Model model,
                                    UserCreateDto user) {
