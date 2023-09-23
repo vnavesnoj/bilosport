@@ -22,9 +22,9 @@ public class CoachAthlete {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "coach_id")
-    private User coach;
+    private Person coach;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "athlete_id")
-    private User athlete;
+    private Person athlete;
 }

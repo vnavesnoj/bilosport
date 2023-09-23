@@ -49,8 +49,8 @@ CREATE TABLE achievement
 CREATE TABLE coach_athlete
 (
     id         BIGSERIAL PRIMARY KEY,
-    coach_id   BIGINT NOT NULL REFERENCES users,
-    athlete_id BIGINT NOT NULL REFERENCES users,
+    coach_id   BIGINT NOT NULL REFERENCES person,
+    athlete_id BIGINT NOT NULL REFERENCES person,
     UNIQUE (coach_id, athlete_id)
 );
 
