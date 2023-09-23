@@ -15,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(of = "id")
-@ToString(exclude = "userSports")
 @Entity
 @Table(name = "sport")
 public class Sport {
@@ -29,5 +28,5 @@ public class Sport {
 
     @Builder.Default
     @OneToMany(mappedBy = "sport")
-    private List<UserSport> userSports = new ArrayList<>();
+    private List<PersonSport> personSports = new ArrayList<>();
 }

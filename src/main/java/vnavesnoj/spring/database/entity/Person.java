@@ -39,5 +39,10 @@ public class Person {
 
     @Builder.Default
     @OneToMany(mappedBy = "person")
+    private Set<PersonSport> personSports = new HashSet<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "person")
     private Set<TournamentPerson> tournamentPeople = new HashSet<>();
+
 }

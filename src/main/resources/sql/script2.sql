@@ -30,12 +30,12 @@ CREATE TABLE sport
     name varchar(32) NOT NULL UNIQUE
 );
 
-CREATE TABLE users_sport
+CREATE TABLE person_sport
 (
-    id       BIGSERIAL PRIMARY KEY,
-    user_id  BIGINT NOT NULL REFERENCES users,
-    sport_id INT    NOT NULL REFERENCES sport,
-    UNIQUE (user_id, sport_id)
+    id        BIGSERIAL PRIMARY KEY,
+    person_id BIGINT NOT NULL REFERENCES person,
+    sport_id  INT    NOT NULL REFERENCES sport,
+    UNIQUE (person_id, sport_id)
 );
 
 CREATE TABLE achievement

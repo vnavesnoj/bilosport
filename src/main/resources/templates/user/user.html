@@ -20,12 +20,12 @@
 <div th:text="'По батькові: ' + ${user.surname}">Surname</div>
 <div th:text="'Дата народження: ' + ${user.birthDate}">birthDate</div>
 <div th:text="'Роль: ' + ${user.role.name()}">Role</div>
-<div th:if="${user.sports}">
-    <div>Види спорту:</div>
-    <ul style="list-style-type: disc">
-        <li th:each="sport : ${user.sports}" th:text="${sport.name}">Sport</li>
-    </ul>
-</div>
+<!--<div th:if="${user.sports}">-->
+<!--    <div>Види спорту:</div>-->
+<!--    <ul style="list-style-type: disc">-->
+<!--        <li th:each="sport : ${user.sports}" th:text="${sport.name}">Sport</li>-->
+<!--    </ul>-->
+<!--</div>-->
 <div th:insert="~{fragment2 :: footer}"></div>
 </body>
 </html>

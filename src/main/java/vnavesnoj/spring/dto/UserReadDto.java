@@ -4,7 +4,6 @@ import lombok.Value;
 import vnavesnoj.spring.database.entity.Role;
 
 import java.time.LocalDate;
-import java.util.List;
 
 /**
  * @author vnavesnoj
@@ -21,7 +20,6 @@ public class UserReadDto {
     String surname;
     LocalDate birthDate;
     Role role;
-    List<SportReadDto> sports;
     String image;
     boolean enabled;
 }

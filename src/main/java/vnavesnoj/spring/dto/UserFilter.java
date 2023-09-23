@@ -18,5 +18,4 @@ public class UserFilter {
     private LocalDate afterBirthDate;
     private LocalDate beforeBirthDate;
     private Role role;
-    private Integer sportId;
 }

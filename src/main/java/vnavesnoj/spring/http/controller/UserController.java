@@ -16,7 +16,6 @@ import vnavesnoj.spring.dto.PageResponse;
 import vnavesnoj.spring.dto.UserFilter;
 import vnavesnoj.spring.dto.UserReadDto;
 import vnavesnoj.spring.dto.UserSortBy;
-import vnavesnoj.spring.service.SportService;
 import vnavesnoj.spring.service.UserService;
 
 /**
@@ -29,7 +28,6 @@ import vnavesnoj.spring.service.UserService;
 public class UserController {
 
     private final UserService userService;
-    private final SportService sportService;
 
     @GetMapping
     public String findAll(Model model,
@@ -40,7 +38,6 @@ public class UserController {
         model.addAttribute("roles", Role.values());
         model.addAttribute("sortBys", UserSortBy.values());
         model.addAttribute("directions", Sort.Direction.values());
-        model.addAttribute("sports", sportService.findAll());
         model.addAttribute("filter", filter);
         return "user/users";
     }

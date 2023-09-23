@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
 
 /**
@@ -16,7 +14,6 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id", callSuper = false)
-@ToString(exclude = {"userSports"})
 @Builder
 @Entity
 @Table(name = "users")
@@ -49,8 +46,4 @@ public class User {
     private String image;
 
     private boolean enabled;
-
-    @Builder.Default
-    @OneToMany(mappedBy = "user")
-    private Set<UserSport> userSports = new HashSet<>();
 }

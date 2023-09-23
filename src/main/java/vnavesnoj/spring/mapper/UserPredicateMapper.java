@@ -26,7 +26,6 @@ public class UserPredicateMapper implements PredicateMapper<UserFilter> {
                 .add(filter.getAfterBirthDate(), user.birthDate::goe)
                 .add(filter.getBeforeBirthDate(), user.birthDate::loe)
                 .add(filter.getRole(), user.role::eq)
-                .add(filter.getSportId(), user.userSports.any().sport.id::eq)
                 .build();
     }
 }

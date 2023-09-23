@@ -13,26 +13,26 @@ import lombok.*;
 @Builder
 @EqualsAndHashCode(of = "id")
 @Entity
-@Table(name = "users_sport")
-public class UserSport {
+@Table(name = "person_sport")
+public class PersonSport {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private User user;
+    private Person person;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Sport sport;
 
-    public void setUser(User user) {
-        this.user = user;
-        this.user.getUserSports().add(this);
+    public void setPerson(Person person) {
+        this.person = person;
+        this.person.getPersonSports().add(this);
     }
 
     public void setSport(Sport sport) {
         this.sport = sport;
-        this.sport.getUserSports().add(this);
+        this.sport.getPersonSports().add(this);
     }
 }

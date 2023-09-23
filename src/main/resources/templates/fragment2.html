@@ -116,17 +116,17 @@
                         </option>
                     </select>
                 </div>
-                <div class="mt-2">
-                    <label class="form-label" for="sport">Вид спорту</label>
-                    <select class="form-select" id="sport" name="sportId">
-                        <option value="">Не обрано</option>
-                        <option th:each="sport : ${sports}"
-                                th:value="${sport.id}"
-                                th:selected="${sport.id == filter.sportId}"
-                                th:text="${sport.name}">Sport
-                        </option>
-                    </select>
-                </div>
+                <!--                <div class="mt-2">-->
+                <!--                    <label class="form-label" for="sport">Вид спорту</label>-->
+                <!--                    <select class="form-select" id="sport" name="sportId">-->
+                <!--                        <option value="">Не обрано</option>-->
+                <!--                        <option th:each="sport : ${sports}"-->
+                <!--                                th:value="${sport.id}"-->
+                <!--                                th:selected="${sport.id == filter.sportId}"-->
+                <!--                                th:text="${sport.name}">Sport-->
+                <!--                        </option>-->
+                <!--                    </select>-->
+                <!--                </div>-->
                 <div class="mt-2">
                     <label class="form-label" for="sortBy">Сортувати за:</label>
                     <select class="form-select" id="sortBy" name="sort">
