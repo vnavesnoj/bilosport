@@ -62,13 +62,13 @@ CREATE TABLE tournament
     tournament_date DATE
 );
 
-CREATE TABLE tournament_users
+CREATE TABLE tournament_person
 (
     id            BIGSERIAL PRIMARY KEY,
     tournament_id BIGINT      NOT NULL REFERENCES tournament,
-    user_id       BIGINT      NOT NULL REFERENCES users,
+    person_id     BIGINT      NOT NULL REFERENCES person,
     member_role   VARCHAR(32) NOT NULL,
-    UNIQUE (tournament_id, user_id)
+    UNIQUE (tournament_id, person_id)
 );
 
 CREATE TABLE blog_body

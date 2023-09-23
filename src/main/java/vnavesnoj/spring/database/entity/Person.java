@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author vnavesnoj
  * @mail vnavesnoj@gmail.com
@@ -33,4 +36,8 @@ public class Person {
 
     @OneToOne
     private User user;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "person")
+    private Set<TournamentPerson> tournamentPeople = new HashSet<>();
 }

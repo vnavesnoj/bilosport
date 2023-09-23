@@ -16,7 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id", callSuper = false)
-@ToString(exclude = {"userSports", "tournamentUsers"})
+@ToString(exclude = {"userSports"})
 @Builder
 @Entity
 @Table(name = "users")
@@ -53,8 +53,4 @@ public class User {
     @Builder.Default
     @OneToMany(mappedBy = "user")
     private Set<UserSport> userSports = new HashSet<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "user")
-    private Set<TournamentUser> tournamentUsers = new HashSet<>();
 }

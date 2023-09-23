@@ -13,8 +13,8 @@ import lombok.*;
 @Builder
 @EqualsAndHashCode(of = "id")
 @Entity
-@Table(name = "tournament_users")
-public class TournamentUser {
+@Table(name = "tournament_person")
+public class TournamentPerson {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,19 +24,19 @@ public class TournamentUser {
     private Tournament tournament;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private User user;
+    private Person person;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private MemberRole memberRole;
 
-    public void setUser(User user) {
-        this.user = user;
-        this.user.getTournamentUsers().add(this);
+    public void setPerson(Person person) {
+        this.person = person;
+        this.person.getTournamentPeople().add(this);
     }
 
     public void setTournament(Tournament tournament) {
         this.tournament = tournament;
-        this.tournament.getTournamentUsers().add(this);
+        this.tournament.getTournamentPeople().add(this);
     }
 }
