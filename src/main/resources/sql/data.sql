@@ -14,6 +14,13 @@ VALUES ('ivan@gmail.com', 'Ivan', 'Іван', 'Іванов', '1981-10-13', 'COA
 
 SELECT setval('users_id_seq', (SELECT max(id) FROM users));
 
+INSERT INTO person(firstname, lastname, birth_date, role, user_id)
+VALUES ('Іван', 'Іванов', '1981-10-13', 'COACH', (SELECT id FROM users WHERE email = 'ivan@gmail.com')),
+       ('Петро', 'Петров', '1972-02-01', 'COACH', (SELECT id FROM users WHERE email = 'petro@gmail.com')),
+       ('Свєта', 'Свєтікова', '1993-08-19', 'COACH', (SELECT id FROM users WHERE email = 'sveta@gmail.com')),
+       ('Дмитро', 'Дмитров', '1979-06-23', 'ADMIN', (SELECT id FROM users WHERE email = 'dmitro@gmail.com')),
+       ('Іван', 'Шевченко', '2010-08-25', 'ATHLETE', (SELECT id FROM users WHERE email = 'shevchenko@gmail.com'));
+
 INSERT INTO coach_athlete(coach_id, athlete_id)
 VALUES ((SELECT id FROM users WHERE email = 'ivan@gmail.com'),
         (SELECT id FROM users WHERE email = 'shevchenko@gmail.com')),
@@ -43,21 +50,21 @@ VALUES ('футбол'),
 
 SELECT setval('sport_id_seq', (SELECT max(id) FROM sport));
 
-INSERT INTO users_sport(user_id, sport_id)
+INSERT INTO person_sport(person_id, sport_id)
 VALUES ((SELECT id FROM users WHERE email = 'ivan@gmail.com'), (SELECT id FROM sport WHERE name = 'футбол')),
        ((SELECT id FROM users WHERE email = 'petro@gmail.com'), (SELECT id FROM sport WHERE name = 'теніс')),
        ((SELECT id FROM users WHERE email = 'sveta@gmail.com'), (SELECT id FROM sport WHERE name = 'шахи')),
-       ((SELECT id FROM users WHERE email = 'shevchenko@gmail.com'), (SELECT id FROM sport WHERE name = 'футбол')),
-       ((SELECT id FROM users WHERE email = 'skovoroda@gmail.com'), (SELECT id FROM sport WHERE name = 'футбол')),
-       ((SELECT id FROM users WHERE email = 'mask@gmail.com'), (SELECT id FROM sport WHERE name = 'футбол')),
-       ((SELECT id FROM users WHERE email = 'ukrainka@gmail.com'), (SELECT id FROM sport WHERE name = 'теніс')),
-       ((SELECT id FROM users WHERE email = 'chikchik@gmail.com'), (SELECT id FROM sport WHERE name = 'теніс')),
-       ((SELECT id FROM users WHERE email = 'zelia@gmail.com'), (SELECT id FROM sport WHERE name = 'теніс')),
-       ((SELECT id FROM users WHERE email = 'timoha@gmail.com'), (SELECT id FROM sport WHERE name = 'шахи')),
-       ((SELECT id FROM users WHERE email = 'volk@gmail.com'), (SELECT id FROM sport WHERE name = 'шахи')),
-       ((SELECT id FROM users WHERE email = 'shevchenko@gmail.com'), (SELECT id FROM sport WHERE name = 'шахи'));
-
-SELECT setval('users_sport_id_seq', (SELECT max(id) FROM users_sport));
+       ((SELECT id FROM users WHERE email = 'shevchenko@gmail.com'), (SELECT id FROM sport WHERE name = 'футбол'));
+--        ((SELECT id FROM users WHERE email = 'skovoroda@gmail.com'), (SELECT id FROM sport WHERE name = 'футбол')),
+--        ((SELECT id FROM users WHERE email = 'mask@gmail.com'), (SELECT id FROM sport WHERE name = 'футбол')),
+--        ((SELECT id FROM users WHERE email = 'ukrainka@gmail.com'), (SELECT id FROM sport WHERE name = 'теніс')),
+--        ((SELECT id FROM users WHERE email = 'chikchik@gmail.com'), (SELECT id FROM sport WHERE name = 'теніс')),
+--        ((SELECT id FROM users WHERE email = 'zelia@gmail.com'), (SELECT id FROM sport WHERE name = 'теніс')),
+--        ((SELECT id FROM users WHERE email = 'timoha@gmail.com'), (SELECT id FROM sport WHERE name = 'шахи')),
+--        ((SELECT id FROM users WHERE email = 'volk@gmail.com'), (SELECT id FROM sport WHERE name = 'шахи')),
+--        ((SELECT id FROM users WHERE email = 'shevchenko@gmail.com'), (SELECT id FROM sport WHERE name = 'шахи'));
+--
+-- SELECT setval('users_sport_id_seq', (SELECT max(id) FROM users_sport));
 
 INSERT INTO tournament (name, sport_id, tournament_date)
 VALUES ('Великий футбол', (SELECT id FROM sport WHERE sport.name = 'футбол'), '2023-08-01'),
@@ -65,29 +72,29 @@ VALUES ('Великий футбол', (SELECT id FROM sport WHERE sport.name = 
 
 SELECT setval('tournament_id_seq', (SELECT max(id) FROM tournament));
 
-INSERT INTO tournament_users (tournament_id, user_id, member_role)
-VALUES ((SELECT id FROM tournament WHERE name = 'Великий футбол'),
-        (SELECT id FROM users WHERE email = 'ivan@gmail.com'), 'REFEREE'),
-       ((SELECT id FROM tournament WHERE name = 'Великий футбол'),
-        (SELECT id FROM users WHERE email = 'shevchenko@gmail.com'), 'PARTICIPANT'),
-       ((SELECT id FROM tournament WHERE name = 'Великий футбол'),
-        (SELECT id FROM users WHERE email = 'skovoroda@gmail.com'), 'PARTICIPANT'),
-       ((SELECT id FROM tournament WHERE name = 'Великий футбол'),
-        (SELECT id FROM users WHERE email = 'mask@gmail.com'), 'PARTICIPANT'),
-       ((SELECT id FROM tournament WHERE name = 'Великий футбол'),
-        (SELECT id FROM users WHERE email = 'ukrainka@gmail.com'), 'PARTICIPANT'),
-       ((SELECT id FROM tournament WHERE name = 'Великий футбол'),
-        (SELECT id FROM users WHERE email = 'chikchik@gmail.com'), 'PARTICIPANT'),
-       ((SELECT id FROM tournament WHERE name = 'Великий футбол'),
-        (SELECT id FROM users WHERE email = 'zelia@gmail.com'), 'PARTICIPANT'),
-       ((SELECT id FROM tournament WHERE name = 'Шахи над шахами'),
-        (SELECT id FROM users WHERE email = 'sveta@gmail.com'), 'REFEREE'),
-       ((SELECT id FROM tournament WHERE name = 'Шахи над шахами'),
-        (SELECT id FROM users WHERE email = 'volk@gmail.com'), 'PARTICIPANT'),
-       ((SELECT id FROM tournament WHERE name = 'Шахи над шахами'),
-        (SELECT id FROM users WHERE email = 'shevchenko@gmail.com'), 'PARTICIPANT');
+-- INSERT INTO tournament_users (tournament_id, user_id, member_role)
+-- VALUES ((SELECT id FROM tournament WHERE name = 'Великий футбол'),
+--         (SELECT id FROM users WHERE email = 'ivan@gmail.com'), 'REFEREE'),
+--        ((SELECT id FROM tournament WHERE name = 'Великий футбол'),
+--         (SELECT id FROM users WHERE email = 'shevchenko@gmail.com'), 'PARTICIPANT'),
+--        ((SELECT id FROM tournament WHERE name = 'Великий футбол'),
+--         (SELECT id FROM users WHERE email = 'skovoroda@gmail.com'), 'PARTICIPANT'),
+--        ((SELECT id FROM tournament WHERE name = 'Великий футбол'),
+--         (SELECT id FROM users WHERE email = 'mask@gmail.com'), 'PARTICIPANT'),
+--        ((SELECT id FROM tournament WHERE name = 'Великий футбол'),
+--         (SELECT id FROM users WHERE email = 'ukrainka@gmail.com'), 'PARTICIPANT'),
+--        ((SELECT id FROM tournament WHERE name = 'Великий футбол'),
+--         (SELECT id FROM users WHERE email = 'chikchik@gmail.com'), 'PARTICIPANT'),
+--        ((SELECT id FROM tournament WHERE name = 'Великий футбол'),
+--         (SELECT id FROM users WHERE email = 'zelia@gmail.com'), 'PARTICIPANT'),
+--        ((SELECT id FROM tournament WHERE name = 'Шахи над шахами'),
+--         (SELECT id FROM users WHERE email = 'sveta@gmail.com'), 'REFEREE'),
+--        ((SELECT id FROM tournament WHERE name = 'Шахи над шахами'),
+--         (SELECT id FROM users WHERE email = 'volk@gmail.com'), 'PARTICIPANT'),
+--        ((SELECT id FROM tournament WHERE name = 'Шахи над шахами'),
+--         (SELECT id FROM users WHERE email = 'shevchenko@gmail.com'), 'PARTICIPANT');
 
-SELECT setval('tournament_users_id_seq', (SELECT max(id) FROM tournament_users));
+-- SELECT setval('tournament_users_id_seq', (SELECT max(id) FROM tournament_users));
 
 INSERT INTO blog_body(body)
 VALUES ('Перша статья'),

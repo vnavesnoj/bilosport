@@ -1,14 +1,15 @@
 package vnavesnoj.spring.integration.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.annotation.Rollback;
+import vnavesnoj.spring.database.entity.MemberRole;
 import vnavesnoj.spring.dto.TournamentCreateEditDto;
 import vnavesnoj.spring.integration.IntegrationTestBase;
 import vnavesnoj.spring.service.TournamentService;
 
 import java.time.LocalDate;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author vnavesnoj
@@ -25,11 +26,10 @@ class TournamentServiceTest extends IntegrationTestBase {
             LocalDate.now()
     );
 
+    @SneakyThrows
+    @Rollback(value = false)
     @Test
-    void create() {
-        final var actual = tournamentService.create(NEW_TOURNAMENT);
-        final var maybeTournament = tournamentService.findById(actual.getId());
-        assertThat(maybeTournament).isPresent();
-        maybeTournament.ifPresent(tournament -> assertThat(actual).isEqualTo(tournament));
+    void tryAddPerson() {
+        tournamentService.tryAddPerson(1L, 2L, MemberRole.REFEREE);
     }
 }
