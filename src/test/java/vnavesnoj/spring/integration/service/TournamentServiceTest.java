@@ -32,7 +32,7 @@ class TournamentServiceTest extends IntegrationTestBase {
     @SneakyThrows
     @Test
     void tryAddPerson() {
-        tournamentService.tryAddPerson(1L, 2L, MemberRole.REFEREE);
+        tournamentService.tryAddPerson(1L, 2L, MemberRole.JUDGE);
         assertThat(tournamentPersonRepository.findById(1L)).isPresent().map(
                 entity -> {
                     assertThat(entity.getTournament().getId()).isEqualTo(1L);
@@ -45,7 +45,7 @@ class TournamentServiceTest extends IntegrationTestBase {
     @SneakyThrows
     @Test
     void tryAddPerson2() {
-        tournamentService.tryAddPerson(1L, 2L, MemberRole.REFEREE);
+        tournamentService.tryAddPerson(1L, 2L, MemberRole.JUDGE);
         assertThat(tournamentPersonRepository.findById(1L)).isPresent().map(
                 entity -> {
                     assertThat(entity.getTournament().getId()).isEqualTo(1L);

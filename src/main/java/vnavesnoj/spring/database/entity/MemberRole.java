@@ -6,5 +6,5 @@ package vnavesnoj.spring.database.entity;
  */
 public enum MemberRole {
 
-    REFEREE, PARTICIPANT
+    JUDGE, PARTICIPANT
 }
