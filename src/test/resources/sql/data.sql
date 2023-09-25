@@ -75,9 +75,9 @@ VALUES (1, (SELECT id FROM person WHERE lastname = 'Іванов'), (SELECT id F
 
 SELECT setval('person_sport_id_seq', (SELECT max(id) FROM person_sport));
 
-INSERT INTO tournament (id, name, sport_id, tournament_date)
-VALUES (1, 'Великий футбол', (SELECT id FROM sport WHERE sport.name = 'футбол'), '2023-08-01'),
-       (2, 'Шахи над шахами', (SELECT id FROM sport WHERE sport.name = 'шахи'), '2023-11-15');
+INSERT INTO tournament (id, name, sport_id, tournament_date, status)
+VALUES (1, 'Великий футбол', (SELECT id FROM sport WHERE sport.name = 'футбол'), '2023-08-01', 'FINISHED'),
+       (2, 'Шахи над шахами', (SELECT id FROM sport WHERE sport.name = 'шахи'), '2023-11-15', 'PREPARATION');
 
 SELECT setval('tournament_id_seq', (SELECT max(id) FROM tournament));
 
@@ -103,7 +103,17 @@ VALUES (1, (SELECT id FROM tournament WHERE name = 'Великий футбол'
        (10, (SELECT id FROM tournament WHERE name = 'Шахи над шахами'),
         (SELECT id FROM person WHERE lastname = 'Лорак'), 'PARTICIPANT');
 
-SELECT setval(tournament_person_id_seq, (SELECT max(id) FROM tournament_person));
+SELECT setval('tournament_person_id_seq', (SELECT max(id) FROM tournament_person));
+
+INSERT INTO tournament_result(id, tournament_person_id, place, out_of)
+VALUES (1, 2, 1, 2),
+       (2, 3, 1, 2),
+       (3, 4, 1, 2),
+       (4, 5, 2, 2),
+       (5, 6, 2, 2),
+       (6, 7, 2, 2);
+
+SELECT setval('tournament_result_id_seq', (SELECT max(id) FROM tournament_result));
 
 INSERT INTO blog_body(body)
 VALUES ('Перша статья'),

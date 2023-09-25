@@ -34,15 +34,15 @@ public class Person {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
     @Builder.Default
-    @OneToMany(mappedBy = "person")
+    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
     private Set<PersonSport> personSports = new HashSet<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "person")
+    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
     private Set<TournamentPerson> tournamentPeople = new HashSet<>();
 
 }

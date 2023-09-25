@@ -32,6 +32,10 @@ public class Tournament {
 
     private LocalDate tournamentDate;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TournamentStatus status;
+
     @Builder.Default
     @OneToMany(mappedBy = "tournament")
     private Set<TournamentPerson> tournamentPeople = new HashSet<>();

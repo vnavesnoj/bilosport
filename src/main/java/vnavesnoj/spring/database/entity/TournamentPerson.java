@@ -30,6 +30,9 @@ public class TournamentPerson {
     @Enumerated(EnumType.STRING)
     private MemberRole memberRole;
 
+    @OneToOne(mappedBy = "tournamentPerson", fetch = FetchType.LAZY)
+    private TournamentResult tournamentResult;
+
     public void setPerson(Person person) {
         this.person = person;
         this.person.getTournamentPeople().add(this);
