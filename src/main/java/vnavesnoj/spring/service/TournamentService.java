@@ -15,9 +15,9 @@ import vnavesnoj.spring.database.repository.TournamentPersonRepository;
 import vnavesnoj.spring.database.repository.TournamentRepository;
 import vnavesnoj.spring.dto.TournamentFilter;
 import vnavesnoj.spring.dto.TournamentReadDto;
-import vnavesnoj.spring.exception.PersonNotExists;
-import vnavesnoj.spring.exception.TournamentNotExists;
-import vnavesnoj.spring.exception.TournamentPersonAlreadyExists;
+import vnavesnoj.spring.exception.PersonNotExistsException;
+import vnavesnoj.spring.exception.TournamentNotExistsException;
+import vnavesnoj.spring.exception.TournamentPersonAlreadyExistsException;
 import vnavesnoj.spring.mapper.Mapper;
 
 import java.util.Optional;
@@ -54,19 +54,19 @@ public class TournamentService {
 
     @Transactional
     public void tryAddPerson(Long tournamentId, Long personId, MemberRole memberRole)
-            throws TournamentNotExists, PersonNotExists, TournamentPersonAlreadyExists {
+            throws TournamentNotExistsException, PersonNotExistsException, TournamentPersonAlreadyExistsException {
         final var tournament = tournamentRepository.findById(tournamentId).orElseThrow(
-                () -> new TournamentNotExists("Tournament by id " + tournamentId + " does not exist")
+                () -> new TournamentNotExistsException("Tournament by id " + tournamentId + " does not exist")
         );
         final var person = personRepository.findById(personId).orElseThrow(
-                () -> new PersonNotExists("Person by id " + personId + " + does not exist")
+                () -> new PersonNotExistsException("Person by id " + personId + " + does not exist")
         );
         final var tournamentPerson = TournamentPerson.builder()
                 .tournament(tournament)
                 .person(person)
                 .build();
         if (tournamentPersonRepository.exists(Example.of(tournamentPerson))) {
-            throw new TournamentPersonAlreadyExists("Person id=" + personId + " already exists in tournament id=" + tournamentId);
+            throw new TournamentPersonAlreadyExistsException("Person id=" + personId + " already exists in tournament id=" + tournamentId);
         }
         tournamentPerson.setMemberRole(memberRole);
         tournamentPersonRepository.save(tournamentPerson);

@@ -4,8 +4,9 @@ package vnavesnoj.spring.exception;
  * @author vnavesnoj
  * @mail vnavesnoj@gmail.com
  */
-public class TournamentPersonAlreadyExists extends Exception {
-    public TournamentPersonAlreadyExists(String s) {
+public class TokenNotExistsException extends Exception {
+
+    public TokenNotExistsException(String s) {
         super(s);
     }
 }

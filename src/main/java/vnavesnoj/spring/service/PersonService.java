@@ -9,7 +9,7 @@ import vnavesnoj.spring.dto.person.PersonCreateDto;
 import vnavesnoj.spring.dto.person.PersonEditDto;
 import vnavesnoj.spring.dto.person.PersonFilter;
 import vnavesnoj.spring.dto.person.PersonReadDto;
-import vnavesnoj.spring.exception.PersonNotExists;
+import vnavesnoj.spring.exception.PersonNotExistsException;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class PersonService {
         return null;
     }
 
-    public PersonReadDto tryFindById(Long id) throws PersonNotExists {
+    public PersonReadDto tryFindById(Long id) throws PersonNotExistsException {
         return null;
     }
 
@@ -40,11 +40,11 @@ public class PersonService {
         return null;
     }
 
-    public PersonReadDto tryUpdate(PersonEditDto person) throws PersonNotExists {
+    public PersonReadDto tryUpdate(PersonEditDto person) throws PersonNotExistsException {
         return null;
     }
 
-    public void tryDelete(Long id) throws PersonNotExists {
+    public void tryDelete(Long id) throws PersonNotExistsException {
 
     }
 

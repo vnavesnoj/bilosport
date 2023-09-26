@@ -40,28 +40,28 @@ public class VerificationTokenService extends BaseTokenService<VerificationToken
 
     @Transactional
     public VerificationTokenReadDto tryCreateTokenFor(String email) throws RegisteredEmailNotFoundException,
-            TokenCreatedRecently, UserAlreadyEnabled {
+            TokenCreatedRecentlyException, UserAlreadyEnabledException {
         final var user = getUserRepository().findByEmail(email).orElseThrow(
                 () -> new RegisteredEmailNotFoundException("Registered email " + email + " not found"));
         if (user.isEnabled()) {
-            throw new UserAlreadyEnabled("User with email + " + user.getEmail() + " already enabled");
+            throw new UserAlreadyEnabledException("User with email + " + user.getEmail() + " already enabled");
         }
         if (notAvailableToResendToken(user)) {
-            throw new TokenCreatedRecently("Token to resend will available every + " + TOKEN_TO_RESEND);
+            throw new TokenCreatedRecentlyException("Token to resend will available every + " + TOKEN_TO_RESEND);
         }
         return createTokenFor(email);
     }
 
     @Transactional
-    public void tryActivateUserByToken(String token) throws TokenNotExists, TokenExpired, UserAlreadyEnabled {
+    public void tryActivateUserByToken(String token) throws TokenNotExistsException, TokenExpiredException, UserAlreadyEnabledException {
         final var verificationToken = getBaseTokenRepository().findByToken(token).orElseThrow(() ->
-                new TokenNotExists("Token " + token + " does not exist in repository"));
+                new TokenNotExistsException("Token " + token + " does not exist in repository"));
         if (isExpired(verificationToken)) {
-            throw new TokenExpired("Token life time has expired at "
+            throw new TokenExpiredException("Token life time has expired at "
                     + verificationToken.getCreatedAt().plus(TOKEN_LIFE_TIME));
         }
         if (verificationToken.getUser().isEnabled()) {
-            throw new UserAlreadyEnabled("User with email + " + verificationToken.getUser().getEmail() + " already enabled");
+            throw new UserAlreadyEnabledException("User with email + " + verificationToken.getUser().getEmail() + " already enabled");
         }
         verificationToken.getUser().setEnabled(true);
         getBaseTokenRepository().save(verificationToken);

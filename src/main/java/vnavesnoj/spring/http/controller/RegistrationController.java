@@ -84,11 +84,11 @@ public class RegistrationController {
         try {
             verificationTokenService.tryActivateUserByToken(token);
             redirectAttributes.addFlashAttribute("success", "Акаунт успішно активовано.");
-        } catch (TokenNotExists e) {
+        } catch (TokenNotExistsException e) {
             redirectAttributes.addFlashAttribute("error", "Невірний код активації.");
-        } catch (TokenExpired e) {
+        } catch (TokenExpiredException e) {
             redirectAttributes.addFlashAttribute("error", "Термін дії кода активації минув.");
-        } catch (UserAlreadyEnabled e) {
+        } catch (UserAlreadyEnabledException e) {
             redirectAttributes.addFlashAttribute("info", "Користувач вже активован.");
         } catch (RuntimeException e) {
             log.error(e.getMessage(), e);
@@ -131,7 +131,7 @@ public class RegistrationController {
             ));
             redirectAttributes.addAttribute("email", email);
             return "redirect:/resendConfirmToken";
-        } catch (UserAlreadyEnabled e) {
+        } catch (UserAlreadyEnabledException e) {
             redirectAttributes.addFlashAttribute("error", messageSource.getMessage(
                     "resendToken.message.emailAlreadyEnabled",
                     new Object[]{email},
@@ -139,7 +139,7 @@ public class RegistrationController {
             ));
             redirectAttributes.addFlashAttribute("email", email);
             return "redirect:/resendConfirmToken";
-        } catch (TokenCreatedRecently e) {
+        } catch (TokenCreatedRecentlyException e) {
             redirectAttributes.addFlashAttribute("error", messageSource.getMessage(
                     "resendToken.message.needToWait",
                     new Object[]{email},

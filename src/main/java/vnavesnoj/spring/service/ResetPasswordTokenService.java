@@ -10,9 +10,9 @@ import vnavesnoj.spring.database.repository.UserRepository;
 import vnavesnoj.spring.dto.ResetPasswordTokenDto;
 import vnavesnoj.spring.dto.UserEditPasswordDto;
 import vnavesnoj.spring.exception.RegisteredEmailNotFoundException;
-import vnavesnoj.spring.exception.TokenCreatedRecently;
-import vnavesnoj.spring.exception.TokenExpired;
-import vnavesnoj.spring.exception.TokenNotExists;
+import vnavesnoj.spring.exception.TokenCreatedRecentlyException;
+import vnavesnoj.spring.exception.TokenExpiredException;
+import vnavesnoj.spring.exception.TokenNotExistsException;
 import vnavesnoj.spring.mapper.Mapper;
 
 import java.time.LocalDateTime;
@@ -48,31 +48,31 @@ public class ResetPasswordTokenService extends BaseTokenService<ResetPasswordTok
 
     @Transactional
     public ResetPasswordTokenDto tryCreateTokenFor(String email) throws RegisteredEmailNotFoundException,
-            TokenCreatedRecently {
+            TokenCreatedRecentlyException {
         final var user = getUserRepository().findByEmail(email).orElseThrow(
                 () -> new RegisteredEmailNotFoundException("Registered email " + email + " not found"));
         if (notAvailableToResendToken(user)) {
-            throw new TokenCreatedRecently("Token to resend will available every + " + TOKEN_TO_RESEND);
+            throw new TokenCreatedRecentlyException("Token to resend will available every + " + TOKEN_TO_RESEND);
         }
         return createTokenFor(email);
     }
 
-    public ResetPasswordTokenDto tryFindActualToken(String token) throws TokenNotExists, TokenExpired {
+    public ResetPasswordTokenDto tryFindActualToken(String token) throws TokenNotExistsException, TokenExpiredException {
         final ResetPasswordToken resetPasswordToken = tryGetActualToken(token);
         return getBaseTokenReadMapper().map(resetPasswordToken);
     }
 
     @Transactional
-    public void tryResetUserPassword(UserEditPasswordDto userEditPasswordDto) throws TokenExpired, TokenNotExists {
+    public void tryResetUserPassword(UserEditPasswordDto userEditPasswordDto) throws TokenExpiredException, TokenNotExistsException {
         final var resetPasswordToken = tryGetActualToken(userEditPasswordDto.getResetPasswordToken());
         resetPasswordToken.getUser().setPassword(passwordEncoder.encode(userEditPasswordDto.getRawPassword()));
     }
 
-    private ResetPasswordToken tryGetActualToken(String token) throws TokenNotExists, TokenExpired {
+    private ResetPasswordToken tryGetActualToken(String token) throws TokenNotExistsException, TokenExpiredException {
         final var resetPasswordToken = getBaseTokenRepository().findByToken(token).orElseThrow(
-                () -> new TokenNotExists("Token for reset password " + token + " not exists in repository"));
+                () -> new TokenNotExistsException("Token for reset password " + token + " not exists in repository"));
         if (isExpired(resetPasswordToken)) {
-            throw new TokenExpired("Token life time has expired at "
+            throw new TokenExpiredException("Token life time has expired at "
                     + resetPasswordToken.getCreatedAt().plus(TOKEN_LIFE_TIME));
         }
         return resetPasswordToken;

@@ -4,9 +4,9 @@ package vnavesnoj.spring.exception;
  * @author vnavesnoj
  * @mail vnavesnoj@gmail.com
  */
-public class TokenNotExists extends Exception {
+public class PersonNotExistsException extends Exception {
 
-    public TokenNotExists(String s) {
+    public PersonNotExistsException(String s) {
         super(s);
     }
 }

@@ -17,9 +17,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import vnavesnoj.spring.dto.UserEditPasswordDto;
 import vnavesnoj.spring.exception.RegisteredEmailNotFoundException;
-import vnavesnoj.spring.exception.TokenCreatedRecently;
-import vnavesnoj.spring.exception.TokenExpired;
-import vnavesnoj.spring.exception.TokenNotExists;
+import vnavesnoj.spring.exception.TokenCreatedRecentlyException;
+import vnavesnoj.spring.exception.TokenExpiredException;
+import vnavesnoj.spring.exception.TokenNotExistsException;
 import vnavesnoj.spring.listener.onResetPasswordTokenCreateEvent;
 import vnavesnoj.spring.service.ResetPasswordTokenService;
 
@@ -78,7 +78,7 @@ public class LoginController {
             ));
             redirectAttributes.addAttribute("email", email);
             return "redirect:/forgotPassword";
-        } catch (TokenCreatedRecently e) {
+        } catch (TokenCreatedRecentlyException e) {
             redirectAttributes.addFlashAttribute("error", messageSource.getMessage(
                     "resetPass.message.needToWait",
                     new Object[]{email},
@@ -105,14 +105,14 @@ public class LoginController {
         try {
             resetPasswordTokenService.tryFindActualToken(token);
             return "user/resetPassword";
-        } catch (TokenNotExists e) {
+        } catch (TokenNotExistsException e) {
             redirectAttributes.addFlashAttribute("error", messageSource.getMessage(
                     "resetPass.message.tokenNotExists",
                     new Object[0],
                     locale
             ));
             return "redirect:/login";
-        } catch (TokenExpired e) {
+        } catch (TokenExpiredException e) {
             redirectAttributes.addFlashAttribute("error", messageSource.getMessage(
                     "resetPass.message.tokenExpired",
                     new Object[0],
@@ -151,14 +151,14 @@ public class LoginController {
                     locale
             ));
             return "redirect:/login";
-        } catch (TokenNotExists e) {
+        } catch (TokenNotExistsException e) {
             redirectAttributes.addFlashAttribute("error", messageSource.getMessage(
                     "resetPass.message.tokenNotExists",
                     new Object[0],
                     locale
             ));
             return "redirect:/login";
-        } catch (TokenExpired e) {
+        } catch (TokenExpiredException e) {
             redirectAttributes.addFlashAttribute("error", messageSource.getMessage(
                     "resetPass.message.tokenExpired",
                     new Object[0],
