@@ -37,7 +37,7 @@ class PersonServiceTest extends IntegrationTestBase {
 
     @Test
     void findAllWithEmptyFilterAndPageable() {
-        final var emptyFilter = new PersonFilter(null, null, null, null);
+        final var emptyFilter = new PersonFilter(null, null, null, null, null);
         final var unpaged = Pageable.unpaged();
         final var people = personService.findAll(emptyFilter, unpaged);
         assertThat(people).hasSize(PERSON_COUNT);
@@ -45,7 +45,7 @@ class PersonServiceTest extends IntegrationTestBase {
 
     @Test
     void findAllWithNameAndEmptyPageable() {
-        final var filter = new PersonFilter("Во", null, null, null);
+        final var filter = new PersonFilter("Во", null, null, null, null);
         final var unpaged = Pageable.unpaged();
         final var people = personService.findAll(filter, unpaged);
         assertThat(people).hasSize(3);
@@ -57,6 +57,7 @@ class PersonServiceTest extends IntegrationTestBase {
                 "Во",
                 LocalDate.of(1997, 12, 7),
                 LocalDate.of(1999, 9, 19),
+                null,
                 null);
         final var unpaged = Pageable.unpaged();
         final var people = personService.findAll(filter, unpaged);
@@ -68,7 +69,8 @@ class PersonServiceTest extends IntegrationTestBase {
         final var filter = new PersonFilter("гіга",
                 LocalDate.of(1995, 1, 1),
                 LocalDate.of(2000, 1, 1),
-                Role.ATHLETE);
+                Role.ATHLETE,
+                null);
         final var unpaged = Pageable.unpaged();
         final var person = personService.findAll(filter, unpaged);
         assertThat(person).hasSize(1);
@@ -80,7 +82,8 @@ class PersonServiceTest extends IntegrationTestBase {
                 "во",
                 LocalDate.of(1995, 1, 1),
                 LocalDate.of(2010, 1, 1),
-                Role.COACH
+                Role.COACH,
+                null
         );
         final var unpaged = Pageable.unpaged();
         final var none = personService.findAll(filter, unpaged);
