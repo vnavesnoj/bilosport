@@ -4,6 +4,7 @@ import lombok.Value;
 import vnavesnoj.spring.database.entity.Role;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author vnavesnoj
@@ -21,6 +22,8 @@ public class PersonCreateDto {
     LocalDate birthDate;
 
     Role role;
+
+    List<Integer> sportId;
 
     Long userId;
 }

@@ -9,9 +9,8 @@ import vnavesnoj.spring.dto.person.PersonCreateDto;
 import vnavesnoj.spring.dto.person.PersonEditDto;
 import vnavesnoj.spring.dto.person.PersonFilter;
 import vnavesnoj.spring.dto.person.PersonReadDto;
-import vnavesnoj.spring.exception.PersonNotExistsException;
 
-import java.util.List;
+import java.util.Optional;
 
 /**
  * @author vnavesnoj
@@ -32,23 +31,19 @@ public class PersonService {
         return null;
     }
 
-    public PersonReadDto tryFindById(Long id) throws PersonNotExistsException {
-        return null;
+    public Optional<PersonReadDto> findById(Long id) {
+        return Optional.empty();
     }
 
     public PersonReadDto create(PersonCreateDto person) {
         return null;
     }
 
-    public PersonReadDto tryUpdate(PersonEditDto person) throws PersonNotExistsException {
-        return null;
+    public Optional<PersonReadDto> update(Long id, PersonEditDto person) {
+        return Optional.empty();
     }
 
-    public void tryDelete(Long id) throws PersonNotExistsException {
-
-    }
-
-    public List<PersonReadDto> findSimilar(PersonCreateDto person) {
-        return null;
+    public boolean delete(Long id) {
+        return false;
     }
 }

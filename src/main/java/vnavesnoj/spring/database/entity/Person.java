@@ -1,11 +1,9 @@
 package vnavesnoj.spring.database.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,6 +14,11 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "id", callSuper = false)
+@ToString(exclude = {
+        "personSports",
+        "tournamentPeople"
+})
 @Builder
 @Entity
 @Table(name = "person")
@@ -30,6 +33,8 @@ public class Person {
     private String lastname;
 
     private String surname;
+
+    private LocalDate birthDate;
 
     @Enumerated(EnumType.STRING)
     private Role role;

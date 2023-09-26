@@ -2,8 +2,10 @@ package vnavesnoj.spring.dto.person;
 
 import lombok.Value;
 import vnavesnoj.spring.database.entity.Role;
+import vnavesnoj.spring.dto.SportReadDto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author vnavesnoj
@@ -18,5 +20,6 @@ public class PersonReadDto {
     String surname;
     LocalDate birthDate;
     Role role;
+    List<SportReadDto> sports;
     String username;
 }

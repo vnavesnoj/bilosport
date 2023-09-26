@@ -10,7 +10,8 @@ VALUES (1, 'ivan@gmail.com', 'Ivan', 'Іван', 'Іванов', '1981-10-13', '
        (9, 'chikchik@gmail.com', 'ChikChik', 'Данило', 'Чикатило', '1979-06-23', 'ATHLETE', 'true'),
        (10, 'zelia@gmail.com', 'Zelia', 'Володимир', 'Зеленський', '1999-09-19', 'ATHLETE', 'true'),
        (11, 'timoha@gmail.com', 'Timoha', null, null, null, 'ATHLETE', 'true'),
-       (12, 'volk@gmail.com', 'Volk', null, null, null, 'ATHLETE', 'true');
+       (12, 'volk@gmail.com', 'Volk', null, null, null, 'ATHLETE', 'true'),
+       (13, 'new@gmail.com', 'New', null, null, null, 'COACH', 'true');
 
 SELECT setval('users_id_seq', (SELECT max(id) FROM users));
 
