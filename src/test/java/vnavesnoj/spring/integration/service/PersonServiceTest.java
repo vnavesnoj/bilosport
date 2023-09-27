@@ -122,9 +122,9 @@ class PersonServiceTest extends IntegrationTestBase {
     }
 
     @Test
-    void exceptionWhenWrongId() {
-        assertThatExceptionOfType(PersonNotExistsException.class)
-                .isThrownBy(() -> personService.findById(20L));
+    void emptyOptionalWhenPersonNotExistById() {
+        final var actual = personService.findById(20L);
+        assertThat(actual).isEmpty();
     }
 
     @SneakyThrows

@@ -37,7 +37,8 @@ public class PersonService {
     }
 
     public Optional<PersonReadDto> findById(Long id) {
-        return Optional.empty();
+        return personRepository.findById(id)
+                .map(personReadMapper::map);
     }
 
     public PersonReadDto create(PersonCreateDto person) {
