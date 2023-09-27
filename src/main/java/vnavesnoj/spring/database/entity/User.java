@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id", callSuper = false)
+@ToString(exclude = "person")
 @Builder
 @Entity
 @Table(name = "users")

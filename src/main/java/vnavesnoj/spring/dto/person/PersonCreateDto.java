@@ -31,7 +31,7 @@ public class PersonCreateDto {
     @NotNull
     Role role;
 
-    List<Integer> sportId;
+    List<Integer> sportIds;
 
     @UserExists
     @UserFree

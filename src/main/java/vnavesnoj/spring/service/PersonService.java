@@ -26,8 +26,8 @@ public class PersonService {
     private final PersonRepository personRepository;
 
     private final Mapper<Person, PersonReadDto> personReadMapper;
-    //    private final Mapper<PersonCreateDto, Person> personCreateMapper;
-//    private final Mapper<PersonEditDto, Person> personEditMapper;
+    private final Mapper<PersonCreateDto, Person> personCreateMapper;
+    //    private final Mapper<PersonEditDto, Person> personEditMapper;
     private final Mapper<PersonFilter, Predicate> personPredicateMapper;
 
     public Page<PersonReadDto> findAll(PersonFilter filter, Pageable pageable) {
@@ -42,7 +42,11 @@ public class PersonService {
     }
 
     public PersonReadDto create(PersonCreateDto person) {
-        return null;
+        return Optional.of(person)
+                .map(personCreateMapper::map)
+                .map(personRepository::save)
+                .map(personReadMapper::map)
+                .orElseThrow();
     }
 
     public Optional<PersonReadDto> update(Long id, PersonEditDto person) {

@@ -23,7 +23,8 @@ import java.util.Set;
 @EqualsAndHashCode(of = "id", callSuper = false)
 @ToString(exclude = {
         "personSports",
-        "tournamentPeople"
+        "tournamentPeople",
+        "sport"
 })
 @Builder
 @Entity
@@ -47,6 +48,10 @@ public class Person {
 
     @OneToOne(fetch = FetchType.LAZY)
     private User user;
+
+    @ManyToMany
+    @JoinTable(name = "person_sport")
+    private Set<Sport> sport;
 
     @Builder.Default
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)

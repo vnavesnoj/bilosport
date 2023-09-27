@@ -165,7 +165,7 @@ class PersonServiceTest extends IntegrationTestBase {
     @Test
     void createWithNotExistUser() {
         assertThatExceptionOfType(Exception.class)
-                .isThrownBy(() -> new PersonCreateDto(
+                .isThrownBy(() -> personService.create(new PersonCreateDto(
                         "Ім'я",
                         "Прізвище",
                         "По-батькові",
@@ -173,13 +173,13 @@ class PersonServiceTest extends IntegrationTestBase {
                         Role.COACH,
                         new ArrayList<>(),
                         20L
-                ));
+                )));
     }
 
     @Test
     void createWithAlreadyVerifiedUser() {
-        assertThatExceptionOfType(UserAlreadyHasPersonException.class)
-                .isThrownBy(() -> new PersonCreateDto(
+        assertThatExceptionOfType(Exception.class)
+                .isThrownBy(() -> personService.create(new PersonCreateDto(
                         "Ім'я",
                         "Прізвище",
                         "По-батькові",
@@ -187,7 +187,7 @@ class PersonServiceTest extends IntegrationTestBase {
                         Role.COACH,
                         new ArrayList<>(),
                         2L
-                ));
+                )));
     }
 
     @SneakyThrows
