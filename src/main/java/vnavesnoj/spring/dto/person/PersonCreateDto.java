@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Value;
 import vnavesnoj.spring.database.entity.Role;
 import vnavesnoj.spring.validation.UserExists;
+import vnavesnoj.spring.validation.UserFree;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -33,5 +34,6 @@ public class PersonCreateDto {
     List<Integer> sportId;
 
     @UserExists
+    @UserFree
     Long userId;
 }

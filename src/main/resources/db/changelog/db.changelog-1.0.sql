@@ -25,7 +25,7 @@ CREATE TABLE person
     surname    VARCHAR(64),
     birth_date DATE,
     role       VARCHAR(32),
-    user_id    BIGINT REFERENCES users
+    user_id BIGINT UNIQUE REFERENCES users
 );
 
 --changeset vnavesnoj:3

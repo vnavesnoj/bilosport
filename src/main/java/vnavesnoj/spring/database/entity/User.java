@@ -29,6 +29,9 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    private Person person;
+
     @Column(nullable = false)
     private String password;
 

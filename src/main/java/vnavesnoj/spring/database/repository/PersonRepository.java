@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import vnavesnoj.spring.database.entity.Person;
 
+import java.util.Optional;
+
 /**
  * @author vnavesnoj
  * @mail vnavesnoj@gmail.com
@@ -21,4 +23,6 @@ public interface PersonRepository extends
     @NonNull
     @Override
     Page<Person> findAll(@NonNull Predicate predicate, @NonNull Pageable pageable);
+
+    Optional<Person> findByUserId(Long userId);
 }
