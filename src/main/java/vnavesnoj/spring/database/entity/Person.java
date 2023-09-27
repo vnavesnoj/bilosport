@@ -11,6 +11,12 @@ import java.util.Set;
  * @author vnavesnoj
  * @mail vnavesnoj@gmail.com
  */
+@NamedEntityGraph(name = "Person.user.sports",
+        attributeNodes = {
+                @NamedAttributeNode("user"),
+                @NamedAttributeNode(value = "personSports", subgraph = "PersonSports.sport")
+        },
+        subgraphs = @NamedSubgraph(name = "PersonSports.sport", attributeNodes = @NamedAttributeNode(value = "sport")))
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
