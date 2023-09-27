@@ -70,10 +70,24 @@ class PersonServiceTest extends IntegrationTestBase {
                 LocalDate.of(1995, 1, 1),
                 LocalDate.of(2000, 1, 1),
                 Role.ATHLETE,
-                null);
+                3);
         final var unpaged = Pageable.unpaged();
         final var person = personService.findAll(filter, unpaged);
         assertThat(person).hasSize(1);
+    }
+
+    @Test
+    void findAllWithSportFilter() {
+        final var filter = new PersonFilter(
+                null,
+                null,
+                null,
+                null,
+                1
+        );
+        final var unpaged = Pageable.unpaged();
+        final var people = personService.findAll(filter, unpaged);
+        assertThat(people).hasSize(4);
     }
 
     @Test

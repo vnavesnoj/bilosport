@@ -5,9 +5,12 @@ import org.springframework.stereotype.Component;
 import vnavesnoj.spring.database.entity.Person;
 import vnavesnoj.spring.database.entity.PersonSport;
 import vnavesnoj.spring.database.entity.Sport;
+import vnavesnoj.spring.database.entity.User;
 import vnavesnoj.spring.dto.SportReadDto;
 import vnavesnoj.spring.dto.person.PersonReadDto;
 import vnavesnoj.spring.mapper.Mapper;
+
+import java.util.Optional;
 
 /**
  * @author vnavesnoj
@@ -32,7 +35,9 @@ public class PersonReadMapper implements Mapper<Person, PersonReadDto> {
                         .map(PersonSport::getSport)
                         .map(sportReadMapper::map)
                         .toList(),
-                person.getUser().getUsername()
+                Optional.ofNullable(person.getUser())
+                        .map(User::getUsername)
+                        .orElse(null)
         );
     }
 }

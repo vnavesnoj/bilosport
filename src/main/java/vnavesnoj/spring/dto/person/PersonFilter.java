@@ -19,4 +19,6 @@ public class PersonFilter {
     LocalDate beforeBirthDate;
 
     Role role;
+
+    Integer sportId;
 }
