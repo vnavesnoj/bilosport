@@ -3,13 +3,13 @@ package vnavesnoj.spring.mapper.person;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import vnavesnoj.spring.database.entity.Person;
-import vnavesnoj.spring.database.repository.SportRepository;
-import vnavesnoj.spring.database.repository.UserRepository;
+import vnavesnoj.spring.database.entity.Sport;
+import vnavesnoj.spring.database.entity.User;
 import vnavesnoj.spring.dto.person.PersonEditDto;
 import vnavesnoj.spring.mapper.Mapper;
 
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author vnavesnoj
@@ -19,9 +19,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PersonEditMapper implements Mapper<PersonEditDto, Person> {
 
-    private final SportRepository sportRepository;
+    private final Mapper<List<Integer>, Set<Sport>> sportIdMapper;
 
-    private final UserRepository userRepository;
+    private final Mapper<Long, User> userIdMapper;
 
     @Override
     public Person map(PersonEditDto personDto) {
@@ -41,23 +41,7 @@ public class PersonEditMapper implements Mapper<PersonEditDto, Person> {
         toObject.setLastname(fromObject.getLastname());
         toObject.setSurname(fromObject.getSurname());
         toObject.setBirthDate(fromObject.getBirthDate());
-
-        final var sports = Optional.ofNullable(fromObject.getSportId())
-                .map(ids -> ids.stream()
-                        .map(id -> sportRepository.findById(id).orElseThrow(
-                                () -> new IllegalArgumentException("Sport does not exist by id: " + id)
-                        ))
-                        .collect(Collectors.toSet()))
-                .orElse(null);
-
-        toObject.setSport(sports);
-
-        final var user = Optional.ofNullable(fromObject.getUserId())
-                .map(userId -> userRepository.findById(userId).orElseThrow(
-                        () -> new IllegalArgumentException("User does not exist by id: " + fromObject.getUserId())
-                ))
-                .orElse(null);
-
-        toObject.setUser(user);
+        toObject.setSport(sportIdMapper.map(fromObject.getSportId()));
+        toObject.setUser(userIdMapper.map(fromObject.getUserId()));
     }
 }
