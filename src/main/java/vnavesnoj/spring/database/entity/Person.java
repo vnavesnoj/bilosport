@@ -14,15 +14,14 @@ import java.util.Set;
 @NamedEntityGraph(name = "Person.user.sports",
         attributeNodes = {
                 @NamedAttributeNode("user"),
-                @NamedAttributeNode(value = "personSports", subgraph = "PersonSports.sport")
-        },
-        subgraphs = @NamedSubgraph(name = "PersonSports.sport", attributeNodes = @NamedAttributeNode(value = "sport")))
+                @NamedAttributeNode(value = "sport")
+        }
+)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id", callSuper = false)
 @ToString(exclude = {
-        "personSports",
         "tournamentPeople",
         "sport"
 })
@@ -52,10 +51,6 @@ public class Person {
     @ManyToMany
     @JoinTable(name = "person_sport")
     private Set<Sport> sport;
-
-    @Builder.Default
-    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
-    private Set<PersonSport> personSports = new HashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)

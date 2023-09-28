@@ -3,9 +3,6 @@ package vnavesnoj.spring.database.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author vnavesnoj
  * @mail vnavesnoj@gmail.com
@@ -25,8 +22,4 @@ public class Sport {
 
     @Column(unique = true, nullable = false)
     private String name;
-
-    @Builder.Default
-    @OneToMany(mappedBy = "sport")
-    private List<PersonSport> personSports = new ArrayList<>();
 }

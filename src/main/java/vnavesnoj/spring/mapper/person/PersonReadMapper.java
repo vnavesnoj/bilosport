@@ -3,14 +3,15 @@ package vnavesnoj.spring.mapper.person;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import vnavesnoj.spring.database.entity.Person;
-import vnavesnoj.spring.database.entity.PersonSport;
 import vnavesnoj.spring.database.entity.Sport;
 import vnavesnoj.spring.database.entity.User;
 import vnavesnoj.spring.dto.SportReadDto;
 import vnavesnoj.spring.dto.person.PersonReadDto;
 import vnavesnoj.spring.mapper.Mapper;
 
+import java.util.Collections;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author vnavesnoj
@@ -31,10 +32,11 @@ public class PersonReadMapper implements Mapper<Person, PersonReadDto> {
                 person.getSurname(),
                 person.getBirthDate(),
                 person.getRole(),
-                person.getPersonSports().stream()
-                        .map(PersonSport::getSport)
-                        .map(sportReadMapper::map)
-                        .toList(),
+                Optional.ofNullable(person.getSport())
+                        .map(sports -> sports.stream()
+                                .map(sportReadMapper::map)
+                                .collect(Collectors.toSet()))
+                        .orElse(Collections.emptySet()),
                 Optional.ofNullable(person.getUser())
                         .map(User::getUsername)
                         .orElse(null)

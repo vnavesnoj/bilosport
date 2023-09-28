@@ -19,8 +19,9 @@ import vnavesnoj.spring.integration.IntegrationTestBase;
 import vnavesnoj.spring.service.PersonService;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -116,7 +117,7 @@ class PersonServiceTest extends IntegrationTestBase {
                 null,
                 LocalDate.of(1997, 12, 7),
                 Role.ATHLETE,
-                new ArrayList<>(List.of(new SportReadDto(3, "шахи"))),
+                Set.of(new SportReadDto(3, "шахи")),
                 "Volk"
         );
         assertThat(actual).isPresent().contains(expected);
@@ -137,7 +138,7 @@ class PersonServiceTest extends IntegrationTestBase {
                 "По-батькові",
                 LocalDate.of(1996, 3, 13),
                 Role.COACH,
-                new ArrayList<>(),
+                null,
                 13L
         );
         final var actual = personService.create(newPerson);
@@ -148,7 +149,7 @@ class PersonServiceTest extends IntegrationTestBase {
                 newPerson.getSurname(),
                 newPerson.getBirthDate(),
                 newPerson.getRole(),
-                new ArrayList<>(),
+                Collections.emptySet(),
                 "New"
         );
         assertThat(actual).isEqualTo(expected);
@@ -160,6 +161,7 @@ class PersonServiceTest extends IntegrationTestBase {
         assertThat(newPerson.getSurname()).isEqualTo(person.getSurname());
         assertThat(newPerson.getBirthDate()).isEqualTo(person.getBirthDate());
         assertThat(newPerson.getRole()).isEqualTo(person.getRole());
+        assertThat(person.getSport()).isNull();
         assertThat(newPerson.getUserId()).isEqualTo(person.getUser().getId());
     }
 
@@ -172,7 +174,7 @@ class PersonServiceTest extends IntegrationTestBase {
                         "По-батькові",
                         LocalDate.of(1996, 3, 13),
                         Role.COACH,
-                        new ArrayList<>(),
+                        Collections.emptyList(),
                         20L
                 )));
     }
@@ -186,7 +188,7 @@ class PersonServiceTest extends IntegrationTestBase {
                         "По-батькові",
                         LocalDate.of(1996, 3, 13),
                         Role.COACH,
-                        new ArrayList<>(),
+                        Collections.emptyList(),
                         2L
                 )));
     }
@@ -224,7 +226,7 @@ class PersonServiceTest extends IntegrationTestBase {
                 newPerson.getSurname(),
                 newPerson.getBirthDate(),
                 newPerson.getRole(),
-                List.of(new SportReadDto(3, "шахи")),
+                Set.of(new SportReadDto(3, "шахи")),
                 null
         );
         assertThat(actual).isEqualTo(expected);
@@ -261,7 +263,7 @@ class PersonServiceTest extends IntegrationTestBase {
                 updatePerson.getSurname(),
                 updatePerson.getBirthDate(),
                 Role.ATHLETE,
-                new ArrayList<>(List.of(new SportReadDto(3, "шахи"))),
+                Set.of(new SportReadDto(3, "шахи")),
                 "Volk"
         );
 
@@ -291,7 +293,7 @@ class PersonServiceTest extends IntegrationTestBase {
                 updatePerson.getSurname(),
                 updatePerson.getBirthDate(),
                 Role.ATHLETE,
-                new ArrayList<>(List.of(new SportReadDto(3, "шахи"))),
+                Set.of(new SportReadDto(3, "шахи")),
                 "New"
         );
         assertThat(actual).isPresent().contains(expected);

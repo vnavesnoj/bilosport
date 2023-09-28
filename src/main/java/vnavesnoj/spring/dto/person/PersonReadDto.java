@@ -5,7 +5,7 @@ import vnavesnoj.spring.database.entity.Role;
 import vnavesnoj.spring.dto.SportReadDto;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 /**
  * @author vnavesnoj
@@ -20,6 +20,6 @@ public class PersonReadDto {
     String surname;
     LocalDate birthDate;
     Role role;
-    List<SportReadDto> sports;
+    Set<SportReadDto> sports;
     String username;
 }
