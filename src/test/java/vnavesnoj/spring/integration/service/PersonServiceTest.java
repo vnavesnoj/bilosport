@@ -364,10 +364,24 @@ class PersonServiceTest extends IntegrationTestBase {
     }
 
     @Test
-    void tryDelete() {
-        personService.delete(12L);
+    void deleteFreeAthlete() {
+        personService.delete(11L);
         assertThat(personRepository.findAll()).hasSize(PERSON_COUNT - 1);
-        assertThat(personRepository.findById(12L)).isEmpty();
+        assertThat(personRepository.findById(11L)).isEmpty();
+    }
+
+    @Test
+    void tryDeleteBusyAthlete() {
+        assertThatExceptionOfType(Exception.class).isThrownBy(
+                () -> personService.delete(12L)
+        );
+    }
+
+    @Test
+    void tryDeleteBusyCoach() {
+        assertThatExceptionOfType(Exception.class).isThrownBy(
+                () -> personService.delete(1L)
+        );
     }
 
     @Test

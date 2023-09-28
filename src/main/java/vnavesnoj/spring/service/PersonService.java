@@ -57,6 +57,12 @@ public class PersonService {
     }
 
     public boolean delete(Long id) {
-        return false;
+        return personRepository.findById(id)
+                .map(person -> {
+                    personRepository.delete(person);
+                    personRepository.flush();
+                    return true;
+                })
+                .orElse(false);
     }
 }
