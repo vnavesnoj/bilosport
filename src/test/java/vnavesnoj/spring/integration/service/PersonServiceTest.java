@@ -1,7 +1,6 @@
 package vnavesnoj.spring.integration.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Pageable;
 import vnavesnoj.spring.database.entity.Role;
@@ -12,7 +11,6 @@ import vnavesnoj.spring.dto.person.PersonCreateDto;
 import vnavesnoj.spring.dto.person.PersonEditDto;
 import vnavesnoj.spring.dto.person.PersonFilter;
 import vnavesnoj.spring.dto.person.PersonReadDto;
-import vnavesnoj.spring.exception.PersonNotExistsException;
 import vnavesnoj.spring.exception.UserAlreadyHasPersonException;
 import vnavesnoj.spring.exception.UserNotExistsException;
 import vnavesnoj.spring.integration.IntegrationTestBase;
@@ -106,7 +104,6 @@ class PersonServiceTest extends IntegrationTestBase {
         assertThat(none).isEmpty();
     }
 
-    @SneakyThrows
     @Test
     void findOneById() {
         final var actual = personService.findById(12L);
@@ -129,7 +126,6 @@ class PersonServiceTest extends IntegrationTestBase {
         assertThat(actual).isEmpty();
     }
 
-    @SneakyThrows
     @Test
     void create() {
         final var newPerson = new PersonCreateDto(
@@ -244,7 +240,6 @@ class PersonServiceTest extends IntegrationTestBase {
         assertThat(person.getUser()).isNull();
     }
 
-    @SneakyThrows
     @Test
     void tryUpdateLastname() {
         final var updatePerson = new PersonEditDto(
@@ -274,7 +269,6 @@ class PersonServiceTest extends IntegrationTestBase {
         );
     }
 
-    @SneakyThrows
     @Test
     void updatePersonUser() {
         final var updatePerson = new PersonEditDto(
@@ -303,47 +297,46 @@ class PersonServiceTest extends IntegrationTestBase {
 
     @Test
     void updateNotExistPerson() {
-        assertThatExceptionOfType(PersonNotExistsException.class).isThrownBy(
-                () -> new PersonEditDto(
+        assertThatExceptionOfType(Exception.class).isThrownBy(
+                () -> personService.update(20L, new PersonEditDto(
                         "Олександр",
                         "Новий",
                         null,
                         LocalDate.of(1997, 12, 7),
                         List.of(3),
                         12L
-                )
+                ))
         );
     }
 
     @Test
     void updatePersonWithNotExistUser() {
         assertThatExceptionOfType(UserNotExistsException.class).isThrownBy(
-                () -> new PersonEditDto(
+                () -> personService.update(12L, new PersonEditDto(
                         "Олександр",
                         "Волков",
                         null,
                         LocalDate.of(1997, 12, 7),
                         List.of(3),
                         20L
-                )
+                ))
         );
     }
 
     @Test
     void updatePersonWithAlreadyVerifiedUser() {
         assertThatExceptionOfType(UserAlreadyHasPersonException.class).isThrownBy(
-                () -> new PersonEditDto(
+                () -> personService.update(12L, new PersonEditDto(
                         "Олександр",
                         "Волков",
                         null,
                         LocalDate.of(1997, 12, 7),
                         List.of(3),
                         10L
-                )
+                ))
         );
     }
 
-    @SneakyThrows
     @Test
     void tryDelete() {
         personService.delete(12L);
@@ -351,7 +344,6 @@ class PersonServiceTest extends IntegrationTestBase {
         assertThat(personRepository.findById(12L)).isEmpty();
     }
 
-    @SneakyThrows
     @Test
     void deleteNotExistPerson() {
         final var result = personService.delete(20L);
