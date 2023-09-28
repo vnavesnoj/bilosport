@@ -5,6 +5,7 @@ import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Pageable;
 import vnavesnoj.spring.database.entity.Role;
+import vnavesnoj.spring.database.entity.Sport;
 import vnavesnoj.spring.database.repository.PersonRepository;
 import vnavesnoj.spring.dto.SportReadDto;
 import vnavesnoj.spring.dto.person.PersonCreateDto;
@@ -188,6 +189,57 @@ class PersonServiceTest extends IntegrationTestBase {
                         new ArrayList<>(),
                         2L
                 )));
+    }
+
+    @Test
+    void createWithNotExistedSport() {
+        assertThatExceptionOfType(Exception.class)
+                .isThrownBy(() -> personService.create(new PersonCreateDto(
+                        "Ім'я",
+                        "Прізвище",
+                        "По-батькові",
+                        LocalDate.of(1996, 3, 13),
+                        Role.COACH,
+                        List.of(5),
+                        13L
+                )));
+    }
+
+    @Test
+    void createWithNullUser() {
+        final var newPerson = new PersonCreateDto(
+                "Ім'я",
+                "Прізвище",
+                "По-батькові",
+                LocalDate.of(1996, 3, 13),
+                Role.COACH,
+                List.of(3),
+                null
+        );
+        final var actual = personService.create(newPerson);
+        final var expected = new PersonReadDto(
+                15L,
+                newPerson.getFirstname(),
+                newPerson.getLastname(),
+                newPerson.getSurname(),
+                newPerson.getBirthDate(),
+                newPerson.getRole(),
+                List.of(new SportReadDto(3, "шахи")),
+                null
+        );
+        assertThat(actual).isEqualTo(expected);
+        final var maybePerson = personRepository.findById(15L);
+        assertThat(maybePerson).isPresent();
+        final var person = maybePerson.orElseThrow();
+        assertThat(newPerson.getFirstname()).isEqualTo(person.getFirstname());
+        assertThat(newPerson.getLastname()).isEqualTo(person.getLastname());
+        assertThat(newPerson.getSurname()).isEqualTo(person.getSurname());
+        assertThat(newPerson.getBirthDate()).isEqualTo(person.getBirthDate());
+        assertThat(newPerson.getRole()).isEqualTo(person.getRole());
+        assertThat(newPerson.getSportIds()).isEqualTo(person.getSport().stream()
+                .map(Sport::getId)
+                .toList());
+        assertThat(person.getUser()).isNull();
     }
 
     @SneakyThrows

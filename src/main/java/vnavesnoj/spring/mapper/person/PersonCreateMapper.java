@@ -8,6 +8,7 @@ import vnavesnoj.spring.database.repository.UserRepository;
 import vnavesnoj.spring.dto.person.PersonCreateDto;
 import vnavesnoj.spring.mapper.Mapper;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -24,20 +25,26 @@ public class PersonCreateMapper implements Mapper<PersonCreateDto, Person> {
 
     @Override
     public Person map(PersonCreateDto personDto) {
+        final var sports = Optional.ofNullable(personDto.getSportIds())
+                .map(sportsId -> sportsId.stream()
+                        .map(id -> sportRepository.findById(id).orElseThrow(
+                                () -> new IllegalArgumentException("Sport does not exist by id: " + id)
+                        ))
+                        .collect(Collectors.toSet()))
+                .orElse(null);
+        final var user = Optional.ofNullable(personDto.getUserId())
+                .map(userId -> userRepository.findById(userId).orElseThrow(
+                        () -> new IllegalArgumentException("User does not exist by id: " + personDto.getUserId())
+                ))
+                .orElse(null);
         return Person.builder()
                 .firstname(personDto.getFirstname())
                 .lastname(personDto.getLastname())
                 .surname(personDto.getSurname())
                 .birthDate(personDto.getBirthDate())
                 .role(personDto.getRole())
-                .sport(personDto.getSportIds().stream()
-                        .map(id -> sportRepository.findById(id).orElseThrow(
-                                () -> new IllegalArgumentException("Sport does not exist by id: " + id)
-                        ))
-                        .collect(Collectors.toSet()))
-                .user(userRepository.findById(personDto.getUserId()).orElseThrow(
-                        () -> new IllegalArgumentException("User does not exist by id: " + personDto.getUserId())
-                ))
+                .sport(sports)
+                .user(user)
                 .build();
     }
 }
