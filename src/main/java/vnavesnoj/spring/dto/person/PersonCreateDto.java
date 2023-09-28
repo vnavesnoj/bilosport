@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Value;
 import vnavesnoj.spring.database.entity.Role;
+import vnavesnoj.spring.validation.SportExists;
 import vnavesnoj.spring.validation.UserExists;
 import vnavesnoj.spring.validation.UserFree;
 
@@ -31,6 +32,7 @@ public class PersonCreateDto {
     @NotNull
     Role role;
 
+    @SportExists
     List<Integer> sportIds;
 
     @UserExists
