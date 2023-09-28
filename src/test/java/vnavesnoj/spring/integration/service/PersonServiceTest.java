@@ -11,8 +11,6 @@ import vnavesnoj.spring.dto.person.PersonCreateDto;
 import vnavesnoj.spring.dto.person.PersonEditDto;
 import vnavesnoj.spring.dto.person.PersonFilter;
 import vnavesnoj.spring.dto.person.PersonReadDto;
-import vnavesnoj.spring.exception.UserAlreadyHasPersonException;
-import vnavesnoj.spring.exception.UserNotExistsException;
 import vnavesnoj.spring.integration.IntegrationTestBase;
 import vnavesnoj.spring.service.PersonService;
 
@@ -297,21 +295,20 @@ class PersonServiceTest extends IntegrationTestBase {
 
     @Test
     void updateNotExistPerson() {
-        assertThatExceptionOfType(Exception.class).isThrownBy(
-                () -> personService.update(20L, new PersonEditDto(
-                        "Олександр",
-                        "Новий",
-                        null,
-                        LocalDate.of(1997, 12, 7),
-                        List.of(3),
-                        12L
-                ))
-        );
+        final var updatedPerson = personService.update(20L, new PersonEditDto(
+                "Олександр",
+                "Новий",
+                null,
+                LocalDate.of(1997, 12, 7),
+                List.of(3),
+                12L
+        ));
+        assertThat(updatedPerson).isEmpty();
     }
 
     @Test
     void updatePersonWithNotExistUser() {
-        assertThatExceptionOfType(UserNotExistsException.class).isThrownBy(
+        assertThatExceptionOfType(Exception.class).isThrownBy(
                 () -> personService.update(12L, new PersonEditDto(
                         "Олександр",
                         "Волков",
@@ -325,7 +322,7 @@ class PersonServiceTest extends IntegrationTestBase {
 
     @Test
     void updatePersonWithAlreadyVerifiedUser() {
-        assertThatExceptionOfType(UserAlreadyHasPersonException.class).isThrownBy(
+        assertThatExceptionOfType(Exception.class).isThrownBy(
                 () -> personService.update(12L, new PersonEditDto(
                         "Олександр",
                         "Волков",
@@ -335,6 +332,35 @@ class PersonServiceTest extends IntegrationTestBase {
                         10L
                 ))
         );
+    }
+
+    @Test
+    void updatePersonSports() {
+        final var updatePerson = new PersonEditDto(
+                "Олександр",
+                "Волков",
+                null,
+                LocalDate.of(1997, 12, 7),
+                List.of(1, 2),
+                12L
+        );
+        final var actual = personService.update(12L, updatePerson);
+        final var expected = new PersonReadDto(
+                12L,
+                updatePerson.getFirstname(),
+                updatePerson.getLastname(),
+                updatePerson.getSurname(),
+                updatePerson.getBirthDate(),
+                Role.ATHLETE,
+                Set.of(new SportReadDto(1, "футбол"),
+                        new SportReadDto(2, "теніс")),
+                "Volk"
+        );
+        assertThat(actual).isPresent().contains(expected);
+        assertThat(updatePerson.getSportId()).isEqualTo(
+                personRepository.findById(12L).orElseThrow().getSport().stream()
+                        .map(Sport::getId)
+                        .toList());
     }
 
     @Test

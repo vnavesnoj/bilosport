@@ -27,7 +27,7 @@ public class PersonService {
 
     private final Mapper<Person, PersonReadDto> personReadMapper;
     private final Mapper<PersonCreateDto, Person> personCreateMapper;
-    //    private final Mapper<PersonEditDto, Person> personEditMapper;
+    private final Mapper<PersonEditDto, Person> personEditMapper;
     private final Mapper<PersonFilter, Predicate> personPredicateMapper;
 
     public Page<PersonReadDto> findAll(PersonFilter filter, Pageable pageable) {
@@ -50,7 +50,10 @@ public class PersonService {
     }
 
     public Optional<PersonReadDto> update(Long id, PersonEditDto person) {
-        return Optional.empty();
+        return personRepository.findById(id)
+                .map(entity -> personEditMapper.map(person, entity))
+                .map(personRepository::saveAndFlush)
+                .map(personReadMapper::map);
     }
 
     public boolean delete(Long id) {
