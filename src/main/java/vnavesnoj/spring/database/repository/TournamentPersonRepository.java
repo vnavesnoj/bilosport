@@ -8,4 +8,6 @@ import vnavesnoj.spring.database.entity.TournamentPerson;
  * @mail vnavesnoj@gmail.com
  */
 public interface TournamentPersonRepository extends JpaRepository<TournamentPerson, Long> {
+
+    boolean existsByPersonId(Long id);
 }
