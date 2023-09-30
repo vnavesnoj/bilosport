@@ -7,10 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import vnavesnoj.spring.database.entity.Person;
 import vnavesnoj.spring.database.repository.PersonRepository;
-import vnavesnoj.spring.dto.person.PersonCreateDto;
-import vnavesnoj.spring.dto.person.PersonEditDto;
-import vnavesnoj.spring.dto.person.PersonFilter;
-import vnavesnoj.spring.dto.person.PersonReadDto;
+import vnavesnoj.spring.dto.person.*;
 import vnavesnoj.spring.mapper.Mapper;
 
 import java.util.Optional;
@@ -64,5 +61,9 @@ public class PersonService {
                     return true;
                 })
                 .orElse(false);
+    }
+
+    public boolean delete(PersonDeleteDto person) {
+        return delete(person.getId());
     }
 }
