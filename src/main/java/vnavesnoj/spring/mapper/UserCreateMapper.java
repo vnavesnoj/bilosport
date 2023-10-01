@@ -39,8 +39,8 @@ public class UserCreateMapper implements Mapper<UserCreateDto, User> {
     }
 
     private void copy(UserCreateDto userDto, User user) {
-        user.setUsername(userDto.getUsername());
-        user.setEmail(userDto.getEmail().toLowerCase());
+        user.setUsername(userDto.getUsername().trim());
+        user.setEmail(userDto.getEmail().trim().toLowerCase());
         Optional.ofNullable(userDto.getRawPassword())
                 .filter(StringUtils::hasText)
                 .map(passwordEncoder::encode)

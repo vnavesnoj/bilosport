@@ -4,7 +4,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import vnavesnoj.spring.service.UserService;
+import vnavesnoj.spring.database.repository.UserRepository;
 import vnavesnoj.spring.validation.UniqueEmail;
 
 /**
@@ -15,10 +15,10 @@ import vnavesnoj.spring.validation.UniqueEmail;
 @RequiredArgsConstructor
 public class UniqueEmailConstraintValidator implements ConstraintValidator<UniqueEmail, String> {
 
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     @Override
     public boolean isValid(String email, ConstraintValidatorContext context) {
-        return userService.emailUnique(email.toLowerCase());
+        return email == null || !userRepository.existsByEmail(email.toLowerCase().trim());
     }
 }

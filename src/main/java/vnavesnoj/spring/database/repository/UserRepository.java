@@ -29,4 +29,6 @@ public interface UserRepository extends
             OR u.email = :usernameOrEmail
             """)
     Optional<User> findByUsernameOrEmail(String usernameOrEmail);
+
+    boolean existsByEmail(String email);
 }
