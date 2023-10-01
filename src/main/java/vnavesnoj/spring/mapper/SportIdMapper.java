@@ -20,6 +20,8 @@ public class SportIdMapper implements Mapper<List<Integer>, Set<Sport>> {
 
     private final SportRepository sportRepository;
 
+
+    //TODO можно сделать через findAllById() одним запросом
     @Override
     public Set<Sport> map(List<Integer> sportIds) {
         return Optional.ofNullable(sportIds)
