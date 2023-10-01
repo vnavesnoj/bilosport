@@ -22,6 +22,6 @@ public class SportExistsConstraintValidator implements ConstraintValidator<Sport
     public boolean isValid(Set<Integer> sports, ConstraintValidatorContext context) {
         return sports == null ? true :
                 sports.stream().noneMatch(Objects::isNull)
-                        && (sports.stream().anyMatch(sportRepository::existsById));
+                        && (sports.stream().allMatch(sportRepository::existsById));
     }
 }
