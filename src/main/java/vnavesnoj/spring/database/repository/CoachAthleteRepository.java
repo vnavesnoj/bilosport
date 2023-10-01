@@ -18,11 +18,11 @@ public interface CoachAthleteRepository extends JpaRepository<CoachAthlete, Long
     List<CoachAthlete> findAllByAthlete(Person id);
 
     @Query("""
-            SELECT exists(CoachAthlete)
-            FROM CoachAthlete
-            WHERE CoachAthlete.coach.id = :id
+            SELECT exists(SELECT ca
+            FROM CoachAthlete ca
+            WHERE ca.coach.id = :id
             OR
-            CoachAthlete.athlete.id = :id
+            ca.athlete.id = :id)
             """)
     boolean existsByCoachOrAthleteId(Long id);
 }

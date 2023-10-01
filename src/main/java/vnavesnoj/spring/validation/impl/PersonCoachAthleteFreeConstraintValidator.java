@@ -18,6 +18,6 @@ public class PersonCoachAthleteFreeConstraintValidator
 
     @Override
     public boolean isValid(Long id, ConstraintValidatorContext context) {
-        return id == null || coachAthleteRepository.existsByCoachOrAthleteId(id);
+        return id == null || !coachAthleteRepository.existsByCoachOrAthleteId(id);
     }
 }
