@@ -31,4 +31,6 @@ public interface UserRepository extends
     Optional<User> findByUsernameOrEmail(String usernameOrEmail);
 
     boolean existsByEmail(String email);
+
+    boolean existsByUsername(String username);
 }
