@@ -10,7 +10,7 @@ import vnavesnoj.spring.validation.SportExists;
 import vnavesnoj.spring.validation.impl.SportExistsConstraintValidator;
 
 import java.util.Collections;
-import java.util.Set;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RequiredArgsConstructor
 class SportExistsConstraintValidatorTest extends IntegrationTestBase {
 
-    private ConstraintValidator<SportExists, Set<Integer>> validator;
+    private ConstraintValidator<SportExists, List<Integer>> validator;
 
     private final SportRepository sportRepository;
 
@@ -38,38 +38,38 @@ class SportExistsConstraintValidatorTest extends IntegrationTestBase {
 
     @Test
     void emptyIsValid() {
-        final var actual = validator.isValid(Collections.emptySet(), null);
+        final var actual = validator.isValid(Collections.emptyList(), null);
         assertThat(actual).isTrue();
     }
 
     @Test
     void existedSportIsValid() {
-        final var actual1 = validator.isValid(Set.of(1), null);
-        final var actual2 = validator.isValid(Set.of(2), null);
+        final var actual1 = validator.isValid(List.of(1), null);
+        final var actual2 = validator.isValid(List.of(2), null);
         assertThat(actual1).isTrue();
         assertThat(actual2).isTrue();
     }
 
     @Test
     void existedSportsAreValid() {
-        final var actual1 = validator.isValid(Set.of(1, 3), null);
-        final var actual2 = validator.isValid(Set.of(3, 2), null);
+        final var actual1 = validator.isValid(List.of(1, 3), null);
+        final var actual2 = validator.isValid(List.of(3, 2), null);
         assertThat(actual1).isTrue();
         assertThat(actual2).isTrue();
     }
 
     @Test
     void notExistedSportIsValid() {
-        final var actual1 = validator.isValid(Set.of(4), null);
-        final var actual2 = validator.isValid(Set.of(0), null);
+        final var actual1 = validator.isValid(List.of(4), null);
+        final var actual2 = validator.isValid(List.of(0), null);
         assertThat(actual1).isFalse();
         assertThat(actual2).isFalse();
     }
 
     @Test
     void notExistedSportsAreValid() {
-        final var actual1 = validator.isValid(Set.of(4, 3), null);
-        final var actual2 = validator.isValid(Set.of(5, 6), null);
+        final var actual1 = validator.isValid(List.of(4, 3), null);
+        final var actual2 = validator.isValid(List.of(5, 6), null);
         assertThat(actual1).isFalse();
         assertThat(actual2).isFalse();
     }

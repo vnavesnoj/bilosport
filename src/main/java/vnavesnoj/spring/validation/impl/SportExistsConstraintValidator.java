@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import vnavesnoj.spring.database.repository.SportRepository;
 import vnavesnoj.spring.validation.SportExists;
 
-import java.util.Objects;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -14,14 +14,13 @@ import java.util.Set;
  * @mail vnavesnoj@gmail.com
  */
 @RequiredArgsConstructor
-public class SportExistsConstraintValidator implements ConstraintValidator<SportExists, Set<Integer>> {
+public class SportExistsConstraintValidator implements ConstraintValidator<SportExists, List<Integer>> {
 
     private final SportRepository sportRepository;
 
     @Override
-    public boolean isValid(Set<Integer> sports, ConstraintValidatorContext context) {
-        return sports == null ? true :
-                sports.stream().noneMatch(Objects::isNull)
-                        && (sports.stream().allMatch(sportRepository::existsById));
+    public boolean isValid(List<Integer> sports, ConstraintValidatorContext context) {
+        return sports == null ? true
+                : (Set.copyOf(sports).stream().allMatch(sportRepository::existsById));
     }
 }
