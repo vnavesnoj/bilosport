@@ -17,6 +17,6 @@ public class UserFreeConstraintValidator implements ConstraintValidator<UserFree
 
     @Override
     public boolean isValid(Long userId, ConstraintValidatorContext context) {
-        return userId == null || personRepository.findByUserId(userId).isEmpty();
+        return userId == null || !personRepository.existsByUserId(userId);
     }
 }
