@@ -7,6 +7,24 @@ import lombok.*;
  * @author vnavesnoj
  * @mail vnavesnoj@gmail.com
  */
+@NamedEntityGraph(name = "CoachAthlete.person.user",
+        attributeNodes = {
+                @NamedAttributeNode(value = "coach",
+                        subgraph = "Coach.user"),
+                @NamedAttributeNode(value = "athlete",
+                        subgraph = "Athlete.user")
+        },
+        subgraphs = {
+                @NamedSubgraph(name = "Coach.user",
+                        type = Person.class,
+                        attributeNodes = @NamedAttributeNode("user")
+                ),
+                @NamedSubgraph(name = "Athlete.user",
+                        type = Person.class,
+                        attributeNodes = @NamedAttributeNode("user")
+                )
+        }
+)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

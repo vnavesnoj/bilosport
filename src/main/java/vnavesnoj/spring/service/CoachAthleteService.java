@@ -3,10 +3,13 @@ package vnavesnoj.spring.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import vnavesnoj.spring.database.entity.CoachAthlete;
+import vnavesnoj.spring.database.repository.CoachAthleteRepository;
 import vnavesnoj.spring.dto.person.coachathlete.AthleteReadDto;
 import vnavesnoj.spring.dto.person.coachathlete.CoachAthleteCreateDto;
 import vnavesnoj.spring.dto.person.coachathlete.CoachAthleteReadDto;
 import vnavesnoj.spring.dto.person.coachathlete.CoachReadDto;
+import vnavesnoj.spring.mapper.Mapper;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,8 +23,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CoachAthleteService {
 
+    private final CoachAthleteRepository coachAthleteRepository;
+
+    private final Mapper<CoachAthlete, CoachAthleteReadDto> coachAthleteReadMapper;
+
     public Optional<CoachAthleteReadDto> findById(Long id) {
-        return Optional.empty();
+        return coachAthleteRepository.findById(id)
+                .map(coachAthleteReadMapper::map);
     }
 
     public Page<AthleteReadDto> findAllAthletesByCoachId(Long id) {
