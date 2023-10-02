@@ -2,6 +2,7 @@ package vnavesnoj.spring.integration.service;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.Pageable;
 import vnavesnoj.spring.database.repository.CoachAthleteRepository;
 import vnavesnoj.spring.dto.SportReadDto;
 import vnavesnoj.spring.dto.person.coachathlete.AthleteReadDto;
@@ -88,28 +89,28 @@ class CoachAthleteServiceTest extends IntegrationTestBase {
 
     @Test
     void findAllAthletesByExistedCoachId() {
-        final var actual = coachAthleteService.findAllAthletesByCoachId(1L);
+        final var actual = coachAthleteService.findAllAthletesByCoachId(1L, Pageable.unpaged());
         assertThat(actual).hasSize(3)
                 .contains(SHEVCHENKO_ATHLETE, SKOVORODA_ATHLETE, MASK_ATHLETE);
     }
 
     @Test
     void findNoneAthletesByNotExistedCoachId() {
-        final var actual = coachAthleteService.findAllAthletesByCoachId(5L);
+        final var actual = coachAthleteService.findAllAthletesByCoachId(5L, Pageable.unpaged());
         assertThat(actual).isEmpty();
     }
 
     @Test
     void findAllCoachesByExistedAthleteId() {
-        final var actual = coachAthleteService.findAllCoachesByAthleteId(6L);
+        final var actual = coachAthleteService.findAllCoachesByAthleteId(6L, Pageable.unpaged());
         assertThat(actual).hasSize(1).contains(IVAN_COACH);
     }
 
     @Test
     void findNoneCoachesByNotExistedAthleteId() {
-        final var actual1 = coachAthleteService.findAllCoachesByAthleteId(1L);
-        final var actual2 = coachAthleteService.findAllCoachesByAthleteId(10L);
-        final var actual3 = coachAthleteService.findAllCoachesByAthleteId(20L);
+        final var actual1 = coachAthleteService.findAllCoachesByAthleteId(1L, Pageable.unpaged());
+        final var actual2 = coachAthleteService.findAllCoachesByAthleteId(10L, Pageable.unpaged());
+        final var actual3 = coachAthleteService.findAllCoachesByAthleteId(20L, Pageable.unpaged());
         assertThat(actual1).isEmpty();
         assertThat(actual2).isEmpty();
         assertThat(actual3).isEmpty();

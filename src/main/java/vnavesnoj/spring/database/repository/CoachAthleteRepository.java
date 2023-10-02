@@ -1,13 +1,13 @@
 package vnavesnoj.spring.database.repository;
 
 import lombok.NonNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import vnavesnoj.spring.database.entity.CoachAthlete;
-import vnavesnoj.spring.database.entity.Person;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -16,9 +16,11 @@ import java.util.Optional;
  */
 public interface CoachAthleteRepository extends JpaRepository<CoachAthlete, Long> {
 
-    List<CoachAthlete> findAllByCoachId(Long id);
+    @EntityGraph("CoachAthlete.person.user")
+    Page<CoachAthlete> findAllByCoachId(Long id, Pageable pageable);
 
-    List<CoachAthlete> findAllByAthlete(Person id);
+    @EntityGraph("CoachAthlete.person.user")
+    Page<CoachAthlete> findAllByAthleteId(Long id, Pageable pageable);
 
     @Query("""
             SELECT exists(SELECT ca

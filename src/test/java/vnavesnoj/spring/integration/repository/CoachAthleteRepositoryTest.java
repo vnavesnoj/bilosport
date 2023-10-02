@@ -17,7 +17,6 @@ class CoachAthleteRepositoryTest {
 
     @Test
     void test() {
-        final var athletes = coachAthleteRepository.findAllByCoachId(1L);
-        System.out.println();
+
     }
 }

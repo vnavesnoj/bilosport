@@ -2,6 +2,7 @@ package vnavesnoj.spring.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import vnavesnoj.spring.database.entity.CoachAthlete;
 import vnavesnoj.spring.database.repository.CoachAthleteRepository;
@@ -32,12 +33,25 @@ public class CoachAthleteService {
                 .map(coachAthleteReadMapper::map);
     }
 
-    public Page<AthleteReadDto> findAllAthletesByCoachId(Long id) {
-        return Page.empty();
+    //TODO проблема с 1 + N при фетче sports. Сделать NamedEG и пофиг на дубликаты?
+    public Page<CoachAthleteReadDto> findAllByCoachId(Long id, Pageable pageable) {
+        return coachAthleteRepository.findAllByCoachId(id, pageable)
+                .map(coachAthleteReadMapper::map);
     }
 
-    public Page<CoachReadDto> findAllCoachesByAthleteId(Long id) {
-        return Page.empty();
+    public Page<CoachAthleteReadDto> findAllByAthleteId(Long id, Pageable pageable) {
+        return coachAthleteRepository.findAllByAthleteId(id, pageable)
+                .map(coachAthleteReadMapper::map);
+    }
+
+    public Page<AthleteReadDto> findAllAthletesByCoachId(Long id, Pageable pageable) {
+        return findAllByCoachId(id, pageable)
+                .map(CoachAthleteReadDto::getAthlete);
+    }
+
+    public Page<CoachReadDto> findAllCoachesByAthleteId(Long id, Pageable pageable) {
+        return findAllByAthleteId(id, pageable)
+                .map(CoachAthleteReadDto::getCoach);
     }
 
     public CoachAthleteReadDto create(CoachAthleteCreateDto coachAthlete) {
