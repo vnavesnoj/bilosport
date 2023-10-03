@@ -28,12 +28,14 @@ public class CoachAthleteService {
 
     private final Mapper<CoachAthlete, CoachAthleteReadDto> coachAthleteReadMapper;
 
+    private final Mapper<CoachAthleteCreateDto, CoachAthlete> coachAthleteCreateMapper;
+
     public Optional<CoachAthleteReadDto> findById(Long id) {
         return coachAthleteRepository.findById(id)
                 .map(coachAthleteReadMapper::map);
     }
 
-    //TODO проблема с 1 + N при фетче sports. Сделать NamedEG и пофиг на дубликаты?
+    //TODO проблема с 1 + N при фетче sports. Нужно лучше определиться с логикой приложения для дальнейших действий
     public Page<CoachAthleteReadDto> findAllByCoachId(Long id, Pageable pageable) {
         return coachAthleteRepository.findAllByCoachId(id, pageable)
                 .map(coachAthleteReadMapper::map);
@@ -55,7 +57,11 @@ public class CoachAthleteService {
     }
 
     public CoachAthleteReadDto create(CoachAthleteCreateDto coachAthlete) {
-        return null;
+        return Optional.of(coachAthlete)
+                .map(coachAthleteCreateMapper::map)
+                .map(coachAthleteRepository::save)
+                .map(coachAthleteReadMapper::map)
+                .orElseThrow();
     }
 
     public List<CoachAthleteReadDto> createAll(CoachAthleteCreateDto... coachAthletes) {

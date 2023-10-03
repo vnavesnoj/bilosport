@@ -36,7 +36,7 @@ class CoachAthleteServiceTest extends IntegrationTestBase {
             "Ivan");
 
     private static final CoachReadDto PETR_COACH = new CoachReadDto(
-            1L,
+            2L,
             "Петро",
             "Петров",
             Set.of(new SportReadDto(2, "теніс")),
@@ -134,7 +134,7 @@ class CoachAthleteServiceTest extends IntegrationTestBase {
         );
         assertThat(actual1).isEqualTo(expected1);
         assertThat(actual2).isEqualTo(expected2);
-        assertThat(coachAthleteRepository.count()).isEqualTo(9);
+        assertThat(coachAthleteRepository.count()).isEqualTo(10);
         assertThat(coachAthleteRepository.existsById(9L)).isTrue();
         assertThat(coachAthleteRepository.existsById(10L)).isTrue();
     }
@@ -155,7 +155,7 @@ class CoachAthleteServiceTest extends IntegrationTestBase {
                 () -> coachAthleteService.create(new CoachAthleteCreateDto(1L, 20L))
         );
         assertThatExceptionOfType(Exception.class).isThrownBy(
-                () -> coachAthleteService.create(new CoachAthleteCreateDto(5L, 10L))
+                () -> coachAthleteService.create(new CoachAthleteCreateDto(15L, 10L))
         );
     }
 
