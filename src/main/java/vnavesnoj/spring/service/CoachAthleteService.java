@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import vnavesnoj.spring.database.entity.CoachAthlete;
 import vnavesnoj.spring.database.repository.CoachAthleteRepository;
 import vnavesnoj.spring.dto.person.coachathlete.AthleteReadDto;
@@ -12,7 +13,7 @@ import vnavesnoj.spring.dto.person.coachathlete.CoachAthleteReadDto;
 import vnavesnoj.spring.dto.person.coachathlete.CoachReadDto;
 import vnavesnoj.spring.mapper.Mapper;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,7 @@ import java.util.Optional;
  */
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CoachAthleteService {
 
     private final CoachAthleteRepository coachAthleteRepository;
@@ -56,6 +58,7 @@ public class CoachAthleteService {
                 .map(CoachAthleteReadDto::getCoach);
     }
 
+    @Transactional
     public CoachAthleteReadDto create(CoachAthleteCreateDto coachAthlete) {
         return Optional.of(coachAthlete)
                 .map(coachAthleteCreateMapper::map)
@@ -64,19 +67,51 @@ public class CoachAthleteService {
                 .orElseThrow();
     }
 
+    //TODO поиск самих сущностей для вставки можно оптимизировать
+    @Transactional
     public List<CoachAthleteReadDto> createAll(CoachAthleteCreateDto... coachAthletes) {
-        return Collections.emptyList();
+        return Optional.of(coachAthletes)
+                .map(Arrays::asList)
+                .map(list -> list.stream()
+                        .map(coachAthleteCreateMapper::map)
+                        .toList())
+                .map(coachAthleteRepository::saveAll)
+                .map(list -> list.stream()
+                        .map(coachAthleteReadMapper::map)
+                        .toList())
+                .orElseThrow();
     }
 
+    @Transactional
     public boolean deleteById(Long id) {
-        return false;
+        return coachAthleteRepository.findById(id)
+                .map(entity -> {
+                    coachAthleteRepository.delete(entity);
+                    coachAthleteRepository.flush();
+                    return true;
+                })
+                .orElse(false);
     }
 
+    @Transactional
     public long deleteAllById(Long... id) {
-        return -1L;
+        return Optional.of(coachAthleteRepository.findAllById(List.of(id)))
+                .map(entities -> {
+                    coachAthleteRepository.deleteAll(entities);
+                    coachAthleteRepository.flush();
+                    return entities.size();
+                })
+                .orElseThrow();
     }
 
+    @Transactional
     public long deleteAllByCoachId(Long id) {
-        return -1L;
+        return Optional.of(coachAthleteRepository.findAllByCoachId(id))
+                .map(entities -> {
+                    coachAthleteRepository.deleteAll(entities);
+                    coachAthleteRepository.flush();
+                    return entities.size();
+                })
+                .orElseThrow();
     }
 }
