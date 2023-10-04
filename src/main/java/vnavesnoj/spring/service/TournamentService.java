@@ -2,22 +2,16 @@ package vnavesnoj.spring.service;
 
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import vnavesnoj.spring.database.entity.MemberRole;
 import vnavesnoj.spring.database.entity.Tournament;
-import vnavesnoj.spring.database.entity.TournamentPerson;
-import vnavesnoj.spring.database.repository.PersonRepository;
-import vnavesnoj.spring.database.repository.TournamentPersonRepository;
 import vnavesnoj.spring.database.repository.TournamentRepository;
-import vnavesnoj.spring.dto.TournamentFilter;
-import vnavesnoj.spring.dto.TournamentReadDto;
-import vnavesnoj.spring.exception.PersonNotExistsException;
-import vnavesnoj.spring.exception.TournamentNotExistsException;
-import vnavesnoj.spring.exception.TournamentPersonAlreadyExistsException;
+import vnavesnoj.spring.dto.tournament.TournamentCreateDto;
+import vnavesnoj.spring.dto.tournament.TournamentEditDto;
+import vnavesnoj.spring.dto.tournament.TournamentFilter;
+import vnavesnoj.spring.dto.tournament.TournamentReadDto;
 import vnavesnoj.spring.mapper.Mapper;
 
 import java.util.Optional;
@@ -33,14 +27,12 @@ public class TournamentService {
 
     private final TournamentRepository tournamentRepository;
 
-    private final TournamentPersonRepository tournamentPersonRepository;
-
-    private final PersonRepository personRepository;
-
     private final Mapper<Tournament, TournamentReadDto> tournamentReadMapper;
 
     private final Mapper<TournamentFilter, Predicate> tournamentPredicateMapper;
 
+
+    //TODO change return type
     public Optional<TournamentReadDto> findById(Long id) {
         return tournamentRepository.findById(id)
                 .map(tournamentReadMapper::map);
@@ -52,6 +44,19 @@ public class TournamentService {
                 .map(tournamentReadMapper::map);
     }
 
+    public TournamentReadDto create(TournamentCreateDto tournament) {
+        return null;
+    }
+
+    public Optional<TournamentReadDto> update(Long id, TournamentEditDto tournament) {
+        return Optional.empty();
+    }
+
+    public boolean delete(Long id) {
+        return false;
+    }
+/*
+    //TODO change all
     @Transactional
     public void tryAddPerson(Long tournamentId, Long personId, MemberRole memberRole)
             throws TournamentNotExistsException, PersonNotExistsException, TournamentPersonAlreadyExistsException {
@@ -71,4 +76,5 @@ public class TournamentService {
         tournamentPerson.setMemberRole(memberRole);
         tournamentPersonRepository.save(tournamentPerson);
     }
+ */
 }

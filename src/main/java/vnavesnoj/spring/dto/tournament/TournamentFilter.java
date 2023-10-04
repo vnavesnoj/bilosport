@@ -1,4 +1,4 @@
-package vnavesnoj.spring.dto;
+package vnavesnoj.spring.dto.tournament;
 
 import lombok.Value;
 

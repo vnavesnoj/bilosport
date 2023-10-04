@@ -3,7 +3,7 @@ package vnavesnoj.spring.mapper;
 import com.querydsl.core.types.Predicate;
 import org.springframework.stereotype.Component;
 import vnavesnoj.spring.database.querydsl.QPredicates;
-import vnavesnoj.spring.dto.TournamentFilter;
+import vnavesnoj.spring.dto.tournament.TournamentFilter;
 
 import static vnavesnoj.spring.database.entity.QTournament.tournament;
 

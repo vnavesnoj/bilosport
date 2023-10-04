@@ -1,6 +1,8 @@
-package vnavesnoj.spring.dto;
+package vnavesnoj.spring.dto.tournament;
 
 import lombok.Value;
+import vnavesnoj.spring.database.entity.TournamentStatus;
+import vnavesnoj.spring.dto.SportReadDto;
 
 import java.time.LocalDate;
 
@@ -15,4 +17,5 @@ public class TournamentReadDto {
     String name;
     SportReadDto sport;
     LocalDate tournamentDate;
+    TournamentStatus tournamentStatus;
 }

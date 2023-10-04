@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 import vnavesnoj.spring.database.entity.Sport;
 import vnavesnoj.spring.database.entity.Tournament;
-import vnavesnoj.spring.dto.TournamentCreateEditDto;
+import vnavesnoj.spring.dto.tournament.TournamentCreateEditDto;
 
 /**
  * @author vnavesnoj

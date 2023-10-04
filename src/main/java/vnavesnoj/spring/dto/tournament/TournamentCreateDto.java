@@ -1,6 +1,7 @@
-package vnavesnoj.spring.dto;
+package vnavesnoj.spring.dto.tournament;
 
 import lombok.Value;
+import vnavesnoj.spring.database.entity.TournamentStatus;
 
 import java.time.LocalDate;
 
@@ -9,11 +10,10 @@ import java.time.LocalDate;
  * @mail vnavesnoj@gmail.com
  */
 @Value
-public class TournamentCreateEditDto {
+public class TournamentCreateDto {
 
     String name;
-
     Integer sportId;
-
     LocalDate tournamentDate;
+    TournamentStatus tournamentStatus;
 }

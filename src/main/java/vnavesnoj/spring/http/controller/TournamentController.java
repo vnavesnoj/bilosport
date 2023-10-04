@@ -1,22 +1,8 @@
 package vnavesnoj.spring.http.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import vnavesnoj.spring.dto.PageResponse;
-import vnavesnoj.spring.dto.TournamentFilter;
-import vnavesnoj.spring.dto.TournamentReadDto;
-import vnavesnoj.spring.dto.TournamentSortBy;
-import vnavesnoj.spring.service.SportService;
-import vnavesnoj.spring.service.TournamentService;
-
-import static vnavesnoj.spring.database.entity.QTournament.tournament;
 
 /**
  * @author vnavesnoj
@@ -26,7 +12,7 @@ import static vnavesnoj.spring.database.entity.QTournament.tournament;
 @RequestMapping("/tournaments")
 @RequiredArgsConstructor
 public class TournamentController {
-
+/*
     private final TournamentService tournamentService;
     private final SportService sportService;
 
@@ -49,4 +35,5 @@ public class TournamentController {
         model.addAttribute("directions", Sort.Direction.values());
         return "tournament/tournaments";
     }
+ */
 }
