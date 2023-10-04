@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vnavesnoj.spring.database.entity.Tournament;
 import vnavesnoj.spring.database.repository.TournamentRepository;
-import vnavesnoj.spring.dto.tournament.TournamentCreateDto;
-import vnavesnoj.spring.dto.tournament.TournamentEditDto;
+import vnavesnoj.spring.dto.tournament.TournamentCreateEditDto;
 import vnavesnoj.spring.dto.tournament.TournamentFilter;
 import vnavesnoj.spring.dto.tournament.TournamentReadDto;
 import vnavesnoj.spring.mapper.Mapper;
@@ -44,11 +43,11 @@ public class TournamentService {
                 .map(tournamentReadMapper::map);
     }
 
-    public TournamentReadDto create(TournamentCreateDto tournament) {
+    public TournamentReadDto create(TournamentCreateEditDto tournament) {
         return null;
     }
 
-    public Optional<TournamentReadDto> update(Long id, TournamentEditDto tournament) {
+    public Optional<TournamentReadDto> update(Long id, TournamentCreateEditDto tournament) {
         return Optional.empty();
     }
 

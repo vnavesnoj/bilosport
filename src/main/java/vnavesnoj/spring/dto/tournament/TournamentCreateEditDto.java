@@ -1,6 +1,7 @@
 package vnavesnoj.spring.dto.tournament;
 
 import lombok.Value;
+import vnavesnoj.spring.database.entity.TournamentStatus;
 
 import java.time.LocalDate;
 
@@ -12,8 +13,7 @@ import java.time.LocalDate;
 public class TournamentCreateEditDto {
 
     String name;
-
     Integer sportId;
-
     LocalDate tournamentDate;
+    TournamentStatus tournamentStatus;
 }
