@@ -43,6 +43,7 @@ public class TournamentService {
                 .map(tournamentReadMapper::map);
     }
 
+    @Transactional
     public TournamentReadDto create(TournamentCreateEditDto tournament) {
         return Optional.of(tournament)
                 .map(tournamentCreateEditMapper::map)
@@ -51,6 +52,7 @@ public class TournamentService {
                 .orElseThrow();
     }
 
+    @Transactional
     public Optional<TournamentReadDto> update(Long id, TournamentCreateEditDto tournament) {
         return tournamentRepository.findById(id)
                 .map(entity -> tournamentCreateEditMapper.map(tournament, entity))
@@ -58,6 +60,7 @@ public class TournamentService {
                 .map(tournamentReadMapper::map);
     }
 
+    @Transactional
     public boolean delete(Long id) {
         return tournamentRepository.findById(id)
                 .map(tournament -> {

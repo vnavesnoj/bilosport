@@ -30,6 +30,10 @@ public class TournamentPerson {
     @Enumerated(EnumType.STRING)
     private MemberRole memberRole;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TournamentPersonStatus status;
+
     @OneToOne(mappedBy = "tournamentPerson", fetch = FetchType.LAZY)
     private TournamentResult tournamentResult;
 
