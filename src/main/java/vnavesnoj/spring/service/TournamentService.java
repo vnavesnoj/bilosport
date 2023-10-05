@@ -32,8 +32,6 @@ public class TournamentService {
 
     private final Mapper<TournamentCreateEditDto, Tournament> tournamentCreateEditMapper;
 
-
-    //TODO change return type
     public Optional<TournamentReadDto> findById(Long id) {
         return tournamentRepository.findById(id)
                 .map(tournamentReadMapper::map);

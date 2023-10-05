@@ -11,6 +11,10 @@ import java.util.Set;
  * @author vnavesnoj
  * @mail vnavesnoj@gmail.com
  */
+@NamedEntityGraph(
+        name = "Tournament.sport",
+        attributeNodes = @NamedAttributeNode("sport")
+)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
