@@ -1,4 +1,4 @@
-package vnavesnoj.spring.mapper;
+package vnavesnoj.spring.mapper.tournament;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -6,6 +6,7 @@ import vnavesnoj.spring.database.entity.Sport;
 import vnavesnoj.spring.database.entity.Tournament;
 import vnavesnoj.spring.dto.SportReadDto;
 import vnavesnoj.spring.dto.tournament.TournamentReadDto;
+import vnavesnoj.spring.mapper.Mapper;
 
 /**
  * @author vnavesnoj
@@ -24,8 +25,7 @@ public class TournamentReadMapper implements Mapper<Tournament, TournamentReadDt
                 tournament.getName(),
                 sportReadMapper.map(tournament.getSport()),
                 tournament.getTournamentDate(),
-                //TODO
-                null
+                tournament.getStatus()
         );
     }
 

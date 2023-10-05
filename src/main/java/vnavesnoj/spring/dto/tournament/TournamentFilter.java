@@ -1,6 +1,7 @@
 package vnavesnoj.spring.dto.tournament;
 
 import lombok.Value;
+import vnavesnoj.spring.database.entity.TournamentStatus;
 
 import java.time.LocalDate;
 
@@ -15,4 +16,5 @@ public class TournamentFilter {
     LocalDate afterDate;
     LocalDate beforeDate;
     Integer sportId;
+    TournamentStatus status;
 }

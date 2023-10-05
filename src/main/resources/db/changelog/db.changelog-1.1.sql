@@ -4,7 +4,7 @@
 CREATE TABLE tournament_result
 (
     id                   BIGSERIAL PRIMARY KEY,
-    tournament_person_id BIGINT NOT NULL UNIQUE REFERENCES tournament_person,
+    tournament_person_id BIGINT NOT NULL UNIQUE REFERENCES tournament_person ON DELETE CASCADE,
     place                INT,
     out_of               INT
 );

@@ -30,6 +30,8 @@ public class TournamentService {
 
     private final Mapper<TournamentFilter, Predicate> tournamentPredicateMapper;
 
+    private final Mapper<TournamentCreateEditDto, Tournament> tournamentCreateEditMapper;
+
 
     //TODO change return type
     public Optional<TournamentReadDto> findById(Long id) {
@@ -44,15 +46,28 @@ public class TournamentService {
     }
 
     public TournamentReadDto create(TournamentCreateEditDto tournament) {
-        return null;
+        return Optional.of(tournament)
+                .map(tournamentCreateEditMapper::map)
+                .map(tournamentRepository::save)
+                .map(tournamentReadMapper::map)
+                .orElseThrow();
     }
 
     public Optional<TournamentReadDto> update(Long id, TournamentCreateEditDto tournament) {
-        return Optional.empty();
+        return tournamentRepository.findById(id)
+                .map(entity -> tournamentCreateEditMapper.map(tournament, entity))
+                .map(tournamentRepository::saveAndFlush)
+                .map(tournamentReadMapper::map);
     }
 
     public boolean delete(Long id) {
-        return false;
+        return tournamentRepository.findById(id)
+                .map(tournament -> {
+                    tournamentRepository.delete(tournament);
+                    tournamentRepository.flush();
+                    return true;
+                })
+                .orElse(false);
     }
 /*
     //TODO change all

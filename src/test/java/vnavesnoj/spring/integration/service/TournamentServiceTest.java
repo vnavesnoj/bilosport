@@ -67,7 +67,7 @@ class TournamentServiceTest extends IntegrationTestBase {
     @Test
     void findAllWithEmptyFilterAndPageable() {
         final var actual = tournamentService.findAll(
-                new TournamentFilter(null, null, null, null),
+                new TournamentFilter(null, null, null, null, null),
                 Pageable.unpaged()
         );
         assertThat(actual).hasSize(2).containsExactly(
@@ -79,7 +79,7 @@ class TournamentServiceTest extends IntegrationTestBase {
     @Test
     void findOneByName() {
         final var actual = tournamentService.findAll(
-                new TournamentFilter("шахи", null, null, null),
+                new TournamentFilter("шахи", null, null, null, null),
                 Pageable.unpaged()
         );
         assertThat(actual).hasSize(1).containsExactly(TOURNAMENT_2_DTO);
@@ -88,10 +88,19 @@ class TournamentServiceTest extends IntegrationTestBase {
     @Test
     void findOneBySportId() {
         final var actual = tournamentService.findAll(
-                new TournamentFilter(null, null, null, 3),
+                new TournamentFilter(null, null, null, 3, null),
                 Pageable.unpaged()
         );
-        assertThat(actual).hasSize(1).containsExactly(TOURNAMENT_1_DTO);
+        assertThat(actual).hasSize(1).containsExactly(TOURNAMENT_2_DTO);
+    }
+
+    @Test
+    void findOneByStatus() {
+        final var actual = tournamentService.findAll(
+                new TournamentFilter(null, null, null, null, TournamentStatus.PREPARATION),
+                Pageable.unpaged()
+        );
+        assertThat(actual).hasSize(1).containsExactly(TOURNAMENT_2_DTO);
     }
 
     @Test
@@ -101,6 +110,7 @@ class TournamentServiceTest extends IntegrationTestBase {
                         null,
                         LocalDate.of(2023, 8, 1),
                         LocalDate.of(2023, 11, 15),
+                        null,
                         null
                 ),
                 Pageable.unpaged()
@@ -111,7 +121,7 @@ class TournamentServiceTest extends IntegrationTestBase {
     @Test
     void noneFindByFilter() {
         final var actual = tournamentService.findAll(
-                new TournamentFilter(null, null, LocalDate.of(2023, 7, 1), null),
+                new TournamentFilter(null, null, LocalDate.of(2023, 7, 1), null, null),
                 Pageable.unpaged()
         );
         assertThat(actual).hasSize(0);
@@ -165,10 +175,7 @@ class TournamentServiceTest extends IntegrationTestBase {
                 LocalDate.of(2023, 8, 1),
                 TournamentStatus.CANCELED
         );
-        final var actual = tournamentService.update(
-                2L,
-                tournament
-        );
+        final var actual = tournamentService.update(1L, tournament);
         final var expected = new TournamentReadDto(
                 1L,
                 "New name",
@@ -221,9 +228,8 @@ class TournamentServiceTest extends IntegrationTestBase {
 
     @Test
     void falseWhenDeleteNotExisted() {
-        final var actual = tournamentService.delete(1L);
+        final var actual = tournamentService.delete(20L);
         assertThat(actual).isFalse();
         assertThat(tournamentRepository.count()).isEqualTo(2L);
-        assertThat(tournamentRepository.findById(1L)).isPresent();
     }
 }

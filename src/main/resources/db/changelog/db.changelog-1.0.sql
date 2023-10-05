@@ -75,7 +75,7 @@ CREATE TABLE tournament
 CREATE TABLE tournament_person
 (
     id            BIGSERIAL PRIMARY KEY,
-    tournament_id BIGINT      NOT NULL REFERENCES tournament,
+    tournament_id BIGINT      NOT NULL REFERENCES tournament ON DELETE CASCADE,
     person_id     BIGINT      NOT NULL REFERENCES person,
     member_role   VARCHAR(32) NOT NULL,
     UNIQUE (tournament_id, person_id)
