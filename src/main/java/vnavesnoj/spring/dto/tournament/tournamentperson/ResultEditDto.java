@@ -11,5 +11,5 @@ public class ResultEditDto {
 
     Integer place;
 
-    Integer out_of;
+    Integer outOf;
 }

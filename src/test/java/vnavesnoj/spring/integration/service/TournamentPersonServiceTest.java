@@ -82,25 +82,25 @@ class TournamentPersonServiceTest extends IntegrationTestBase {
 
     @Test
     void findAllPersonsByTournament() {
-        final var actual = tournamentPersonService.findAllPersonsByTournament(1L, Pageable.unpaged());
+        final var actual = tournamentPersonService.findAllByTournament(1L, Pageable.unpaged());
         assertThat(actual).hasSize(7).contains(TOURNAMENT_PERSON_2_READ_DTO);
     }
 
     @Test
     void findNonePersonsByNotExistedTournament() {
-        final var actual = tournamentPersonService.findAllPersonsByTournament(20L, Pageable.unpaged());
+        final var actual = tournamentPersonService.findAllByTournament(20L, Pageable.unpaged());
         assertThat(actual).isEmpty();
     }
 
     @Test
     void findAllTournamentsByPerson() {
-        final var actual = tournamentPersonService.findAllTournamentsByPerson(5L, Pageable.unpaged());
+        final var actual = tournamentPersonService.findAllByPerson(5L, Pageable.unpaged());
         assertThat(actual).hasSize(1).contains(TOURNAMENT_PERSON_2_READ_DTO);
     }
 
     @Test
     void findNoneTournamentsByNotExistedPerson() {
-        final var actual = tournamentPersonService.findAllTournamentsByPerson(20L, Pageable.unpaged());
+        final var actual = tournamentPersonService.findAllByPerson(20L, Pageable.unpaged());
         assertThat(actual).isEmpty();
     }
 
