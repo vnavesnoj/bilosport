@@ -122,6 +122,7 @@ class TournamentPersonServiceTest extends IntegrationTestBase {
                 null
         );
         assertThat(actual).isEqualTo(expected);
+        assertThat(tournamentPersonRepository.count()).isEqualTo(11L);
         assertThat(tournamentPersonRepository.findById(11L)).isPresent();
     }
 

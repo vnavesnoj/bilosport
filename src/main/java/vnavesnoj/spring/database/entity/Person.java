@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -21,10 +20,10 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id", callSuper = false)
-@ToString(exclude = {
-        "tournamentPeople",
-        "sport"
-})
+//@ToString(exclude = {
+//        "tournamentPeople",
+//        "sport"
+//})
 @Builder
 @Entity
 @Table(name = "person")
@@ -52,8 +51,8 @@ public class Person {
     @JoinTable(name = "person_sport")
     private Set<Sport> sport;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
-    private Set<TournamentPerson> tournamentPeople = new HashSet<>();
+//    @Builder.Default
+//    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
+//    private Set<TournamentPerson> tournamentPeople = new HashSet<>();
 
 }

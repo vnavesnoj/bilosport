@@ -23,8 +23,15 @@ public class TournamentPersonCreateMapper implements Mapper<TournamentPersonCrea
     @Override
     public TournamentPerson map(TournamentPersonCreateDto entity) {
         return TournamentPerson.builder()
-                .tournament(tournamentRepository.getReferenceById(entity.getTournamentId()))
-                .person(personRepository.getReferenceById(entity.getPersonId()))
+                .tournament(tournamentRepository.findById(entity.getTournamentId()).orElseThrow(
+                        () -> new IllegalArgumentException(
+                                "Tournament with id = " + entity.getTournamentId() + " does not exist")
+                ))
+                .person(personRepository.findById(entity.getPersonId()).orElseThrow(
+                        () -> new IllegalArgumentException(
+                                "Person with id = " + entity.getPersonId() + " does not exist"
+                        )
+                ))
                 .memberRole(entity.getMemberRole())
                 .status(entity.getStatus())
                 .build();

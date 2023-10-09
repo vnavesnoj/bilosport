@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import vnavesnoj.spring.database.entity.TournamentPerson;
 import vnavesnoj.spring.database.repository.TournamentPersonRepository;
 import vnavesnoj.spring.dto.tournament.tournamentperson.TournamentPersonCreateDto;
@@ -18,6 +19,7 @@ import java.util.Optional;
  * @mail vnavesnoj@gmail.com
  */
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class TournamentPersonService {
 
@@ -44,6 +46,7 @@ public class TournamentPersonService {
                 .map(tournamentPersonReadMapper::map);
     }
 
+    @Transactional
     public TournamentPersonReadDto create(TournamentPersonCreateDto tournamentPerson) {
         return Optional.of(tournamentPerson)
                 .map(tournamentPersonCreateMapper::map)
@@ -52,6 +55,7 @@ public class TournamentPersonService {
                 .orElseThrow();
     }
 
+    @Transactional
     public Optional<TournamentPersonReadDto> update(Long id, TournamentPersonEditDto tournamentPerson) {
         return tournamentPersonRepository.findById(id)
                 .map(entity -> tournamentPersonEditMapper.map(tournamentPerson, entity))
@@ -59,6 +63,7 @@ public class TournamentPersonService {
                 .map(tournamentPersonReadMapper::map);
     }
 
+    @Transactional
     public boolean delete(Long id) {
         return tournamentPersonRepository.findById(id)
                 .map(entity -> {

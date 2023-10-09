@@ -37,13 +37,13 @@ public class TournamentPerson {
     @OneToOne(mappedBy = "tournamentPerson", fetch = FetchType.LAZY)
     private TournamentResult tournamentResult;
 
-    public void setPerson(Person person) {
-        this.person = person;
-        this.person.getTournamentPeople().add(this);
-    }
-
-    public void setTournament(Tournament tournament) {
-        this.tournament = tournament;
-        this.tournament.getTournamentPeople().add(this);
-    }
+//    public void setPerson(Person person) {
+//        this.person = person;
+//        this.person.getTournamentPeople().add(this);
+//    }
+//
+//    public void setTournament(Tournament tournament) {
+//        this.tournament = tournament;
+//        this.tournament.getTournamentPeople().add(this);
+//    }
 }
