@@ -9,5 +9,7 @@ import lombok.Value;
 @Value
 public class ResultEditDto {
 
+    Integer place;
 
+    Integer out_of;
 }

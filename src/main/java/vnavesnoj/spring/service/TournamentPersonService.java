@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import vnavesnoj.spring.dto.tournament.tournamentperson.*;
+import vnavesnoj.spring.dto.tournament.tournamentperson.TournamentPersonCreateDto;
+import vnavesnoj.spring.dto.tournament.tournamentperson.TournamentPersonEditDto;
+import vnavesnoj.spring.dto.tournament.tournamentperson.TournamentPersonReadDto;
 
 import java.util.Optional;
 
@@ -20,11 +22,11 @@ public class TournamentPersonService {
         return Optional.empty();
     }
 
-    public Page<PersonResultReadDto> findAllPersonsByTournament(Long tournamentId, Pageable pageable) {
+    public Page<TournamentPersonReadDto> findAllPersonsByTournament(Long tournamentId, Pageable pageable) {
         return Page.empty();
     }
 
-    public Page<TournamentResultReadDto> findAllTournamentsByPerson(Long personId, Pageable pageable) {
+    public Page<TournamentPersonReadDto> findAllTournamentsByPerson(Long personId, Pageable pageable) {
         return Page.empty();
     }
 
