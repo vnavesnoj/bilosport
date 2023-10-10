@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Pageable;
 import vnavesnoj.spring.database.entity.MemberRole;
+import vnavesnoj.spring.database.entity.Scope;
 import vnavesnoj.spring.database.entity.TournamentPersonStatus;
 import vnavesnoj.spring.database.entity.TournamentStatus;
 import vnavesnoj.spring.database.repository.TournamentPersonRepository;
@@ -36,7 +37,12 @@ class TournamentPersonServiceTest extends IntegrationTestBase {
             "Великий футбол",
             FOOTBALL_SPORT_DTO,
             LocalDate.of(2023, 8, 1),
-            TournamentStatus.FINISHED
+            null,
+            null,
+            null,
+            null,
+            TournamentStatus.FINISHED,
+            Scope.ADMIN
     );
 
     private static final PersonShortReadDto SHEVCHENKO_DTO = new PersonShortReadDto(

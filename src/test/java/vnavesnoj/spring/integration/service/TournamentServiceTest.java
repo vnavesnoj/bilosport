@@ -3,6 +3,7 @@ package vnavesnoj.spring.integration.service;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Pageable;
+import vnavesnoj.spring.database.entity.Scope;
 import vnavesnoj.spring.database.entity.TournamentStatus;
 import vnavesnoj.spring.database.repository.TournamentRepository;
 import vnavesnoj.spring.dto.SportReadDto;
@@ -40,7 +41,12 @@ class TournamentServiceTest extends IntegrationTestBase {
             "Великий футбол",
             FOOTBALL_SPORT_DTO,
             LocalDate.of(2023, 8, 1),
-            TournamentStatus.FINISHED
+            null,
+            null,
+            null,
+            null,
+            TournamentStatus.FINISHED,
+            Scope.ADMIN
     );
 
     private final static TournamentReadDto TOURNAMENT_2_DTO = new TournamentReadDto(
@@ -48,7 +54,12 @@ class TournamentServiceTest extends IntegrationTestBase {
             "Шахи над шахами",
             CHESS_SPORT_DTO,
             LocalDate.of(2023, 11, 15),
-            TournamentStatus.PREPARATION
+            null,
+            null,
+            null,
+            null,
+            TournamentStatus.PREPARATION,
+            Scope.ADMIN
     );
 
 
@@ -133,7 +144,12 @@ class TournamentServiceTest extends IntegrationTestBase {
                 "Теорія тенісу",
                 2,
                 LocalDate.of(2023, 12, 18),
-                TournamentStatus.PREPARATION
+                null,
+                null,
+                null,
+                null,
+                TournamentStatus.PREPARATION,
+                Scope.ALL
         );
         final var actual = tournamentService.create(tournament);
         final var expected = new TournamentReadDto(
@@ -141,7 +157,12 @@ class TournamentServiceTest extends IntegrationTestBase {
                 "Теорія тенісу",
                 PING_PONG_SPORT_DTO,
                 LocalDate.of(2023, 12, 18),
-                TournamentStatus.PREPARATION
+                null,
+                null,
+                null,
+                null,
+                TournamentStatus.PREPARATION,
+                Scope.ALL
         );
         assertThat(actual).isEqualTo(expected);
         assertThat(tournamentRepository.count()).isEqualTo(3);
@@ -161,7 +182,12 @@ class TournamentServiceTest extends IntegrationTestBase {
                         "Теорія тенісу",
                         20,
                         LocalDate.of(2023, 12, 18),
-                        TournamentStatus.PREPARATION
+                        null,
+                        null,
+                        null,
+                        null,
+                        TournamentStatus.PREPARATION,
+                        Scope.ADMIN
                 ))
         );
         assertThat(tournamentRepository.count()).isEqualTo(2);
@@ -173,7 +199,12 @@ class TournamentServiceTest extends IntegrationTestBase {
                 "New name",
                 1,
                 LocalDate.of(2023, 8, 1),
-                TournamentStatus.CANCELED
+                null,
+                null,
+                null,
+                null,
+                TournamentStatus.CANCELED,
+                Scope.ADMIN
         );
         final var actual = tournamentService.update(1L, tournament);
         final var expected = new TournamentReadDto(
@@ -181,7 +212,12 @@ class TournamentServiceTest extends IntegrationTestBase {
                 "New name",
                 FOOTBALL_SPORT_DTO,
                 LocalDate.of(2023, 8, 1),
-                TournamentStatus.CANCELED
+                null,
+                null,
+                null,
+                null,
+                TournamentStatus.CANCELED,
+                Scope.ADMIN
         );
         assertThat(actual).isPresent().contains(expected);
         final var maybeUpdated = tournamentRepository.findById(1L);
@@ -199,7 +235,12 @@ class TournamentServiceTest extends IntegrationTestBase {
                 "Великий футбол",
                 20,
                 LocalDate.of(2023, 8, 1),
-                TournamentStatus.FINISHED
+                null,
+                null,
+                null,
+                null,
+                TournamentStatus.FINISHED,
+                Scope.ADMIN
         );
         assertThatException().isThrownBy(
                 () -> tournamentService.update(1L, tournament)
@@ -212,7 +253,12 @@ class TournamentServiceTest extends IntegrationTestBase {
                 "New name",
                 1,
                 LocalDate.of(2023, 8, 1),
-                TournamentStatus.CANCELED
+                null,
+                null,
+                null,
+                null,
+                TournamentStatus.CANCELED,
+                Scope.ADMIN
         );
         final var actual = tournamentService.update(20L, tournament);
         assertThat(actual).isEmpty();

@@ -38,7 +38,7 @@ public class Tournament {
 
     private Integer maxAge;
 
-    private Integer participant_count;
+    private Integer participantCount;
 
     private String description;
 

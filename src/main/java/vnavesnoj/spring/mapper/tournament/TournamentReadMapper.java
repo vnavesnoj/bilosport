@@ -25,7 +25,12 @@ public class TournamentReadMapper implements Mapper<Tournament, TournamentReadDt
                 tournament.getName(),
                 sportReadMapper.map(tournament.getSport()),
                 tournament.getTournamentDate(),
-                tournament.getStatus()
+                tournament.getMinAge(),
+                tournament.getMaxAge(),
+                tournament.getParticipantCount(),
+                tournament.getDescription(),
+                tournament.getStatus(),
+                tournament.getScope()
         );
     }
 

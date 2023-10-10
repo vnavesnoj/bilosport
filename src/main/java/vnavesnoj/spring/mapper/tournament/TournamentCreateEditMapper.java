@@ -34,6 +34,11 @@ public class TournamentCreateEditMapper implements Mapper<TournamentCreateEditDt
         toObject.setName(fromObject.getName());
         toObject.setSport(sportRepository.findById(fromObject.getSportId()).orElseThrow());
         toObject.setTournamentDate(fromObject.getTournamentDate());
+        toObject.setMinAge(fromObject.getMinAge());
+        toObject.setMaxAge(fromObject.getMaxAge());
+        toObject.setParticipantCount(fromObject.getParticipantCount());
+        toObject.setDescription(fromObject.getDescription());
         toObject.setStatus(fromObject.getTournamentStatus());
+        toObject.setScope(fromObject.getScope());
     }
 }
