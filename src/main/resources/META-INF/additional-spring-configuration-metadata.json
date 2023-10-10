@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "controller.user.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Description for controller.user.enabled."
+    },
+    {
+      "name": "controller.registration.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Description for controller.registration.enabled."
+    }
+  ]
+}

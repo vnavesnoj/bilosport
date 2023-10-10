@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -28,6 +29,7 @@ import vnavesnoj.spring.service.VerificationTokenService;
  */
 @Slf4j
 @Controller
+@ConditionalOnExpression("${controller.registration.enabled: true}")
 @RequiredArgsConstructor
 public class RegistrationController {
 

@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
  */
 public enum Role implements GrantedAuthority {
 
-    ATHLETE, COACH, ADMIN;
+    ATHLETE, COACH, ADMIN, SYSADMIN;
 
     @Override
     public String getAuthority() {

@@ -28,3 +28,9 @@ logging:
     root: INFO
     vnavesnoj.spring.database.pool: INFO
     org.springframework.jdbc.core: INFO
+
+controller:
+  user:
+    enabled: false
+  registration:
+    enabled: false

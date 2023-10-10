@@ -31,4 +31,6 @@ public class UserCreateDto {
             message = "Пароль має бути від 8 до 64 символів.")
     @NotNull(message = "Пароль не має бути пустим.")
     String rawPassword;
+
+    String registrationToken;
 }

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authorization.AuthorizationDecision;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -27,6 +27,7 @@ public class SecurityConfiguration {
 
     private final MessageSource messageSource;
     private final LocaleResolver localeResolver;
+    private final AuthenticationTrustResolver authenticationTrustResolver;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
@@ -42,9 +43,10 @@ public class SecurityConfiguration {
                         mvc.pattern("/registrationConfirm"),
                         mvc.pattern("/resendConfirmToken"),
                         mvc.pattern("/forgotPassword"),
-                        mvc.pattern("/resetPassword")).access((authentication, object) ->
-                        new AuthorizationDecision(!authentication.get().isAuthenticated()))
-                .anyRequest().authenticated());
+                        mvc.pattern("/resetPassword")).anonymous()
+                .requestMatchers(
+                        mvc.pattern("/tournaments/**")).fullyAuthenticated()
+        );
         http.logout(logout -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login")
@@ -54,7 +56,7 @@ public class SecurityConfiguration {
                 .defaultSuccessUrl("/", true)
                 .failureHandler(authenticationFailureHandler())
                 .usernameParameter("emailOrUsername")
-                .permitAll());
+                .permitAll(false));
         http.rememberMe(remember -> remember.key("6Odk86,3DjU="));
         return http.build();
     }

@@ -1,6 +1,7 @@
 package vnavesnoj.spring.http.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -24,6 +25,7 @@ import vnavesnoj.spring.service.UserService;
  */
 @Controller
 @RequestMapping("/users")
+@ConditionalOnExpression("${controller.user.enabled: true}")
 @RequiredArgsConstructor
 public class UserController {
 
