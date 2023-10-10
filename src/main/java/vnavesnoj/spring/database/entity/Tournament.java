@@ -34,9 +34,21 @@ public class Tournament {
 
     private LocalDate tournamentDate;
 
+    private Integer minAge;
+
+    private Integer maxAge;
+
+    private Integer participant_count;
+
+    private String description;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TournamentStatus status;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Scope scope;
 
 //    @Builder.Default
 //    @OneToMany(mappedBy = "tournament")

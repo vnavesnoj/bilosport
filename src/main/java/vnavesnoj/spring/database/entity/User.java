@@ -14,7 +14,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id", callSuper = false)
-@ToString(exclude = "person")
 @Builder
 @Entity
 @Table(name = "users")
@@ -29,9 +28,6 @@ public class User {
 
     @Column(unique = true, nullable = false)
     private String email;
-
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
-    private Person person;
 
     @Column(nullable = false)
     private String password;
