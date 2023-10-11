@@ -61,8 +61,8 @@
                         <option th:each="direction : ${directions}"
                                 th:value="${sortBy.getProperty() + ',' + direction.name()}"
                                 th:selected="${tournaments.metadata.sortBy == sortBy.getProperty()
-                                            && tournaments.metadata.direction == direction}"
-                                th:text="${sortBy.name() + ' ,' + direction.name()}">SortBy
+                                            && tournaments.metadata.direction.name() == direction.name()}"
+                                th:text="#{${sortBy.messageSource}} + ' ,' + #{${direction.messageSource}}">SortBy
                         </option>
                     </th:block>
                 </select>
@@ -72,15 +72,20 @@
             </div>
         </form>
     </div>
-    <div class="mt-5">
-        <div th:each="tournament : ${tournaments.content}">
-            <div>
-                <span th:text="${tournament.tournamentDate}">Date</span>
-                <span>
-            <a th:href="@{'/tournaments/' + ${tournament.id}}" th:text="${tournament.name}">Tournament name</a>
-        </span>
+    <div th:each="tournament : ${tournaments.content}">
+        <a class="nav-link" th:href="@{'/tournaments/' + ${tournament.id}}">
+            <div class="container mt-2 alert alert-primary">
+                <ul class="navbar-nav" th:href="@{'/tournaments/' + ${tournament.id}}">
+                    <li class="nav-item">
+                        <span th:text="${tournament.tournamentDate}">Date</span>
+                    </li>
+                    <li class="nav-item">
+                        <b th:text="${tournament.name}">Tournament name</b>
+                        <i th:if="${tournament.sport}" th:text="'(' + ${tournament.sport.name} + ')'">Sport</i>
+                    </li>
+                </ul>
             </div>
-        </div>
+        </a>
     </div>
 </div>
 <div th:insert="~{fragment2 :: footer}"></div>

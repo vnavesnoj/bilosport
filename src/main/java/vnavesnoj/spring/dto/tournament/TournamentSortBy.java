@@ -1,6 +1,7 @@
 package vnavesnoj.spring.dto.tournament;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import static vnavesnoj.spring.database.entity.QTournament.tournament;
 
@@ -9,12 +10,12 @@ import static vnavesnoj.spring.database.entity.QTournament.tournament;
  * @mail vnavesnoj@gmail.com
  */
 @Getter
+@RequiredArgsConstructor
 public enum TournamentSortBy {
 
-    DATE(tournament.tournamentDate.getMetadata().getName());
+    DATE(tournament.tournamentDate.getMetadata().getName(), "filter.tournaments.sortBy.date");
+
     private final String property;
 
-    TournamentSortBy(String property) {
-        this.property = property;
-    }
+    private final String messageSource;
 }

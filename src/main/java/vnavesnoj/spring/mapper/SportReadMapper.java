@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 import vnavesnoj.spring.database.entity.Sport;
 import vnavesnoj.spring.dto.SportReadDto;
 
+import java.util.Optional;
+
 /**
  * @author vnavesnoj
  * @mail vnavesnoj@gmail.com
@@ -15,9 +17,8 @@ public class SportReadMapper implements Mapper<Sport, SportReadDto> {
 
     @Override
     public SportReadDto map(Sport sport) {
-        return new SportReadDto(
-                sport.getId(),
-                sport.getName()
-        );
+        return Optional.ofNullable(sport)
+                .map(it -> new SportReadDto(it.getId(), it.getName()))
+                .orElse(null);
     }
 }

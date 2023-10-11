@@ -11,6 +11,7 @@ import vnavesnoj.spring.database.repository.TournamentRepository;
 import vnavesnoj.spring.dto.tournament.TournamentCreateEditDto;
 import vnavesnoj.spring.dto.tournament.TournamentFilter;
 import vnavesnoj.spring.dto.tournament.TournamentReadDto;
+import vnavesnoj.spring.dto.tournament.TournamentShortReadDto;
 import vnavesnoj.spring.mapper.Mapper;
 
 import java.util.Optional;
@@ -28,6 +29,8 @@ public class TournamentService {
 
     private final Mapper<Tournament, TournamentReadDto> tournamentReadMapper;
 
+    private final Mapper<Tournament, TournamentShortReadDto> tournamentShortReadMapper;
+
     private final Mapper<TournamentFilter, Predicate> tournamentPredicateMapper;
 
     private final Mapper<TournamentCreateEditDto, Tournament> tournamentCreateEditMapper;
@@ -41,6 +44,12 @@ public class TournamentService {
         final Predicate predicate = tournamentPredicateMapper.map(filter);
         return tournamentRepository.findAll(predicate, pageable)
                 .map(tournamentReadMapper::map);
+    }
+
+    public Page<TournamentShortReadDto> findAllShort(TournamentFilter filter, Pageable pageable) {
+        final var predicate = tournamentPredicateMapper.map(filter);
+        return tournamentRepository.findAll(predicate, pageable)
+                .map(tournamentShortReadMapper::map);
     }
 
     @Transactional
