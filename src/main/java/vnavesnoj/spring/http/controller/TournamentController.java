@@ -6,10 +6,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.server.ResponseStatusException;
 import vnavesnoj.spring.dto.DirectionSort;
 import vnavesnoj.spring.dto.PageResponse;
 import vnavesnoj.spring.dto.tournament.TournamentFilter;
@@ -26,6 +30,7 @@ import java.util.Locale;
  */
 @Controller
 @RequestMapping("/tournaments")
+@Validated
 @RequiredArgsConstructor
 public class TournamentController {
 
@@ -53,4 +58,14 @@ public class TournamentController {
         return "tournament/tournaments";
     }
 
+    @GetMapping("/{id}")
+    public String findById(Model model,
+                           @PathVariable Long id) {
+        return tournamentService.findById(id)
+                .map(tournament -> {
+                    model.addAttribute("tournament", tournament);
+                    return "tournament/tournament";
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
 }
